@@ -13,16 +13,16 @@ namespace Bugs.Controllers
 {
     public class HomeController : Controller
     {
-        IBugsRepository bugRepository;
+        private readonly IRepositoryFacade _repository;
 
-        public HomeController(BugContext context)
+        public HomeController(IRepositoryFacade repository)
         {
-            bugRepository = new BugRepository(context);
+            _repository = repository;
         }
 
         public IActionResult Index()
         {
-            return View(bugRepository.Get());
+            return View(_repository.Bugs().Get());
         }
 
         public IActionResult Error()

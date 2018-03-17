@@ -1,34 +1,34 @@
-﻿using System;
+﻿using Bugs.Models.Context;
+using Bugs.Models.Reposotories.Api;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bugs.Models.Context;
-using Bugs.Models.Reposotories.Api;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bugs.Models.Reposotories.Impl
 {
-    public class BugRepository : IBugsRepository
+    public class HistoriesRepository : IHistoriesRepository
     {
-        private BugContext _context;
-        public BugRepository(BugContext context)
+        private readonly BugContext _context;
+        public HistoriesRepository(BugContext context)
         {
             _context = context;
         }
 
         #region IDisposable members
 
-        private bool disposed = false;
+        private bool _disposed = false;
 
         public virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!this._disposed)
             {
                 if (disposing)
                 {
                     _context.Dispose();
                 }
-                this.disposed = true;
+                _disposed = true;
             }
         }
 
@@ -36,21 +36,21 @@ namespace Bugs.Models.Reposotories.Impl
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
+        } 
 
         #endregion
 
-        public Bug Get(int primaryKey)
+        public History Get(int foreignKey1, int foreignKey2, DateTime foreignKey3)
         {
-            return _context.Bugs.Find(primaryKey);
+            return _context.Histories.Find(foreignKey1, foreignKey2, foreignKey3);
         }
 
-        public IEnumerable<Bug> Get()
+        public IEnumerable<History> Get()
         {
-            return _context.Bugs.ToList();
+            return _context.Histories.ToList();
         }
 
-        public void Add(Bug entity)
+        public void Add(History entity)
         {
             if (entity == null)
                 return;
@@ -59,7 +59,7 @@ namespace Bugs.Models.Reposotories.Impl
             _context.SaveChanges();
         }
 
-        public void Update(Bug entity)
+        public void Update(History entity)
         {
             if (entity == null)
                 return;
@@ -68,19 +68,15 @@ namespace Bugs.Models.Reposotories.Impl
             _context.SaveChanges();
         }
 
-        public void Remove(int primaryKey)
+        public void Remove(int foreignKey1, int foreignKey2, DateTime foreignKey3)
         {
-            Bug removedBug = Get(primaryKey);
-            if (removedBug == null)
-                return;
-            
-            _context.Entry(removedBug).State = EntityState.Deleted;
-            _context.SaveChanges();            
+            History removedHistory = Get(foreignKey1, foreignKey2, foreignKey3);
+            Remove(removedHistory);
         }
 
-        public void Remove(Bug entity)
+        public void Remove(History entity)
         {
-            if (entity == null)
+            if(entity == null)
                 return;
 
             _context.Entry(entity).State = EntityState.Deleted;

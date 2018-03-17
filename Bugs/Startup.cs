@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bugs.Models.Context;
+using Bugs.Models.Reposotories.Api;
+using Bugs.Models.Reposotories.Impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,14 +25,8 @@ namespace Bugs
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-#if DEBUG
-            services.AddDbContext<BugContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DebugConnection")));
-#else
-            services.AddDbContext<BugContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("ReleaseConnection")));
-#endif
-
+            this.RegContextViaDepInject(services);
+            services.AddScoped<IRepositoryFacade, RepositoryFacade>();
             services.AddMvc();
         }
 
@@ -55,6 +51,17 @@ namespace Bugs
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private void RegContextViaDepInject(IServiceCollection services)
+        {
+#if DEBUG
+            services.AddDbContext<BugContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DebugConnection")));
+#else
+            services.AddDbContext<BugContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("ReleaseConnection")));
+#endif
         }
     }
 }

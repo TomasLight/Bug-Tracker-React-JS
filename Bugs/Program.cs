@@ -17,7 +17,17 @@ namespace Bugs
         public static void Main(string[] args)
         {
             IWebHost host = BuildWebHost(args);
-            
+            InitDb(host);
+            host.Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
+
+        private static void InitDb(IWebHost host)
+        {
             using (IServiceScope scope = host.Services.CreateScope())
             {
                 IServiceProvider services = scope.ServiceProvider;
@@ -32,13 +42,6 @@ namespace Bugs
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }
             }
-
-            host.Run();
         }
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
     }
 }
