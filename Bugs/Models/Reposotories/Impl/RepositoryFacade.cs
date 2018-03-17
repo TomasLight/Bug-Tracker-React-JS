@@ -9,28 +9,28 @@ namespace Bugs.Models.Reposotories.Impl
 {
     public class RepositoryFacade : IRepositoryFacade
     {
-        private readonly IBugsRepository _bugRepository;
-        private readonly IHistoriesRepository _historygRepository;
-        private readonly IUsersRepository _userRepository;
+        private readonly IBugRepository _bugRepository;
+        private readonly IHistoryRepository _historygRepository;
+        private readonly IUserRepository _userRepository;
 
         public RepositoryFacade(BugContext context)
         {
-            _bugRepository = new BugsRepository(context);
-            _historygRepository = new HistoriesRepository(context);
-            _userRepository = new UsersRepository(context);
+            _bugRepository = new BugRepository(context);
+            _historygRepository = new HistoryRepository(context);
+            _userRepository = new UserRepository(context);
         }
 
-        public IBugsRepository Bugs()
+        public IBugRepository Bugs()
         {
             return _bugRepository;
         }
 
-        public IHistoriesRepository Histories()
+        public IHistoryRepository Histories()
         {
             return _historygRepository;
         }
 
-        public IUsersRepository Users()
+        public IUserRepository Users()
         {
             return _userRepository;
         }

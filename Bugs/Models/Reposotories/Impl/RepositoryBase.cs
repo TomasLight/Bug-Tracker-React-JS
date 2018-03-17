@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Bugs.Models.Reposotories.Impl
 {
-    public class HistoriesRepository : IHistoriesRepository
+    public class RepositoryBase<TEnt, TPk> : IRepository<TEnt, TPk> where TEnt : class
     {
-        private readonly BugContext _context;
-        public HistoriesRepository(BugContext context)
+        protected BugContext _context;
+        public RepositoryBase(BugContext context)
         {
             _context = context;
         }
@@ -22,7 +22,7 @@ namespace Bugs.Models.Reposotories.Impl
 
         public virtual void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
@@ -36,21 +36,21 @@ namespace Bugs.Models.Reposotories.Impl
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        } 
+        }
 
         #endregion
 
-        public History Get(int foreignKey1, int foreignKey2, DateTime foreignKey3)
+        public virtual TEnt Get(TPk primaryKey)
         {
-            return _context.Histories.Find(foreignKey1, foreignKey2, foreignKey3);
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<History> Get()
+        public virtual IEnumerable<TEnt> Get()
         {
-            return _context.Histories.ToList();
+            throw new NotImplementedException();
         }
 
-        public void Add(History entity)
+        public virtual void Add(TEnt entity)
         {
             if (entity == null)
                 return;
@@ -59,7 +59,7 @@ namespace Bugs.Models.Reposotories.Impl
             _context.SaveChanges();
         }
 
-        public void Update(History entity)
+        public virtual void Update(TEnt entity)
         {
             if (entity == null)
                 return;
@@ -68,15 +68,15 @@ namespace Bugs.Models.Reposotories.Impl
             _context.SaveChanges();
         }
 
-        public void Remove(int foreignKey1, int foreignKey2, DateTime foreignKey3)
+        public virtual void Remove(TPk primaryKey)
         {
-            History removedHistory = Get(foreignKey1, foreignKey2, foreignKey3);
-            Remove(removedHistory);
+            TEnt removedEntity = Get(primaryKey);
+            Remove(removedEntity);
         }
 
-        public void Remove(History entity)
+        public virtual void Remove(TEnt entity)
         {
-            if(entity == null)
+            if (entity == null)
                 return;
 
             _context.Entry(entity).State = EntityState.Deleted;

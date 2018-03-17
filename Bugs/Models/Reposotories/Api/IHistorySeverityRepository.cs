@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bugs.Models.Reposotories.Api
 {
-    public interface IHistoriesRepository : IRepositoryComposite<History, int, int, DateTime>
+    public interface IHistorySeverityRepository : IRepository<HistorySeverity, int>
     {
     }
 }

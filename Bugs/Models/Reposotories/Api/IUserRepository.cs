@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bugs.Models.Reposotories.Api
 {
-    public interface IRepositoryFacade
+    public interface IUserRepository : IRepository<User, int>
     {
-        IBugRepository Bugs();
-        IHistoryRepository Histories();
-        IUserRepository Users();
     }
 }

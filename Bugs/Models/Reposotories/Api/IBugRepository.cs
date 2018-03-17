@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bugs.Models.Reposotories.Api
 {
-    public interface IBugsRepository : IRepository<Bug, int>
+    public interface IBugRepository : IRepository<Bug, int>
     {
     }
 }
