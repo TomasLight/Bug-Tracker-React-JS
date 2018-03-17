@@ -9,6 +9,10 @@ namespace Bugs.Models.Reposotories.Api
     {
         IBugRepository Bugs();
         IHistoryRepository Histories();
+        IHistoryPriorityRepository Priorities();
+        IHistoryRepoStepsRepository RepoSteps();
+        IHistorySeverityRepository Severities();
+        IHistoryStatusRepository Statuses();
         IUserRepository Users();
     }
 }

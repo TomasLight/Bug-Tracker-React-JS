@@ -1,0 +1,55 @@
+﻿.bug-table {
+    display: table;
+    font-size: 12pt;
+    margin: auto;
+    width: 90%;
+}
+
+.bug-header {
+    display: table-header-group;
+}
+/* tr */
+.bug-header > div{
+    display: table-row;
+}
+/* th */
+.bug-header > div > div{
+    display: table-cell;
+    font-weight: bold;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    width: 25%;
+}
+.bug-header > div > div:not(:first-of-type) {
+    /*border-left: 1px solid #dddddd;*/
+}
+
+.bug-body {
+    display: table-row-group;
+}
+
+.bug-column {
+    background-color: #efefef;
+    display: table-cell;
+    padding: 0 0.5em;
+}
+.bug-column:not(:first-of-type){
+    border-left: 5px solid white;
+}
+
+.bug-column > div{
+    margin: 2em 0;
+}
+
+.bug-cell {
+    background-color: white;
+    border: 1px solid #808080;
+    cursor: pointer;
+    display: table-cell;
+    padding: 0.5em;
+}
+
+.bug-cell > div:nth-of-type(1){
+    font-weight: bold;
+}

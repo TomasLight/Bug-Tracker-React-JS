@@ -39,9 +39,9 @@ namespace Bugs.Models.Context
         {
             return new List<User>()
             {
-                new User(){ Login = "QA", Password = "tester", LastName = "test1 LN", FirstName = "test1 FN"},
-                new User(){ Login = "Developer1", Password = "developer", LastName = "test2 LN", FirstName = "test2 FN"},
-                new User(){ Login = "Developer2", Password = "developer", LastName = "test3 LN", FirstName = "test3 FN"},
+                new User(){ Login = "QA", Password = "test", LastName = "Andrey", FirstName = "Zaitcev"},
+                new User(){ Login = "Developer1", Password = "dev", LastName = "Devloper", FirstName = "First"},
+                new User(){ Login = "Developer2", Password = "dev", LastName = "Devloper", FirstName = "Second"},
             };
         }
 

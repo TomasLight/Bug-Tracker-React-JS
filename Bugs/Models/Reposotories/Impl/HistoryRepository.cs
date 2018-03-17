@@ -45,6 +45,16 @@ namespace Bugs.Models.Reposotories.Impl
             return _context.Histories.Find(foreignKey1, foreignKey2, foreignKey3);
         }
 
+        /// <summary>
+        /// Получение всех историй изменений ошибки вместе с пользователями их производившими
+        /// </summary>
+        /// <param name="bugId"></param>
+        /// <returns></returns>
+        public IEnumerable<History> GetBugHistories(int bugId)
+        {
+            return _context.Histories.Where(h => h.BugId == bugId).Include("Updater").ToList();
+        }
+
         public IEnumerable<History> Get()
         {
             return _context.Histories.ToList();

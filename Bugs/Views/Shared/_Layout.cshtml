@@ -15,6 +15,7 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    @RenderSection("css", false)
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -26,12 +27,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Bugs</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Backlog</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="NewBug">New bug</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="BugList">Bug list</a></li>
+                    @*<li><a asp-area="" asp-controller="Home" asp-action="BugList">Bug list</a></li>*@
                     <li><a asp-area="" asp-controller="Home" asp-action="NewUser">New user</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="UserList">User list</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="SignOut">Sign out</a></li>
