@@ -7,12 +7,7 @@
 }
 
 @section css{
-    <environment include="Development">
-        <link rel="stylesheet" href="~/css/index.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="~/css/index.min.css" asp-append-version="true" />
-    </environment>
+    <link rel="stylesheet" href="~/css/index.css" />
 }
 
 @if (Model == null || Model.Count() == 0)
@@ -21,10 +16,11 @@
 }
 else
 {
+    Array statusValues = Enum.GetValues(typeof(Status));
     <div class="bug-table">
         <div class="bug-header">
             <div>
-                @foreach (Status st in Enum.GetValues(typeof(Status)))
+                @foreach (Status st in statusValues)
                 {
                     <div>@st.ToString()</div>
                 }
@@ -33,19 +29,17 @@ else
 
         <div class="bug-body">
             @{
-                foreach (Status st in Enum.GetValues(typeof(Status)))
+                foreach (Status st in statusValues)
                 {
                     <div class="bug-column">
                         @{
-                            IEnumerable<BugVM> list = Model.Where(m => m.Histories.LastOrDefault().Status == st);
+                            IEnumerable<BugVM> list = Model.Where(m => m.Status == st);
                             foreach (BugVM bug in list)
                             {
                                 <div>
                                     <div class="bug-cell" onclick="EditBug('@Url.Action("EditBug", "Home", new { bugId = bug.Id })')">
                                         <div># @bug.Id</div>
                                         <div>@bug.Name</div>
-                                        @*<div>@bug.Histories.LastOrDefault().DateUpdate</div>*@
-                                        <div>@bug.Histories.LastOrDefault().Updater.LastName</div>
                                     </div>
                                 </div>
                             }

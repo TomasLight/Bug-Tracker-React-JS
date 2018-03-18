@@ -1,0 +1,60 @@
+﻿.bug-info-container > div:nth-of-type(1) {
+    display: table-cell;
+    width: 40%;
+}
+.bug-info-container > div {
+    padding: 1em;
+}
+
+.bug-info-container > div:nth-of-type(1) > div {
+    margin-bottom: 1em;
+}
+
+.bug-info-container > div:nth-of-type(1) > div:not(:nth-of-type(1)){
+    display: table-row;
+}
+.bug-info-container > div:nth-of-type(1) > div:not(:nth-of-type(1)) > label{
+    display: table-cell;
+    padding: 0 1em 1em 0;
+}
+
+.bug-info-container > div:nth-of-type(1) > div:not(:nth-of-type(1)) > select{
+    width: 100%;
+}
+
+.bug-name > input {
+    min-width:500px;
+}
+
+.bug-description {
+    display: table-cell;
+    width: 60%;
+}
+
+.bug-description label,
+.bug-description textarea {
+    display: block;
+}
+
+.bug-description textarea{
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            height: 130px;
+            resize: none;
+            width: 100%;
+}
+
+.history-container{
+
+}
+
+.history-container > div{
+    overflow-y: scroll;
+    max-height: 500px;
+}
+
+.history-container > div > div {
+    border-bottom: 1px solid #ededed;
+    padding: 1em 0;
+}

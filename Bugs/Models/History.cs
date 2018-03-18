@@ -28,7 +28,7 @@ namespace Bugs.Models
         public Bug VariesBug { get; set; }
 
         public HistoryPriority PriorityChanges { get; set; }
-        public HistoryRepoSteps RepoStepsChanges { get; set; }
+        public HistoryReproSteps ReproStepsChanges { get; set; }
         public HistorySeverity SeverityChanges { get; set; }
         public HistoryStatus StatusChanges { get; set; }
 
@@ -62,7 +62,7 @@ namespace Bugs.Models
 
         public void SetNewRepoSteps(string descriptionSteps)
         {
-            RepoStepsChanges = new HistoryRepoSteps(this, descriptionSteps);
+            ReproStepsChanges = new HistoryReproSteps(this, descriptionSteps);
         }
 
         public void SetNewSeverity(Criticality severity)

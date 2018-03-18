@@ -17,7 +17,7 @@ namespace Bugs.Models.Context
         public DbSet<Bug> Bugs { get; set; }
         public DbSet<History> Histories { get; set; }
         public DbSet<HistoryPriority> HistoriesPriority { get; set; }
-        public DbSet<HistoryRepoSteps> HistoriesRepoSteps { get; set; }
+        public DbSet<HistoryReproSteps> HistoriesReproSteps { get; set; }
         public DbSet<HistorySeverity> HistoriesSeverity { get; set; }
         public DbSet<HistoryStatus> HistoriesStatus { get; set; }
 

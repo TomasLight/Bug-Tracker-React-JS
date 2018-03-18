@@ -1,43 +1,93 @@
-﻿@model Bugs.ViewModels.BugVM
+﻿@using Bugs.ViewModels;
+@model BugVM
 
 @{
     ViewData["Title"] = "Edit bug";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit bug</h2>
+@section css{
+    <link rel="stylesheet" href="~/css/editBug.css" />
+}
 
-<h4>BugVM</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        @*<form asp-action="EditBug">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Description</label>
-                <input name="status" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Description</label>
-                <input name="status" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Description</label>
-                <input name="Description" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>*@
+<div class="bug-info-container">
+    <div>
+        <div class="bug-name">
+            <h4>
+                Bug #@Model.Id
+            </h4>
+            <input name="Name" value="@Model.Name" />
+        </div>
+        <div class="bug-status">
+            <label>
+                State
+            </label>
+            <select asp-for="Status" asp-items="@(SelectList)ViewBag.Status"></select>
+        </div>
+        <div class="bug-priority">
+            <label>
+                Priority
+            </label>
+            <select asp-for="Priority" asp-items="@(SelectList)ViewBag.Priority"></select>
+        </div>
+        <div class="bug-severity">
+            <label>
+                Severity
+            </label>
+            <select asp-for="Severity" asp-items="@(SelectList)ViewBag.Severity"></select>
+        </div>
+    </div>
+    <div class="bug-description">
+        <h4>
+            Repro steps
+        </h4>
+        <textarea name="ReproSteps">@Model.ReproSteps</textarea>
+    </div>
+    <div class="history-container">
+        <h4>
+            History changes
+        </h4>
+        <div>
+            @foreach (HistoryVM history in Model.Histories.OrderBy(h => h.DateUpdate))
+            {
+                <div>
+                    <div>
+                        @history.DateUpdate
+                    </div>
+                    <div>
+                        @history.Updater.FirstName @history.Updater.LastName
+                    </div>
+                    @if (history.Status != null)
+                    {
+                        <div>
+                            <label>set new status:</label> @history.Status
+                            <p>
+                                <label>comment:</label> @history.StatusComment
+                            </p>
+                        </div>
+                    }
+                    @if (history.ReproSteps != null)
+                    {
+                        <div>
+                            <label>set new description:</label> @history.ReproSteps
+                        </div>
+                    }
+                    @if (history.Priority != null)
+                    {
+                        <div>
+                            <label>set new priority:</label> @Html.DisplayFor(d => history.Priority)
+                        </div>
+                    }
+                    @if (history.Severity != null)
+                    {
+                        <div>
+                            <label>set new severity:</label> @Html.DisplayFor(d => history.Severity)
 
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
 </div>
 

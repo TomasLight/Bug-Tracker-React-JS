@@ -13,7 +13,7 @@ namespace Bugs.Models.Reposotories.Impl
         private readonly IHistoryRepository _historygRepository;
         private readonly IUserRepository _userRepository;
         private readonly IHistoryPriorityRepository _prioritiesRepository;
-        private readonly IHistoryRepoStepsRepository _repoStepsRepository;
+        private readonly IHistoryReproStepsRepository _repoStepsRepository;
         private readonly IHistorySeverityRepository _severitiesRepository;
         private readonly IHistoryStatusRepository _statusesRepository;
 
@@ -22,7 +22,7 @@ namespace Bugs.Models.Reposotories.Impl
             _bugRepository = new BugRepository(context);
             _historygRepository = new HistoryRepository(context);
             _prioritiesRepository = new HistoryPriorityRepository(context);
-            _repoStepsRepository = new HistoryRepoStepsRepository(context);
+            _repoStepsRepository = new HistoryReproStepsRepository(context);
             _severitiesRepository = new HistorySeverityRepository(context);
             _statusesRepository = new HistoryStatusRepository(context);
             _userRepository = new UserRepository(context);
@@ -43,7 +43,7 @@ namespace Bugs.Models.Reposotories.Impl
             return _prioritiesRepository;
         }
 
-        public IHistoryRepoStepsRepository RepoSteps()
+        public IHistoryReproStepsRepository RepoSteps()
         {
             return _repoStepsRepository;
         }

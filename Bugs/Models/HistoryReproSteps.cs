@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bugs.Models
 {
-    public class HistoryRepoSteps
+    public class HistoryReproSteps
     {
         [Key]
         [ForeignKey("History")]
@@ -15,8 +15,8 @@ namespace Bugs.Models
         public History History { get; set; }
         public string Description { get; set; }
 
-        public HistoryRepoSteps() { }
-        public HistoryRepoSteps(History history, string description)
+        public HistoryReproSteps() { }
+        public HistoryReproSteps(History history, string description)
         {
             History = history;
             HistoryId = history.Id;

@@ -17,22 +17,9 @@ namespace Bugs.Models.Context
                 return;
             }
 
-            List<User> users = GetUserList();
-            foreach (User user in users)
-            {
-                context.Users.Add(user);
-            }
-            context.SaveChanges();
-
-            List<Bug> bugs = GetBugList();
-            foreach (Bug bug in bugs)
-            {
-                context.Bugs.Add(bug);
-            }
-            context.SaveChanges();
-
-            CreateHistories(context);
-            context.SaveChanges();
+            context.AddToContext(GetUserList());
+            context.AddToContext(GetBugList());
+            context.AddToContext(GetHistories(context));
         }
 
         private static List<User> GetUserList()
@@ -53,32 +40,47 @@ namespace Bugs.Models.Context
                 new Bug(){ Name = "Ошибка в UI" },
                 new Bug(){ Name = "Нарушение логики" },
                 new Bug(){ Name = "Некорректная сортировка" },
+                new Bug(){ Name = "Пропадает кнопка печати на экране отчеты" }
             };
         }
-                
-        private static void CreateHistories(BugContext context)
+
+        private static List<History> GetHistories(BugContext context)
         {
-            if (context.Users.Count() < 1)
-                return;
+            List<History> histories = new List<History>();
+            if (context.Users.Count() < 3 || context.Bugs.Count() < 1)
+                return histories;
 
-            // registring new bugs 
+            List<User> users = context.Users.ToList();
 
-            User userQA = context.Users.FirstOrDefault();
-            List<History> histories = RegistringBugs(userQA, context.Bugs.ToList());
-            if (histories != null)
-                foreach (History history in histories)
-                {
-                    context.Histories.Add(history);
-                }
+            histories.AddRegistryHistory(users, context.Bugs.ToList());
+            histories.AddHistory1(users, context.Bugs.FirstOrDefault());
+            histories.AddHistory2(users, context.Bugs.FirstOrDefault(b => b.Name == "Нарушение логики"));
+            histories.AddHistory3(users, context.Bugs.FirstOrDefault(b => b.Name == "Пропадает кнопка печати на экране отчеты"));
 
-            // new history for first bug
-            
-            histories = GenerateHistoryChanges(context.Users.ToList(), context.Bugs.FirstOrDefault());
-            if(histories != null)
-                foreach (History history in histories)
-                {
-                    context.Histories.Add(history);
-                }
+            return histories;
+        }
+    }
+
+    internal static class LocalExtensions
+    {
+        internal static BugContext AddToContext<T>(this BugContext context, List<T> listEntities) where T : class
+        {
+            var type = typeof(T);
+            if (!type.Equals(typeof(Bug))
+                && !type.Equals(typeof(History))
+                && !type.Equals(typeof(HistoryPriority))
+                && !type.Equals(typeof(HistoryReproSteps))
+                && !type.Equals(typeof(HistorySeverity))
+                && !type.Equals(typeof(HistoryStatus))
+                && !type.Equals(typeof(User)))
+                return context;
+
+            foreach (T entity in listEntities)
+            {
+                context.Attach(entity);
+            }
+            context.SaveChanges();
+            return context;
         }
 
         /// <summary>
@@ -87,63 +89,125 @@ namespace Bugs.Models.Context
         /// <param name="userQA">Пользователь, который обнаружил ошибки (тестер)</param>
         /// <param name="bugs">Список зарегистрированных ошибок</param>
         /// <returns></returns>
-        private static List<History> RegistringBugs(User userQA, List<Bug> bugs)
+        internal static List<History> AddRegistryHistory(this List<History> historyList, List<User> users, List<Bug> bugs)
         {
-            if (userQA == null || bugs.Count < 1)
-                return null;
+            if (users.Count() < 1 || bugs.Count < 1)
+                return historyList;
 
-            List<History> historyList = new List<History>();
-            int day = 11;
-            int hour = 14;
+            User userQA = users.FirstOrDefault();
+            int day = 0;
+            int month = 1;
+            int year = 2018;
             foreach (Bug bug in bugs)
             {
-                History history = new History(userQA, bug, new DateTime(2018, 01, day, hour, 00, 00));
+                day++;
+                if (day > 28)
+                {
+                    month++;
+                    day = 1;
+                }
+                if (month > 12)
+                {
+                    year++;
+                    month = 1;
+                }
+
+                History history = new History(userQA, bug, new DateTime(year, month, day, 10, 00, 00));
                 history.Regitry("Новый баг", "Некоторое описание ошибки");
                 historyList.Add(history);
-                day++;
-                hour++;
             }
             return historyList;
         }
 
-        /// <summary>
-        /// Формирование истории изменения одной ошибки
-        /// </summary>
-        /// <param name="users">Список зарегистрированных пользователей</param>
-        /// <param name="variesBug">Ошибка, для которой формируется история</param>
-        /// <returns></returns>
-        private static List<History> GenerateHistoryChanges(List<User> users, Bug variesBug)
+        internal static List<History> AddHistory1(this List<History> historyList, List<User> users, Bug variesBug)
         {
             if (users.Count() < 3 || variesBug == null)
-                return null;
+                return historyList;
 
             User userQA = users.FirstOrDefault();
             User developer1 = users[1];
             User developer2 = users[2];
 
-            List<History> historyList = new List<History>();
+            DateTime lastDate = historyList.OrderBy(h => h.DateUpdate).LastOrDefault().DateUpdate;
+            lastDate = lastDate.AddDays(1);
 
-            History history = new History(developer1, variesBug, new DateTime(2018, 02, 01, 10, 00, 00));
+            History history = new History(developer1, variesBug, lastDate);
             history.SetNewStatus(Status.Opened, "В разработке");
             history.SetNewPriority(Urgency.First);
             historyList.Add(history);
 
-            history = new History(developer1, variesBug, new DateTime(2018, 02, 01, 12, 00, 00));
+            lastDate = lastDate.AddHours(1);
+            history = new History(developer1, variesBug, lastDate);
             history.SetNewStatus(Status.Resolved, "Проблема решена");
             historyList.Add(history);
 
-            history = new History(userQA, variesBug, new DateTime(2018, 02, 01, 15, 00, 00));
+            lastDate = lastDate.AddHours(1);
+            history = new History(userQA, variesBug, lastDate);
             history.SetNewStatus(Status.Opened, "Всё еще есть ошибки");
             history.SetNewRepoSteps("Проверить вывод отчетов. Съехали даты");
             historyList.Add(history);
 
-            history = new History(developer2, variesBug, new DateTime(2018, 02, 01, 18, 00, 00));
+            lastDate = lastDate.AddHours(1);
+            history = new History(developer2, variesBug, lastDate);
             history.SetNewStatus(Status.Resolved, "Исправлено");
             history.SetNewSeverity(Criticality.High);
             historyList.Add(history);
 
-            history = new History(userQA, variesBug, new DateTime(2018, 02, 02, 11, 00, 00));
+            lastDate = lastDate.AddHours(1);
+            history = new History(userQA, variesBug, lastDate);
             history.SetNewStatus(Status.Closed, "Закрываю баг. Всё работает");
+            historyList.Add(history);
+
+            return historyList;
+        }
+
+        internal static List<History> AddHistory2(this List<History> historyList, List<User> users, Bug variesBug)
+        {
+            if (users.Count() < 2 || variesBug == null)
+                return historyList;
+
+            User userQA = users.FirstOrDefault();
+            User developer1 = users[1];
+
+            DateTime lastDate = historyList.OrderBy(h => h.DateUpdate).LastOrDefault().DateUpdate;
+            lastDate = lastDate.AddDays(1);
+
+            History history = new History(userQA, variesBug, lastDate);
+            history.SetNewPriority(Urgency.First);
+            history.SetNewSeverity(Criticality.Critical);
+            historyList.Add(history);
+
+            lastDate = lastDate.AddHours(1);
+            history = new History(developer1, variesBug, lastDate);
+            history.SetNewStatus(Status.Opened, "Занимаюсь исправлением");
+            historyList.Add(history);
+
+            lastDate = lastDate.AddHours(1);
+            history = new History(userQA, variesBug, lastDate);
+            history.SetNewRepoSteps("Неверный шрифт в разделе 'Копия'");
+            historyList.Add(history);
+
+            return historyList;
+        }
+
+        internal static List<History> AddHistory3(this List<History> historyList, List<User> users, Bug variesBug)
+        {
+            if (users.Count() < 2 || variesBug == null)
+                return historyList;
+
+            User userQA = users.FirstOrDefault();
+            User developer1 = users[1];
+
+            DateTime lastDate = historyList.OrderBy(h => h.DateUpdate).LastOrDefault().DateUpdate;
+            lastDate = lastDate.AddDays(1);
+
+            History history = new History(developer1, variesBug, lastDate);
+            history.SetNewStatus(Status.Opened, "Занимаюсь исправлением");
+            historyList.Add(history);
+
+            lastDate = lastDate.AddHours(1);
+            history = new History(userQA, variesBug, lastDate);
+            history.SetNewStatus(Status.Resolved, "Проблема устранена");
             historyList.Add(history);
 
             return historyList;

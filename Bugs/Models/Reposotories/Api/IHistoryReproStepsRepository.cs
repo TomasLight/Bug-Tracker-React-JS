@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bugs.Models.Reposotories.Api
 {
-    public interface IHistoryRepoStepsRepository : IRepository<HistoryRepoSteps, int>
+    public interface IHistoryReproStepsRepository : IRepository<HistoryReproSteps, int>
     {
     }
 }

@@ -9,6 +9,8 @@ using Bugs.Models.Reposotories.Api;
 using Bugs.Models.Context;
 using Bugs.Models.Reposotories.Impl;
 using Bugs.ViewModels;
+using Bugs.Models.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Bugs.Controllers
 {
@@ -23,18 +25,20 @@ namespace Bugs.Controllers
 
         public IActionResult Index()
         {
-            //return View(_repository.Bugs().Get());
-            return View(GetBugVMList());
+            return View(GetBugList());
         }
 
         public IActionResult EditBug(int bugId)
         {
-            //return View(_bugVMList.FirstOrDefault(b => b.Id == bugId));
             Bug bug = _repository.Bugs().Get(bugId);
             if (bug == null)
                 return View(null);
 
-            BugVM bugVM = GetBugVM(bug);
+            ViewData["Status"] = new SelectList(Enum.GetValues(typeof(Status)));
+            ViewData["Priority"] = new SelectList(Enum.GetValues(typeof(Urgency)));
+            ViewData["Severity"] = new SelectList(Enum.GetValues(typeof(Criticality)));
+
+            BugVM bugVM = GetFullBugInfo(bug);
             return View(bugVM);
         }
 
@@ -43,30 +47,80 @@ namespace Bugs.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //private List<BugVM> _bugVMList = new List<BugVM>();
-        private IEnumerable<BugVM> GetBugVMList()
+        private IEnumerable<BugVM> GetBugList()
         {
-            List<BugVM> bugVMList = new List<BugVM>();
+            List<BugVM> viewModelList = new List<BugVM>();
 
             IEnumerable<Bug> bugList = _repository.Bugs().Get();
             foreach(Bug bug in bugList)
             {
-                BugVM bugVM = GetBugVM(bug);
-                bugVMList.Add(bugVM);
+                BugVM shortBugInfo = GetShortBugInfo(bug);
+                if(shortBugInfo != null)
+                    viewModelList.Add(shortBugInfo);
             }
-            return bugVMList;
+            return viewModelList;
         }
 
-        private BugVM GetBugVM(Bug bug)
+        private BugVM GetShortBugInfo(Bug bug)
         {
+            if (bug == null)
+                return null;
+
             BugVM bugVM = new BugVM(bug);
             IEnumerable<History> bugHistoryList = _repository.Histories().GetBugHistories(bug.Id);
             foreach (History history in bugHistoryList)
             {
                 HistoryStatus status = _repository.Statuses().Get(history.Id);
+                if (status != null)
+                {
+                    bugVM.Status = status.Status;
+                    bugVM.StatusComment = status.Comment;
+                }
+            }
+            return bugVM;
+        }
+
+        private BugVM GetFullBugInfo(Bug bug)
+        {
+            if (bug == null)
+                return null;
+
+            BugVM bugVM = new BugVM(bug);
+            IEnumerable<History> bugHistoryList = _repository.Histories().GetBugHistories(bug.Id);
+            foreach (History history in bugHistoryList.OrderBy(bhl => bhl.DateUpdate))
+            {
                 HistoryVM hVM = new HistoryVM(history);
-                hVM.Status = status.Status;
-                hVM.StatusComment = status.Comment;
+
+                HistoryStatus status = _repository.Statuses().Get(history.Id);
+                if (status != null)
+                {
+                    hVM.Status = status.Status;
+                    hVM.StatusComment = status.Comment;
+                    bugVM.Status = status.Status;
+                    bugVM.StatusComment = status.Comment;
+                }
+
+                HistoryPriority priority = _repository.Priorities().Get(history.Id);
+                if (priority != null)
+                {
+                    hVM.Priority = priority.Priority;
+                    bugVM.Priority = priority.Priority;
+                }
+
+                HistorySeverity severity = _repository.Severities().Get(history.Id);
+                if (severity != null)
+                {
+                    hVM.Severity = severity.Severity;
+                    bugVM.Severity = severity.Severity;
+                }
+
+                HistoryReproSteps repoSteps = _repository.RepoSteps().Get(history.Id);
+                if (repoSteps != null)
+                {
+                    hVM.ReproSteps = repoSteps.Description;
+                    bugVM.ReproSteps = repoSteps.Description;
+                }
+
                 bugVM.Histories.Add(hVM);
             }
             return bugVM;
