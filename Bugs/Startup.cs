@@ -7,9 +7,11 @@ using Bugs.Models.Reposotories.Api;
 using Bugs.Models.Reposotories.Impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using React.AspNet;
 
 namespace Bugs
 {
@@ -23,11 +25,15 @@ namespace Bugs
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             this.RegContextViaDepInject(services);
             services.AddScoped<IRepositoryFacade, RepositoryFacade>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
             services.AddMvc();
+
+            return services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +49,8 @@ namespace Bugs
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseReact(config => { });
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

@@ -25,7 +25,8 @@ namespace Bugs.Controllers
 
         public IActionResult Index()
         {
-            return View(GetBugList());
+            return RedirectToAction(nameof(Bugs));
+            //return View(GetBugList());
         }
 
         public IActionResult EditBug(int bugId)
@@ -124,6 +125,31 @@ namespace Bugs.Controllers
                 bugVM.Histories.Add(hVM);
             }
             return bugVM;
+        }
+
+        // react
+
+        public IActionResult Bugs()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IEnumerable<BugVM> Get()
+        {
+            return GetBugList();
+        }
+        
+        [HttpGet]
+        public Array GetStatusNames()
+        {
+            return Enum.GetNames(typeof(Status));
+        }
+
+        [HttpGet]
+        public Array GetStatusValues()
+        {
+            return Enum.GetValues(typeof(Status));
         }
     }
 }
