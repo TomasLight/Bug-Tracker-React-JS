@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Bugs.Models.Context;
-using Bugs.Models.Reposotories.Api;
-using Bugs.Models.Reposotories.Impl;
+using DataLayer.Context;
+using DataLayer.Reposotories.Api;
+using DataLayer.Reposotories.Impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
