@@ -5,12 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Bugs.Models;
-using Bugs.Models.Reposotories.Api;
-using Bugs.Models.Context;
-using Bugs.Models.Reposotories.Impl;
-using Bugs.ViewModels;
-using Bugs.Models.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using DataLayer.Enums;
+using DataLayer.Models;
+using DataLayer.Reposotories.Api;
 
 namespace Bugs.Controllers
 {
@@ -39,7 +37,7 @@ namespace Bugs.Controllers
             ViewData["Priority"] = new SelectList(Enum.GetValues(typeof(Urgency)));
             ViewData["Severity"] = new SelectList(Enum.GetValues(typeof(Criticality)));
 
-            BugVM bugVM = GetFullBugInfo(bug);
+            BugViewModel bugVM = GetFullBugInfo(bug);
             return View(bugVM);
         }
 
@@ -48,26 +46,26 @@ namespace Bugs.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private IEnumerable<BugVM> GetBugList()
+        private IEnumerable<BugViewModel> GetBugList()
         {
-            List<BugVM> viewModelList = new List<BugVM>();
+            List<BugViewModel> viewModelList = new List<BugViewModel>();
 
             IEnumerable<Bug> bugList = _repository.Bugs().Get();
             foreach(Bug bug in bugList)
             {
-                BugVM shortBugInfo = GetShortBugInfo(bug);
+                BugViewModel shortBugInfo = GetShortBugInfo(bug);
                 if(shortBugInfo != null)
                     viewModelList.Add(shortBugInfo);
             }
             return viewModelList;
         }
 
-        private BugVM GetShortBugInfo(Bug bug)
+        private BugViewModel GetShortBugInfo(Bug bug)
         {
             if (bug == null)
                 return null;
 
-            BugVM bugVM = new BugVM(bug);
+            BugViewModel bugVM = new BugViewModel(bug);
             IEnumerable<History> bugHistoryList = _repository.Histories().GetBugHistories(bug.Id);
             foreach (History history in bugHistoryList)
             {
@@ -81,16 +79,16 @@ namespace Bugs.Controllers
             return bugVM;
         }
 
-        private BugVM GetFullBugInfo(Bug bug)
+        private BugViewModel GetFullBugInfo(Bug bug)
         {
             if (bug == null)
                 return null;
 
-            BugVM bugVM = new BugVM(bug);
+            BugViewModel bugVM = new BugViewModel(bug);
             IEnumerable<History> bugHistoryList = _repository.Histories().GetBugHistories(bug.Id);
             foreach (History history in bugHistoryList.OrderBy(bhl => bhl.DateUpdate))
             {
-                HistoryVM hVM = new HistoryVM(history);
+                HistoryViewModel hVM = new HistoryViewModel(history);
 
                 HistoryStatus status = _repository.Statuses().Get(history.Id);
                 if (status != null)
@@ -135,7 +133,7 @@ namespace Bugs.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<BugVM> Get()
+        public IEnumerable<BugViewModel> Get()
         {
             return GetBugList();
         }

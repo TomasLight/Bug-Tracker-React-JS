@@ -1,6 +1,6 @@
-﻿@using Bugs.ViewModels;
-@using Bugs.Models.Enums;
-@model List<BugVM>;
+﻿@using Bugs.Models;
+@using DataLayer.Enums;
+@model List<BugViewModel>;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -33,8 +33,8 @@ else
                 {
                     <div class="bug-column">
                         @{
-                            IEnumerable<BugVM> list = Model.Where(m => m.Status == st);
-                            foreach (BugVM bug in list)
+                            IEnumerable<BugViewModel> list = Model.Where(m => m.Status == st);
+                            foreach (BugViewModel bug in list)
                             {
                                 <div>
                                     <div class="bug-cell" onclick="EditBug('@Url.Action("EditBug", "Home", new { bugId = bug.Id })')">

@@ -1,5 +1,5 @@
-﻿@using Bugs.ViewModels;
-@model BugVM
+﻿@using Bugs.Models;
+@model BugViewModel
 
 @{
     ViewData["Title"] = "Edit bug";
@@ -48,7 +48,7 @@
             History changes
         </h4>
         <div>
-            @foreach (HistoryVM history in Model.Histories.OrderBy(h => h.DateUpdate))
+            @foreach (HistoryViewModel history in Model.Histories.OrderBy(h => h.DateUpdate))
             {
                 <div>
                     <div>
