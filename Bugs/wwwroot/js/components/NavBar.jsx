@@ -1,17 +1,15 @@
-﻿import * as React from 'react';
-
-export class NavBar extends React.Component {
+﻿class NavBar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { renderBugList = props.renderBugList };
-        //this.onClick = this.onClick.bind(this);
+        this.state = { };
+        this.BugList = this.BugList.bind(this);
     }
     NewBug() {
         //this.props.onRemove(this.state.data);
     }
     BugList() {
-        renderBugList();
+        this.props.renderBugList();
     }
     NewUser() {
         //this.props.onRemove(this.state.data);

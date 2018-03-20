@@ -28,6 +28,9 @@ namespace Bugs
             services.AddScoped<IRepositoryFacade, RepositoryFacade>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddMvc();
 
             return services.BuildServiceProvider();
@@ -46,6 +49,7 @@ namespace Bugs
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseSession();
             app.UseReact(config => { });
             app.UseDefaultFiles();
             app.UseStaticFiles();

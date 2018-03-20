@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using DataLayer.Enums;
 using DataLayer.Models;
 using DataLayer.Reposotories.Api;
+using Microsoft.AspNetCore.Http;
 
 namespace Bugs.Controllers
 {
@@ -129,12 +130,41 @@ namespace Bugs.Controllers
 
         public IActionResult Bugs()
         {
+            if (!HttpContext.Session.Keys.Contains("ActualPage"))
+                HttpContext.Session.SetString("ActualPage", "BugList");
+
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult GetActualPage()
+        {
+            string actualPage;
+            if (HttpContext.Session.Keys.Contains("ActualPage"))
+            {
+                actualPage = HttpContext.Session.GetString("ActualPage");
+                switch (actualPage)
+                {
+                    case "VariesBug":
+                        string bugId = HttpContext.Session.GetString("bugId");
+                        return Json(new { actualPage, bugId });
+                    default: // BugList
+                        return Json(actualPage);
+                }
+            }
+            else
+            {
+                actualPage = "BugList";
+                HttpContext.Session.SetString("ActualPage", actualPage);
+
+                return Json(actualPage);
+            }
         }
 
         [HttpGet]
         public IEnumerable<BugViewModel> Get()
         {
+            HttpContext.Session.SetString("ActualPage", "BugList");
             return GetBugList();
         }
         
@@ -148,6 +178,20 @@ namespace Bugs.Controllers
         public Array GetStatusValues()
         {
             return Enum.GetValues(typeof(Status));
+        }
+
+        [HttpGet]
+        public BugViewModel VariesBug(int bugId)
+        {
+            HttpContext.Session.SetString("ActualPage", "VariesBug");
+            HttpContext.Session.SetString("bugId", bugId.ToString());
+
+            Bug bug = _repository.Bugs().Get(bugId);
+            if (bug == null)
+                return null;
+
+            BugViewModel bugVM = GetFullBugInfo(bug);
+            return bugVM;
         }
     }
 }

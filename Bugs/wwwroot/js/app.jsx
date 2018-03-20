@@ -1,11 +1,10 @@
-﻿import * as React from 'react';
-import * as BugModelModule from './classes/BugModel';
-import { NavBar } from './components/NavBar';
-import { ShortBug } from './components/ShortBug';
+﻿//import BugModel from './classes/BugModel';
+//import { NavBar } from './components/NavBar';
+//import { ShortBug } from './components/ShortBug';
 
-function Load(url, callback) {
+function Load(url, callback, isAsync = true) {
     var xhr = new XMLHttpRequest();
-    xhr.open("get", url, true);
+    xhr.open("get", url, isAsync);
     xhr.onload = function () {
         callback(JSON.parse(xhr.responseText));
     }.bind(this);
@@ -26,6 +25,17 @@ function Send(data, url, callback) {
     xhr.send(sendData);
 }
 
+function ActualPage() {
+    Load("/Home/GetActualPage", function (data) {
+        if (data == "BugList") {
+            RenderBugList();
+        }
+        else if (data.actualPage == "VariesBug") {
+            RenderEditBug(data.bugId);
+        }
+    }, true);
+}
+
 function RenderNavBar() {
     ReactDOM.render(
         <NavBar renderBugList={RenderBugList} />,
@@ -35,88 +45,24 @@ function RenderNavBar() {
 
 function RenderBugList() {
     ReactDOM.render(
-        <BugList apiUrl="/Home" />,
+        <BugList apiUrl="/Home" renderEditBug={RenderEditBug}/>,
         document.getElementById("content")
     );
 }
 
-var globalElementIndex = 1;
-
-
-
-class BugList extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = { statusNames: [], statusValues: [], bugList: [] };
-        //this.onAddPhone = this.onAddPhone.bind(this);
-    }
-    loadStatusNames() {
-        var thisClass = this;
-        Load(this.props.apiUrl + "/GetStatusNames", function (data) {
-            thisClass.setState({ statusNames: data });
-        });
-    }
-    loadStatusValues() {
-        var thisClass = this;        
-        Load(this.props.apiUrl + "/GetStatusValues", function (data) {
-            thisClass.setState({ statusValues: data });
-        });
-    }
-    loadBugList() {
-        var thisClass = this;
-        Load(this.props.apiUrl + "/Get", function (data) {
-            thisClass.setState({ bugList: data });
-        });
-    }
-    componentDidMount() {
-        this.loadStatusNames();
-        this.loadStatusValues();
-        this.loadBugList();
-    }
-    render() {
-        var bugList = this.state.bugList;
-        return <div className="bug-table">
-                    <div className="bug-header">
-                        <div>
-                            {
-                                this.state.statusNames.map(function(item) {                     
-                                    return <div key={globalElementIndex++}>{item}</div>;
-                                })
-                            }
-                        </div>
-                    </div>
-                    <div className="bug-body">
-                    {
-                        this.state.statusValues.map(function (status) {
-                            return <div key={globalElementIndex++} className="bug-column">
-                                {
-                                    bugList.map(function (item) {
-                                        if (item.status == status) {
-                                            return <ShortBug key={globalElementIndex++} bug={item} />;
-                                        }
-                                    })
-                                }
-                            </div>;
-                        })
-                    }
-                    </div>
-                </div>;
-    }
-}
-
-class EditBug extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { bug: new BugModelModule.BugModel(props.bug) };
-    }
-    render() {
-        return;
-    }
+function RenderEditBug(bugId) {
+    var url = "/Home/VariesBug?bugId=" + bugId;
+    Load(url, function (data) {
+        var variesBag = new BugModel(data);
+        ReactDOM.render(
+            <EditBug bug={variesBag} renderBugList={RenderBugList} />,
+            document.getElementById("content")
+        );
+    }, true);    
 }
 
 RenderNavBar();
-RenderBugList();
+ActualPage();
 
 
 /*

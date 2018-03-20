@@ -20,5 +20,21 @@
     },
     // Optionally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/rootReact.jsx",
+    "inputFiles": [
+      "wwwroot/js/classes/BugModel.js",
+      "wwwroot/js/components/NavBar.jsx",
+      "wwwroot/js/components/ShortBug.jsx",
+      "wwwroot/js/components/BugList.jsx",
+      "wwwroot/js/components/EditBug.jsx",
+      "wwwroot/js/app.jsx"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
   }
 ]
