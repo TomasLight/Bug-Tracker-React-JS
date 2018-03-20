@@ -21,6 +21,7 @@ namespace Bugs.Models
         /// </summary>
         public BugViewModel VariesBug { get; set; }
 
+        public string Name { get; set; }
         public Urgency? Priority { get; set; }
         public string ReproSteps { get; set; }
         public Criticality? Severity { get; set; }

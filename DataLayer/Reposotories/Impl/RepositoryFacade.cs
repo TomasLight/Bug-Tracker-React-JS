@@ -9,6 +9,7 @@ namespace DataLayer.Reposotories.Impl
         private readonly IBugRepository _bugRepository;
         private readonly IHistoryRepository _historygRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IHistoryNameRepository _namesRepository;
         private readonly IHistoryPriorityRepository _prioritiesRepository;
         private readonly IHistoryReproStepsRepository _repoStepsRepository;
         private readonly IHistorySeverityRepository _severitiesRepository;
@@ -18,6 +19,7 @@ namespace DataLayer.Reposotories.Impl
         {
             _bugRepository = new BugRepository(context);
             _historygRepository = new HistoryRepository(context);
+            _namesRepository = new HistoryNameRepository(context);
             _prioritiesRepository = new HistoryPriorityRepository(context);
             _repoStepsRepository = new HistoryReproStepsRepository(context);
             _severitiesRepository = new HistorySeverityRepository(context);
@@ -38,6 +40,11 @@ namespace DataLayer.Reposotories.Impl
         public IHistoryPriorityRepository Priorities()
         {
             return _prioritiesRepository;
+        }
+
+        public IHistoryNameRepository Names()
+        {
+            return _namesRepository;
         }
 
         public IHistoryReproStepsRepository RepoSteps()

@@ -54,8 +54,24 @@ namespace DataLayer.Context
 
             histories.AddRegistryHistory(users, context.Bugs.ToList());
             histories.AddHistory1(users, context.Bugs.FirstOrDefault());
+
             histories.AddHistory2(users, context.Bugs.FirstOrDefault(b => b.Name == "Нарушение логики"));
             histories.AddHistory3(users, context.Bugs.FirstOrDefault(b => b.Name == "Пропадает кнопка печати на экране отчеты"));
+            //Bug bug1 = (from b in context.Bugs
+            //            join h in context.Histories on b.Id equals h.BugId
+            //            join hn in context.HistoriesName on h.Id equals hn.HistoryId
+            //            where hn.Name == "Нарушение логики"
+            //            select b)
+            //          .FirstOrDefault();
+            //histories.AddHistory2(users, bug1);
+
+            //Bug bug2 = (from b in context.Bugs
+            //            join h in context.Histories on b.Id equals h.BugId
+            //            join hn in context.HistoriesName on h.Id equals hn.HistoryId
+            //            where hn.Name == "Пропадает кнопка печати на экране отчеты"
+            //            select b)
+            //          .FirstOrDefault();
+            //histories.AddHistory3(users, bug2);
 
             return histories;
         }
@@ -113,7 +129,7 @@ namespace DataLayer.Context
                 }
 
                 History history = new History(userQA, bug, new DateTime(year, month, day, 10, 00, 00));
-                history.Regitry("Новый баг", "Некоторое описание ошибки");
+                history.Regitry(bug.Name, "Новый баг", "Некоторое описание ошибки");
                 historyList.Add(history);
             }
             return historyList;

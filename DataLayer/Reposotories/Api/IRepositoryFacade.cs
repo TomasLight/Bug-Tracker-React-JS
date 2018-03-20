@@ -6,6 +6,7 @@ namespace DataLayer.Reposotories.Api
     {
         IBugRepository Bugs();
         IHistoryRepository Histories();
+        IHistoryNameRepository Names();
         IHistoryPriorityRepository Priorities();
         IHistoryReproStepsRepository RepoSteps();
         IHistorySeverityRepository Severities();

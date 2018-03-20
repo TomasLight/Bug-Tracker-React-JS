@@ -7,8 +7,8 @@ namespace Bugs.Models
     public class BugViewModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
 
+        public string Name { get; set; }
         public Urgency Priority { get; set; }
         public string ReproSteps { get; set; }
         public Criticality Severity { get; set; }
@@ -25,7 +25,7 @@ namespace Bugs.Models
                 return;
 
             Id = bug.Id;
-            Name = bug.Name;
+            //Name = bug.Name;
             Histories = new List<HistoryViewModel>();
         }
     }

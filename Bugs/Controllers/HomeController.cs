@@ -17,9 +17,12 @@ namespace Bugs.Controllers
     {
         private readonly IRepositoryFacade _repository;
 
+        private User _currentUser;
+
         public HomeController(IRepositoryFacade repository)
         {
             _repository = repository;
+            _currentUser = _repository.Users().Get().FirstOrDefault();
         }
 
         public IActionResult Index()
@@ -70,11 +73,17 @@ namespace Bugs.Controllers
             IEnumerable<History> bugHistoryList = _repository.Histories().GetBugHistories(bug.Id);
             foreach (History history in bugHistoryList)
             {
-                HistoryStatus status = _repository.Statuses().Get(history.Id);
-                if (status != null)
+                HistoryStatus hStatus = _repository.Statuses().Get(history.Id);
+                if (hStatus != null)
                 {
-                    bugVM.Status = status.Status;
-                    bugVM.StatusComment = status.Comment;
+                    bugVM.Status = hStatus.Status;
+                    bugVM.StatusComment = hStatus.Comment;
+                }
+
+                HistoryName hName = _repository.Names().Get(history.Id);
+                if (hName != null)
+                {
+                    bugVM.Name = hName.Name;
                 }
             }
             return bugVM;
@@ -90,6 +99,13 @@ namespace Bugs.Controllers
             foreach (History history in bugHistoryList.OrderBy(bhl => bhl.DateUpdate))
             {
                 HistoryViewModel hVM = new HistoryViewModel(history);
+
+                HistoryName hName = _repository.Names().Get(history.Id);
+                if (hName != null)
+                {
+                    hVM.Name = hName.Name;
+                    bugVM.Name = hName.Name;
+                }
 
                 HistoryStatus status = _repository.Statuses().Get(history.Id);
                 if (status != null)
@@ -192,6 +208,44 @@ namespace Bugs.Controllers
 
             BugViewModel bugVM = GetFullBugInfo(bug);
             return bugVM;
+        }
+
+        [HttpPost]
+        public bool SaveBug(BugViewModel oldModel, BugViewModel newModel)
+        {
+            Bug editableBug = _repository.Bugs().Get(oldModel.Id);
+            if (editableBug == null)
+                return false;
+
+            History history = new History(_currentUser, editableBug, DateTime.Now);
+            _repository.Histories().Add(history);
+
+            if (newModel.Name != oldModel.Name)
+            {
+                _repository.Names().Add(new HistoryName(history, newModel.Name));
+            }
+
+            if (newModel.Priority != oldModel.Priority)
+            {
+                _repository.Priorities().Add(new HistoryPriority(history, newModel.Priority));
+            }
+
+            if (newModel.ReproSteps != oldModel.ReproSteps)
+            {
+                _repository.RepoSteps().Add(new HistoryReproSteps(history, newModel.ReproSteps));
+            }
+
+            if (newModel.Severity != oldModel.Severity)
+            {
+                _repository.Severities().Add(new HistorySeverity(history, newModel.Severity));
+            }
+
+            if (newModel.Status != oldModel.Status)
+            {
+                _repository.Statuses().Add(new HistoryStatus(history, newModel.Status, newModel.StatusComment));
+            }
+
+            return true;
         }
     }
 }
