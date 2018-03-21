@@ -6,7 +6,6 @@ namespace Bugs.Models
 {
     public class HistoryViewModel
     {
-        public int Id { get; set; }
         public int BugId { get { return VariesBug.Id; } }
         public int UserId { get { return Updater.Id; } }
         public DateTime DateUpdate { get; set; }
@@ -21,24 +20,48 @@ namespace Bugs.Models
         /// </summary>
         public BugViewModel VariesBug { get; set; }
 
-        public string Name { get; set; }
-        public Urgency? Priority { get; set; }
-        public string ReproSteps { get; set; }
-        public Criticality? Severity { get; set; }
-        public Status? Status { get; set; }
+        public Status Status { get; set; }
         public string StatusComment { get; set; }
 
         public HistoryViewModel() { }
 
         public HistoryViewModel(History history)
         {
-            if (history == null)
+            if (IsNullHistory(history))
                 return;
 
-            Id = history.Id;
-            DateUpdate = history.DateUpdate;
             Updater = new UserViewModel(history.Updater);
             VariesBug = new BugViewModel(history.VariesBug);
+        }
+
+        public HistoryViewModel(History history, BugViewModel bugModel)
+        {
+            if (IsNullHistory(history))
+                return;
+
+            Updater = new UserViewModel(history.Updater);
+            VariesBug = bugModel;
+        }
+
+        public HistoryViewModel(History history, UserViewModel user, BugViewModel bugModel)
+        {
+            if (IsNullHistory(history))
+                return;
+
+            Updater = user;
+            VariesBug = bugModel;
+        }
+
+        private bool IsNullHistory(History history)
+        {
+            bool res = history == null;
+            if (!res)
+            {
+                DateUpdate = history.DateUpdate;
+                Status = history.NewStatus;
+                StatusComment = history.Comment;
+            }
+            return res;
         }
     }
 }

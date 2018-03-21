@@ -11,7 +11,7 @@ namespace Bugs.Models
         public string LastName { get; set; }
         public string FirstName { get; set; }
 
-        public ICollection<HistoryViewModel> Histories { get; set; }
+        //public ICollection<HistoryViewModel> Histories { get; set; }
 
         public UserViewModel() { }
 
@@ -26,7 +26,7 @@ namespace Bugs.Models
             LastName = user.LastName;
             FirstName = user.FirstName;
 
-            Histories = new List<HistoryViewModel>();
+            //Histories = new List<HistoryViewModel>();
         }
     }
 }

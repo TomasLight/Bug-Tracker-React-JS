@@ -13,6 +13,8 @@
             <div className='bug-cell' onClick={this.onEditBug}>
                 <div># {this.state.bug.id}</div>
                 <div>{this.state.bug.name}</div>
+                <div>{this.state.bug.creator.firstName} {this.state.bug.creator.lastName}</div>
+                <div>{this.state.bug.dateCreate}</div>
             </div>
         </div>);
     }

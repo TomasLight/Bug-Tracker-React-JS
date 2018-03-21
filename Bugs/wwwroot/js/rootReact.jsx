@@ -17,6 +17,21 @@ const enumStatus = Object.freeze({
     "Closed": 4
 })
 
+class UserModel {
+    constructor(user) {
+        if (user == null) {
+            this.id = 0;
+            this.firstName = "";
+            this.lastName = "";
+        }
+        else {
+            this.id = user.id;
+            this.firstName = user.firstName;
+            this.lastName = user.lastName;
+        }
+    }
+}
+
 class BugModel {
     constructor(bug) {
         if (bug == null) {
@@ -27,6 +42,8 @@ class BugModel {
             this.severity = enumCriticality.Low;
             this.status = enumStatus.New;
             this.statusComment = "";
+            this.creator = new UserModel(null);
+            this.dateCreate = "";
             this.histories = [];
         }
         else {
@@ -37,6 +54,8 @@ class BugModel {
             this.severity = bug.severity;
             this.status = bug.status;
             this.statusComment = bug.statusComment;
+            this.creator = bug.creator;
+            this.dateCreate = bug.dateCreate;
             this.histories = bug.histories;
         }        
     }
@@ -104,6 +123,8 @@ class ShortBug extends React.Component {
             <div className='bug-cell' onClick={this.onEditBug}>
                 <div># {this.state.bug.id}</div>
                 <div>{this.state.bug.name}</div>
+                <div>{this.state.bug.creator.firstName} {this.state.bug.creator.lastName}</div>
+                <div>{this.state.bug.dateCreate}</div>
             </div>
         </div>);
     }
@@ -115,7 +136,6 @@ class BugList extends React.Component {
     constructor(props) {
         super(props);
         this.state = { statusNames: [], statusValues: [], bugList: [], renderEditBug: props.renderEditBug };
-        //this.onAddPhone = this.onAddPhone.bind(this);
     }
     loadStatusNames() {
         var thisClass = this;
@@ -135,14 +155,14 @@ class BugList extends React.Component {
             thisClass.setState({ bugList: data });
         });
     }
-    componentDidMount() {
+    componentWillMount() {
         this.loadStatusNames();
         this.loadStatusValues();
         this.loadBugList();
     }
     render() {
         var bugList = this.state.bugList;
-        var renderBL = this.state.renderEditBug;
+        var renderEditBug = this.state.renderEditBug;
         return (<div className="bug-table">
             <div className="bug-header">
                 <div>
@@ -160,7 +180,7 @@ class BugList extends React.Component {
                             {
                                 bugList.map(function (item) {
                                     if (item.status == status) {
-                                        return <ShortBug key={globalElementIndex++} bug={item} onClick={renderBL} />;
+                                        return <ShortBug key={globalElementIndex++} bug={item} onClick={renderEditBug} />;
                                     }
                                 })
                             }
@@ -173,84 +193,23 @@ class BugList extends React.Component {
 }
 var keyIndex = globalElementIndex++ || 100;
 
-class Status extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { status: props.status, statusComment: props.statusComment };
-    }
-    render() {
-        var s = this.state.status;
-        if (s != null) {
-            return <div>
-                <label>new status:</label> {s}
-                <p>
-                    <label>comment:</label> {this.state.statusComment}
-                </p>
-            </div>;
-        }
-        else return <div></div>;
-    }
-}
-
-class ReproSteps extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { reproSteps: props.reproSteps };
-    }
-    render() {
-        var rs = this.state.reproSteps;
-        if (rs != null) {
-            return <div>
-                <label>new description:</label> {rs}
-            </div>;
-        }
-        else return <div></div>;
-    }
-}
-
-class Priority extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { priority: props.priority };
-    }
-    render() {
-        var prior = this.state.priority;
-        if (prior != null) {
-            return <div>
-                <label>new priority:</label> {prior}
-            </div>;
-        }
-        else return <div></div>;
-    }
-}
-
-class Severity extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { severity: props.severity };
-    }
-    render() {
-        var sev = this.state.severity;
-        if (sev != null) {
-            return <div>
-                <label>new severity:</label> {sev}
-            </div>;
-        }
-        else return <div></div>;
-    }
-}
-
 class SelectStatus extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { selectedStatus: props.selectedStatus, onChangeCallback: props.onChangeCallback };
+        this.state = { selectedStatus: props.selectedStatus, prevStatus: props.prevStatus, commentDiv: props.commentDiv };
         this.onChange = this.onChange.bind(this);
     }
     onChange(e) {
         var nextState = Object.assign({}, this.state, { selectedStatus: e.target.value });
-        this.setState(nextState, function () {
-            this.state.onChangeCallback(parseInt(nextState.selectedStatus));
-        });
+        this.setState(nextState);
+
+        let stateInt = parseInt(nextState.selectedStatus);
+        if (stateInt != this.state.prevStatus) {
+            commentDiv.className = "";
+        }
+        else {
+            commentDiv.className = "notDisplay";
+        }
     }
     render() {
         var statusNames = Object.keys(enumStatus);
@@ -308,25 +267,19 @@ class SelectSeverity extends React.Component {
     }
 }
 
-class History extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { history: props.history };
-    }
-    render() {
-        return <div>
-            <div>
-                {this.state.history.dateUpdate}
-            </div>
-            <div>
-                {this.state.history.updater.firstName} {this.state.history.updater.lastName}
-            </div>
-            <Status key={keyIndex++} status={this.state.history.status} statusComment={this.state.history.statusComment} />
-            <ReproSteps key={keyIndex++} reproSteps={this.state.history.reproSteps} />
-            <Priority key={keyIndex++} priority={this.state.history.priority} />
-            <Severity key={keyIndex++} severity={this.state.history.severity} />
-        </div>;
-    }
+function SaveBug(id, name, reproSteps, priority, severity, status, statusComment) {
+    let model = new BugModel(null);
+    model.id = id;
+    model.name = name;
+    model.priority = priority;
+    model.reproSteps = reproSteps;
+    model.severity = severity;
+    model.status = status;
+    model.statusComment = statusComment;
+
+    Send(model, _saveBug, function (data) {
+        RenderBugList();
+    }, true);
 }
 
 class EditBug extends React.Component {
@@ -335,7 +288,6 @@ class EditBug extends React.Component {
         this.state = {
             apiUrl: props.apiUrl,
             renderBugList: props.renderBugList,
-            bug: props.bug, // not use
             id: props.bug.id,
             name: props.bug.name,
             status: props.bug.status,
@@ -343,68 +295,81 @@ class EditBug extends React.Component {
             priority: props.bug.priority,
             severity: props.bug.severity,
             reproSteps: props.bug.reproSteps,
-            histories: props.bug.histories
+            creator: props.bug.creator,
+            dateCreate: props.bug.dateCreate
         };
         this.prevStatus = this.state.status;
-        this.state.isNewStatus = false;
-        this.onChangeStatus = this.onChangeStatus.bind(this);
+        this.onSave = this.onSave.bind(this);
     }
-    onChangeStatus(newValue) {
-        let isNewStatus = newValue !== this.prevStatus;
-        this.setState({ isNewStatus: isNewStatus });
+    onSave() {
+        let priority = parseInt(this.refs.bugPriority.state.selectedPriority);
+        let severity = parseInt(this.refs.bugSeverity.state.selectedSeverity);
+        let status = parseInt(this.refs.bugStatus.state.selectedStatus);
+        SaveBug(this.state.id,
+            this.refs.bugName.value,
+            this.refs.bugReproSteps.value,
+            priority,
+            severity,
+            status,
+            this.refs.bugStatusComment.value);
+    }
+    componentDidMount() {
+        RenderHistories(this.state.id);
     }
     render() {
         return <div>
             <div className="bug-info-container">
                 <div>
                     <div className="bug-name">
+                        <div>
+                            <label>Create by:</label> {this.state.creator.firstName} {this.state.creator.lastName}
+                            <label>Date of create:</label> {this.state.creator.dateCreate}
+                        </div>
                         <h4>
                             Bug #{this.state.id}
                         </h4>
-                        <input key={keyIndex++} name="Name" defaultValue={this.state.name}/>
+                        <input key={keyIndex++} name="Name" defaultValue={this.state.name} ref="bugName" />
                     </div>
                     <div className="bug-status">
                         <label>
                             State
                         </label>
-                        <SelectStatus key={keyIndex++} selectedStatus={this.state.status} onChangeCallback={this.onChangeStatus} />
+                        <SelectStatus key={keyIndex++} selectedStatus={this.state.status} prevStatus={this.prevStatus} commentDiv={this.refs.statusComment} ref="bugStatus" />
                     </div>
-                    <div id="commentDiv" style={{ display: this.state.isNewStatus ? 'unset' : 'none' }}>
+                    <div id="commentDiv" ref="statusComment" className="notDisplay">
                         <label>
                             Comment
                         </label>
-                        <input key={keyIndex++} name="Name" defaultValue={this.state.statusComment} />
+                        <input key={keyIndex++} name="Name" defaultValue={this.state.statusComment} ref="bugStatusComment" />
                     </div>
                     <div className="bug-priority">
                         <label>
                             Priority
                         </label>
-                        <SelectPriority key={keyIndex++} selectedPriority={this.state.priority} />
+                        <SelectPriority key={keyIndex++} selectedPriority={this.state.priority} ref="bugPriority" />
                     </div>
                     <div className="bug-severity">
                         <label>
                             Severity
                         </label>
-                        <SelectSeverity key={keyIndex++} selectedSeverity={this.state.severity} />
+                        <SelectSeverity key={keyIndex++} selectedSeverity={this.state.severity} ref="bugSeverity" />
                     </div>
                 </div>
+
                 <div className="bug-description">
                     <h4>
                         Repro steps
                     </h4>
-                    <textarea key={keyIndex++} name="ReproSteps" defaultValue={this.state.reproSteps}></textarea>
+                    <textarea key={keyIndex++} name="ReproSteps" defaultValue={this.state.reproSteps} ref="bugReproSteps" ></textarea>
                 </div>
+
+                <button onClick={this.onSave}>Save</button>
+
                 <div className="history-container">
                     <h4>
                         History changes
                     </h4>
-                    <div>
-                        {
-                            this.state.histories.map(function (history) {
-                                return <History key={keyIndex++} history={history} />;
-                            })
-                        }
-                    </div>
+                    <div id="historyContainer"></div>
                 </div>
             </div>
 
@@ -414,10 +379,71 @@ class EditBug extends React.Component {
         </div>;
     }
 }
-//import BugModel from './classes/BugModel';
-//import { NavBar } from './components/NavBar';
-//import { ShortBug } from './components/ShortBug';
 
+
+class Status extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { status: props.status, statusComment: props.statusComment };
+    }
+    render() {
+        var status = this.state.status;
+        if (status != null) {
+            return <div>
+                <label>new status:</label> {status}
+                <p>
+                    <label>comment:</label> {this.state.statusComment}
+                </p>
+            </div>;
+        }
+        else return <div></div>;
+    }
+}
+
+class History extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { history: props.history };
+    }
+    render() {
+        var history = this.state.history;
+        return <div>
+            <div>
+                {history.dateUpdate}
+            </div>
+            <div>
+                {history.updater.firstName} {history.updater.lastName}
+            </div>
+            <Status key={keyIndex++} status={history.status} statusComment={history.statusComment} />
+        </div>;
+    }
+}
+
+class Histories extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { histories: props.histories };
+    }
+    render() {
+        return <div>
+            {
+                this.state.histories.map(function (history) {
+                    return <History key={keyIndex++} history={history} />;
+                })
+            }
+        </div>
+    }
+}
+
+function RenderHistories(bugId) {
+    var url = _historiesPath + "?bugId=" + bugId;
+    Load(url, function (data) {
+        ReactDOM.render(
+            <Histories histories={data} />,
+            document.getElementById("historyContainer")
+        );
+    }, true);    
+}
 function Load(url, callback, isAsync = true) {
     var xhr = new XMLHttpRequest();
     xhr.open("get", url, isAsync);
@@ -428,7 +454,7 @@ function Load(url, callback, isAsync = true) {
 }
 
 function Send(data, url, callback) {
-    var sendData = JSON.stringify(data);
+    //var sendData = JSON.stringify(data);
     var xhr = new XMLHttpRequest();
 
     xhr.open("post", url, true);
@@ -438,11 +464,24 @@ function Send(data, url, callback) {
             callback();
         }
     }.bind(this);
-    xhr.send(sendData);
+    xhr.send(data);
 }
 
-function ActualPage() {
-    Load("/Home/GetActualPage", function (data) {
+var _actualPagePath;
+var _homePath;
+var _variesBugPath;
+var _historiesPath;
+var _saveBug;
+
+function ActualPage(actualPagePath, homePath, variesBugPath, historiesPath, saveBug) {
+    _actualPagePath = actualPagePath;
+    _homePath = homePath;
+    _variesBugPath = variesBugPath;
+    _historiesPath = historiesPath;
+    _saveBug = saveBug;
+
+    RenderNavBar();
+    Load(actualPagePath, function (data) {
         if (data == "BugList") {
             RenderBugList();
         }
@@ -461,13 +500,13 @@ function RenderNavBar() {
 
 function RenderBugList() {
     ReactDOM.render(
-        <BugList apiUrl="/Home" renderEditBug={RenderEditBug}/>,
+        <BugList apiUrl={_homePath} renderEditBug={RenderEditBug}/>,
         document.getElementById("content")
     );
 }
 
 function RenderEditBug(bugId) {
-    var url = "/Home/VariesBug?bugId=" + bugId;
+    var url = _variesBugPath + "?bugId=" + bugId;
     Load(url, function (data) {
         var variesBag = new BugModel(data);
         ReactDOM.render(
@@ -476,142 +515,3 @@ function RenderEditBug(bugId) {
         );
     }, true);    
 }
-
-RenderNavBar();
-ActualPage();
-
-
-/*
-<div class="bug-info-container">
-    <div>
-        <div class="bug-name">
-            <h4>
-                Bug #@Model.Id
-            </h4>
-            <input name="Name" value="@Model.Name" />
-        </div>
-        <div class="bug-status">
-            <label>
-                State
-            </label>
-            <select asp-for="Status" asp-items="@(SelectList)ViewBag.Status"></select>
-        </div>
-        <div class="bug-priority">
-            <label>
-                Priority
-            </label>
-            <select asp-for="Priority" asp-items="@(SelectList)ViewBag.Priority"></select>
-        </div>
-        <div class="bug-severity">
-            <label>
-                Severity
-            </label>
-            <select asp-for="Severity" asp-items="@(SelectList)ViewBag.Severity"></select>
-        </div>
-    </div>
-    <div class="bug-description">
-        <h4>
-            Repro steps
-        </h4>
-        <textarea name="ReproSteps">@Model.ReproSteps</textarea>
-    </div>
-    <div class="history-container">
-        <h4>
-            History changes
-        </h4>
-        <div>
-            @foreach (HistoryViewModel history in Model.Histories.OrderBy(h => h.DateUpdate))
-            {
-                <div>
-                    <div>
-                        @history.DateUpdate
-                    </div>
-                    <div>
-                        @history.Updater.FirstName @history.Updater.LastName
-                    </div>
-                    @if (history.Status != null)
-                    {
-                        <div>
-                            <label>set new status:</label> @history.Status
-                            <p>
-                                <label>comment:</label> @history.StatusComment
-                            </p>
-                        </div>
-                    }
-                    @if (history.ReproSteps != null)
-                    {
-                        <div>
-                            <label>set new description:</label> @history.ReproSteps
-                        </div>
-                    }
-                    @if (history.Priority != null)
-                    {
-                        <div>
-                            <label>set new priority:</label> @Html.DisplayFor(d => history.Priority)
-                        </div>
-                    }
-                    @if (history.Severity != null)
-                    {
-                        <div>
-                            <label>set new severity:</label> @Html.DisplayFor(d => history.Severity)
-
-                        </div>
-                    }
-                </div>
-            }
-        </div>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
- */
-
-
-//class PhoneForm extends React.Component {
-
-//    constructor(props) {
-//        super(props);
-//        this.state = { name: "", price: 0 };
-
-//        this.onSubmit = this.onSubmit.bind(this);
-//        this.onNameChange = this.onNameChange.bind(this);
-//        this.onPriceChange = this.onPriceChange.bind(this);
-//    }
-//    onNameChange(e) {
-//        this.setState({ name: e.target.value });
-//    }
-//    onPriceChange(e) {
-//        this.setState({ price: e.target.value });
-//    }
-//    onSubmit(e) {
-//        e.preventDefault();
-//        var phoneName = this.state.name.trim();
-//        var phonePrice = this.state.price;
-//        if (!phoneName || phonePrice <= 0) {
-//            return;
-//        }
-//        this.props.onPhoneSubmit({ name: phoneName, price: phonePrice });
-//        this.setState({ name: "", price: 0 });
-//    }
-//    render() {
-//        return (
-//            <form onSubmit={this.onSubmit}>
-//                <p>
-//                    <input type="text"
-//                        placeholder="Модель телефона"
-//                        value={this.state.name}
-//                        onChange={this.onNameChange} />
-//                </p>
-//                <p>
-//                    <input type="number"
-//                        placeholder="Цена"
-//                        value={this.state.price}
-//                        onChange={this.onPriceChange} />
-//                </p>
-//                <input type="submit" value="Сохранить" />
-//            </form>
-//        );
-//    }
-//}

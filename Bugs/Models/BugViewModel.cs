@@ -1,5 +1,6 @@
 ﻿using DataLayer.Enums;
 using DataLayer.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Bugs.Models
@@ -14,6 +15,8 @@ namespace Bugs.Models
         public Criticality Severity { get; set; }
         public Status Status { get; set; }
         public string StatusComment { get; set; }
+        public UserViewModel Creator { get; set; }
+        public DateTime DateCreate { get; set; }
 
         public ICollection<HistoryViewModel> Histories { get; set; }
 
@@ -25,7 +28,14 @@ namespace Bugs.Models
                 return;
 
             Id = bug.Id;
-            //Name = bug.Name;
+            Name = bug.Name;
+            Priority = bug.Priority;
+            ReproSteps = bug.Description;
+            Severity = bug.Severity;
+            Status = bug.Status;
+
+            Creator = new UserViewModel(bug.Creator);
+            DateCreate = bug.DateCreate;
             Histories = new List<HistoryViewModel>();
         }
     }

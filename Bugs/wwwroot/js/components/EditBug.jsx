@@ -1,83 +1,22 @@
 ﻿var keyIndex = globalElementIndex++ || 100;
 
-class Status extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { status: props.status, statusComment: props.statusComment };
-    }
-    render() {
-        var s = this.state.status;
-        if (s != null) {
-            return <div>
-                <label>new status:</label> {s}
-                <p>
-                    <label>comment:</label> {this.state.statusComment}
-                </p>
-            </div>;
-        }
-        else return <div></div>;
-    }
-}
-
-class ReproSteps extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { reproSteps: props.reproSteps };
-    }
-    render() {
-        var rs = this.state.reproSteps;
-        if (rs != null) {
-            return <div>
-                <label>new description:</label> {rs}
-            </div>;
-        }
-        else return <div></div>;
-    }
-}
-
-class Priority extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { priority: props.priority };
-    }
-    render() {
-        var prior = this.state.priority;
-        if (prior != null) {
-            return <div>
-                <label>new priority:</label> {prior}
-            </div>;
-        }
-        else return <div></div>;
-    }
-}
-
-class Severity extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { severity: props.severity };
-    }
-    render() {
-        var sev = this.state.severity;
-        if (sev != null) {
-            return <div>
-                <label>new severity:</label> {sev}
-            </div>;
-        }
-        else return <div></div>;
-    }
-}
-
 class SelectStatus extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { selectedStatus: props.selectedStatus, onChangeCallback: props.onChangeCallback };
+        this.state = { selectedStatus: props.selectedStatus, prevStatus: props.prevStatus, commentDiv: props.commentDiv };
         this.onChange = this.onChange.bind(this);
     }
     onChange(e) {
         var nextState = Object.assign({}, this.state, { selectedStatus: e.target.value });
-        this.setState(nextState, function () {
-            this.state.onChangeCallback(parseInt(nextState.selectedStatus));
-        });
+        this.setState(nextState);
+
+        let stateInt = parseInt(nextState.selectedStatus);
+        if (stateInt != this.state.prevStatus) {
+            commentDiv.className = "";
+        }
+        else {
+            commentDiv.className = "notDisplay";
+        }
     }
     render() {
         var statusNames = Object.keys(enumStatus);
@@ -135,25 +74,19 @@ class SelectSeverity extends React.Component {
     }
 }
 
-class History extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { history: props.history };
-    }
-    render() {
-        return <div>
-            <div>
-                {this.state.history.dateUpdate}
-            </div>
-            <div>
-                {this.state.history.updater.firstName} {this.state.history.updater.lastName}
-            </div>
-            <Status key={keyIndex++} status={this.state.history.status} statusComment={this.state.history.statusComment} />
-            <ReproSteps key={keyIndex++} reproSteps={this.state.history.reproSteps} />
-            <Priority key={keyIndex++} priority={this.state.history.priority} />
-            <Severity key={keyIndex++} severity={this.state.history.severity} />
-        </div>;
-    }
+function SaveBug(id, name, reproSteps, priority, severity, status, statusComment) {
+    let model = new BugModel(null);
+    model.id = id;
+    model.name = name;
+    model.priority = priority;
+    model.reproSteps = reproSteps;
+    model.severity = severity;
+    model.status = status;
+    model.statusComment = statusComment;
+
+    Send(model, _saveBug, function (data) {
+        RenderBugList();
+    }, true);
 }
 
 class EditBug extends React.Component {
@@ -162,7 +95,6 @@ class EditBug extends React.Component {
         this.state = {
             apiUrl: props.apiUrl,
             renderBugList: props.renderBugList,
-            bug: props.bug, // not use
             id: props.bug.id,
             name: props.bug.name,
             status: props.bug.status,
@@ -170,68 +102,81 @@ class EditBug extends React.Component {
             priority: props.bug.priority,
             severity: props.bug.severity,
             reproSteps: props.bug.reproSteps,
-            histories: props.bug.histories
+            creator: props.bug.creator,
+            dateCreate: props.bug.dateCreate
         };
         this.prevStatus = this.state.status;
-        this.state.isNewStatus = false;
-        this.onChangeStatus = this.onChangeStatus.bind(this);
+        this.onSave = this.onSave.bind(this);
     }
-    onChangeStatus(newValue) {
-        let isNewStatus = newValue !== this.prevStatus;
-        this.setState({ isNewStatus: isNewStatus });
+    onSave() {
+        let priority = parseInt(this.refs.bugPriority.state.selectedPriority);
+        let severity = parseInt(this.refs.bugSeverity.state.selectedSeverity);
+        let status = parseInt(this.refs.bugStatus.state.selectedStatus);
+        SaveBug(this.state.id,
+            this.refs.bugName.value,
+            this.refs.bugReproSteps.value,
+            priority,
+            severity,
+            status,
+            this.refs.bugStatusComment.value);
+    }
+    componentDidMount() {
+        RenderHistories(this.state.id);
     }
     render() {
         return <div>
             <div className="bug-info-container">
                 <div>
                     <div className="bug-name">
+                        <div>
+                            <label>Create by:</label> {this.state.creator.firstName} {this.state.creator.lastName}
+                            <label>Date of create:</label> {this.state.creator.dateCreate}
+                        </div>
                         <h4>
                             Bug #{this.state.id}
                         </h4>
-                        <input key={keyIndex++} name="Name" defaultValue={this.state.name}/>
+                        <input key={keyIndex++} name="Name" defaultValue={this.state.name} ref="bugName" />
                     </div>
                     <div className="bug-status">
                         <label>
                             State
                         </label>
-                        <SelectStatus key={keyIndex++} selectedStatus={this.state.status} onChangeCallback={this.onChangeStatus} />
+                        <SelectStatus key={keyIndex++} selectedStatus={this.state.status} prevStatus={this.prevStatus} commentDiv={this.refs.statusComment} ref="bugStatus" />
                     </div>
-                    <div id="commentDiv" style={{ display: this.state.isNewStatus ? 'unset' : 'none' }}>
+                    <div id="commentDiv" ref="statusComment" className="notDisplay">
                         <label>
                             Comment
                         </label>
-                        <input key={keyIndex++} name="Name" defaultValue={this.state.statusComment} />
+                        <input key={keyIndex++} name="Name" defaultValue={this.state.statusComment} ref="bugStatusComment" />
                     </div>
                     <div className="bug-priority">
                         <label>
                             Priority
                         </label>
-                        <SelectPriority key={keyIndex++} selectedPriority={this.state.priority} />
+                        <SelectPriority key={keyIndex++} selectedPriority={this.state.priority} ref="bugPriority" />
                     </div>
                     <div className="bug-severity">
                         <label>
                             Severity
                         </label>
-                        <SelectSeverity key={keyIndex++} selectedSeverity={this.state.severity} />
+                        <SelectSeverity key={keyIndex++} selectedSeverity={this.state.severity} ref="bugSeverity" />
                     </div>
                 </div>
+
                 <div className="bug-description">
                     <h4>
                         Repro steps
                     </h4>
-                    <textarea key={keyIndex++} name="ReproSteps" defaultValue={this.state.reproSteps}></textarea>
+                    <textarea key={keyIndex++} name="ReproSteps" defaultValue={this.state.reproSteps} ref="bugReproSteps" ></textarea>
                 </div>
+
+                <button onClick={this.onSave}>Save</button>
+
                 <div className="history-container">
                     <h4>
                         History changes
                     </h4>
-                    <div>
-                        {
-                            this.state.histories.map(function (history) {
-                                return <History key={keyIndex++} history={history} />;
-                            })
-                        }
-                    </div>
+                    <div id="historyContainer"></div>
                 </div>
             </div>
 
@@ -240,4 +185,69 @@ class EditBug extends React.Component {
             </div>
         </div>;
     }
+}
+
+
+class Status extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { status: props.status, statusComment: props.statusComment };
+    }
+    render() {
+        var status = this.state.status;
+        if (status != null) {
+            return <div>
+                <label>new status:</label> {status}
+                <p>
+                    <label>comment:</label> {this.state.statusComment}
+                </p>
+            </div>;
+        }
+        else return <div></div>;
+    }
+}
+
+class History extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { history: props.history };
+    }
+    render() {
+        var history = this.state.history;
+        return <div>
+            <div>
+                {history.dateUpdate}
+            </div>
+            <div>
+                {history.updater.firstName} {history.updater.lastName}
+            </div>
+            <Status key={keyIndex++} status={history.status} statusComment={history.statusComment} />
+        </div>;
+    }
+}
+
+class Histories extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { histories: props.histories };
+    }
+    render() {
+        return <div>
+            {
+                this.state.histories.map(function (history) {
+                    return <History key={keyIndex++} history={history} />;
+                })
+            }
+        </div>
+    }
+}
+
+function RenderHistories(bugId) {
+    var url = _historiesPath + "?bugId=" + bugId;
+    Load(url, function (data) {
+        ReactDOM.render(
+            <Histories histories={data} />,
+            document.getElementById("historyContainer")
+        );
+    }, true);    
 }

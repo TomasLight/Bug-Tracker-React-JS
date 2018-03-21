@@ -26,9 +26,6 @@
 <body>
     <div id="header"></div>
     <div id="content" class="container body-content"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
-    <script src="~/js/rootReact.jsx"></script>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -50,5 +47,16 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+    <script src="~/js/rootReact.jsx"></script>
+
+    <script>
+        ActualPage("@Url.Action(nameof(Bugs.Controllers.HomeController.GetActualPage), "Home")",
+            "/Home",
+            "@Url.Action(nameof(Bugs.Controllers.HomeController.VariesBug), "Home")",
+            "@Url.Action(nameof(Bugs.Controllers.HomeController.BugHistories), "Home")",
+            "@Url.Action(nameof(Bugs.Controllers.HomeController.SaveBug), "Home")"); 
+    </script>
 </body>
 </html>

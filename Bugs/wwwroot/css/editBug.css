@@ -58,3 +58,7 @@
     border-bottom: 1px solid #ededed;
     padding: 1em 0;
 }
+
+div.notDisplay{
+    display: none !important;
+}

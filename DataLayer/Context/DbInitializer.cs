@@ -1,5 +1,6 @@
 ﻿using DataLayer.Enums;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,10 @@ namespace DataLayer.Context
             }
 
             context.AddToContext(GetUserList());
-            context.AddToContext(GetBugList());
+            if (context.Users.Count() < 1)
+                return;
+
+            context.AddToContext(GetBugList(context.Users.FirstOrDefault()));
             context.AddToContext(GetHistories(context));
         }
 
@@ -32,15 +36,15 @@ namespace DataLayer.Context
             };
         }
 
-        private static List<Bug> GetBugList()
+        private static List<Bug> GetBugList(User creator)
         {
             return new List<Bug>()
             {
-                new Bug(){ Name = "Неисправность валидации" },
-                new Bug(){ Name = "Ошибка в UI" },
-                new Bug(){ Name = "Нарушение логики" },
-                new Bug(){ Name = "Некорректная сортировка" },
-                new Bug(){ Name = "Пропадает кнопка печати на экране отчеты" }
+                new Bug("Неисправность валидации", creator),
+                new Bug("Ошибка в UI", creator),
+                new Bug("Нарушение логики", creator),
+                new Bug("Некорректная сортировка", creator),
+                new Bug("Пропадает кнопка печати на экране отчеты", creator)
             };
         }
 
@@ -52,26 +56,20 @@ namespace DataLayer.Context
 
             List<User> users = context.Users.ToList();
 
-            histories.AddRegistryHistory(users, context.Bugs.ToList());
-            histories.AddHistory1(users, context.Bugs.FirstOrDefault());
+            Bug bug = context.Bugs.FirstOrDefault();
+            histories.AddHistory1(users, bug);
+            context.Entry(bug).State = EntityState.Modified;
 
-            histories.AddHistory2(users, context.Bugs.FirstOrDefault(b => b.Name == "Нарушение логики"));
-            histories.AddHistory3(users, context.Bugs.FirstOrDefault(b => b.Name == "Пропадает кнопка печати на экране отчеты"));
-            //Bug bug1 = (from b in context.Bugs
-            //            join h in context.Histories on b.Id equals h.BugId
-            //            join hn in context.HistoriesName on h.Id equals hn.HistoryId
-            //            where hn.Name == "Нарушение логики"
-            //            select b)
-            //          .FirstOrDefault();
-            //histories.AddHistory2(users, bug1);
+            if (users.Count() > 1)
+            {
+                bug = context.Bugs.FirstOrDefault(b => b.Name == "Нарушение логики");
+                histories.AddHistory2(users[1], bug);
+                context.Entry(bug).State = EntityState.Modified;
+            }
 
-            //Bug bug2 = (from b in context.Bugs
-            //            join h in context.Histories on b.Id equals h.BugId
-            //            join hn in context.HistoriesName on h.Id equals hn.HistoryId
-            //            where hn.Name == "Пропадает кнопка печати на экране отчеты"
-            //            select b)
-            //          .FirstOrDefault();
-            //histories.AddHistory3(users, bug2);
+            bug = context.Bugs.FirstOrDefault(b => b.Name == "Пропадает кнопка печати на экране отчеты");
+            histories.AddHistory3(users, bug);
+            context.Entry(bug).State = EntityState.Modified;
 
             return histories;
         }
@@ -79,15 +77,13 @@ namespace DataLayer.Context
 
     internal static class LocalExtensions
     {
+        private static DateTime _lastDate;
+
         internal static BugContext AddToContext<T>(this BugContext context, List<T> listEntities) where T : class
         {
             var type = typeof(T);
             if (!type.Equals(typeof(Bug))
                 && !type.Equals(typeof(History))
-                && !type.Equals(typeof(HistoryPriority))
-                && !type.Equals(typeof(HistoryReproSteps))
-                && !type.Equals(typeof(HistorySeverity))
-                && !type.Equals(typeof(HistoryStatus))
                 && !type.Equals(typeof(User)))
                 return context;
 
@@ -99,39 +95,10 @@ namespace DataLayer.Context
             return context;
         }
 
-        /// <summary>
-        /// Формирование истории: регистрация ошибок в системе
-        /// </summary>
-        /// <param name="userQA">Пользователь, который обнаружил ошибки (тестер)</param>
-        /// <param name="bugs">Список зарегистрированных ошибок</param>
-        /// <returns></returns>
-        internal static List<History> AddRegistryHistory(this List<History> historyList, List<User> users, List<Bug> bugs)
+        private static List<History> AddHistory(this List<History> historyList, Bug bug, User user, Status status, string comment)
         {
-            if (users.Count() < 1 || bugs.Count < 1)
-                return historyList;
-
-            User userQA = users.FirstOrDefault();
-            int day = 0;
-            int month = 1;
-            int year = 2018;
-            foreach (Bug bug in bugs)
-            {
-                day++;
-                if (day > 28)
-                {
-                    month++;
-                    day = 1;
-                }
-                if (month > 12)
-                {
-                    year++;
-                    month = 1;
-                }
-
-                History history = new History(userQA, bug, new DateTime(year, month, day, 10, 00, 00));
-                history.Regitry(bug.Name, "Новый баг", "Некоторое описание ошибки");
-                historyList.Add(history);
-            }
+            _lastDate = _lastDate.AddHours(1);
+            historyList.Add(new History(user, bug, _lastDate, status, comment));
             return historyList;
         }
 
@@ -144,64 +111,28 @@ namespace DataLayer.Context
             User developer1 = users[1];
             User developer2 = users[2];
 
-            DateTime lastDate = historyList.OrderBy(h => h.DateUpdate).LastOrDefault().DateUpdate;
-            lastDate = lastDate.AddDays(1);
+            _lastDate = DateTime.Now;
 
-            History history = new History(developer1, variesBug, lastDate);
-            history.SetNewStatus(Status.Opened, "В разработке");
-            history.SetNewPriority(Urgency.First);
-            historyList.Add(history);
+            historyList.AddHistory(variesBug, developer1, Status.Opened, "В разработке");
+            historyList.AddHistory(variesBug, developer1, Status.Resolved, "Проблема решена");
+            historyList.AddHistory(variesBug, userQA, Status.Opened, "Всё еще есть ошибки");
+            historyList.AddHistory(variesBug, developer2, Status.Resolved, "Исправлено");
+            historyList.AddHistory(variesBug, userQA, Status.Closed, "Закрываю баг. Всё работает");
 
-            lastDate = lastDate.AddHours(1);
-            history = new History(developer1, variesBug, lastDate);
-            history.SetNewStatus(Status.Resolved, "Проблема решена");
-            historyList.Add(history);
-
-            lastDate = lastDate.AddHours(1);
-            history = new History(userQA, variesBug, lastDate);
-            history.SetNewStatus(Status.Opened, "Всё еще есть ошибки");
-            history.SetNewRepoSteps("Проверить вывод отчетов. Съехали даты");
-            historyList.Add(history);
-
-            lastDate = lastDate.AddHours(1);
-            history = new History(developer2, variesBug, lastDate);
-            history.SetNewStatus(Status.Resolved, "Исправлено");
-            history.SetNewSeverity(Criticality.High);
-            historyList.Add(history);
-
-            lastDate = lastDate.AddHours(1);
-            history = new History(userQA, variesBug, lastDate);
-            history.SetNewStatus(Status.Closed, "Закрываю баг. Всё работает");
-            historyList.Add(history);
+            variesBug.Status = Status.Closed;
 
             return historyList;
         }
 
-        internal static List<History> AddHistory2(this List<History> historyList, List<User> users, Bug variesBug)
+        internal static List<History> AddHistory2(this List<History> historyList, User user, Bug variesBug)
         {
-            if (users.Count() < 2 || variesBug == null)
+            if (user == null || variesBug == null)
                 return historyList;
+            
+            _lastDate = _lastDate.AddDays(1);            
+            historyList.AddHistory(variesBug, user, Status.Opened, "Занимаюсь исправлением");
 
-            User userQA = users.FirstOrDefault();
-            User developer1 = users[1];
-
-            DateTime lastDate = historyList.OrderBy(h => h.DateUpdate).LastOrDefault().DateUpdate;
-            lastDate = lastDate.AddDays(1);
-
-            History history = new History(userQA, variesBug, lastDate);
-            history.SetNewPriority(Urgency.First);
-            history.SetNewSeverity(Criticality.Critical);
-            historyList.Add(history);
-
-            lastDate = lastDate.AddHours(1);
-            history = new History(developer1, variesBug, lastDate);
-            history.SetNewStatus(Status.Opened, "Занимаюсь исправлением");
-            historyList.Add(history);
-
-            lastDate = lastDate.AddHours(1);
-            history = new History(userQA, variesBug, lastDate);
-            history.SetNewRepoSteps("Неверный шрифт в разделе 'Копия'");
-            historyList.Add(history);
+            variesBug.Status = Status.Opened;
 
             return historyList;
         }
@@ -213,18 +144,12 @@ namespace DataLayer.Context
 
             User userQA = users.FirstOrDefault();
             User developer1 = users[1];
+            
+            _lastDate = _lastDate.AddDays(1);
+            historyList.AddHistory(variesBug, developer1, Status.Opened, "Занимаюсь исправлением");
+            historyList.AddHistory(variesBug, userQA, Status.Resolved, "Проблема устранена");
 
-            DateTime lastDate = historyList.OrderBy(h => h.DateUpdate).LastOrDefault().DateUpdate;
-            lastDate = lastDate.AddDays(1);
-
-            History history = new History(developer1, variesBug, lastDate);
-            history.SetNewStatus(Status.Opened, "Занимаюсь исправлением");
-            historyList.Add(history);
-
-            lastDate = lastDate.AddHours(1);
-            history = new History(userQA, variesBug, lastDate);
-            history.SetNewStatus(Status.Resolved, "Проблема устранена");
-            historyList.Add(history);
+            variesBug.Status = Status.Resolved;
 
             return historyList;
         }
