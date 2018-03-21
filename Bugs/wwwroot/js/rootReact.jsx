@@ -453,18 +453,30 @@ function Load(url, callback, isAsync = true) {
     xhr.send();
 }
 
-function Send(data, url, callback) {
+function Send(postData, postUrl, callback) {
     //var sendData = JSON.stringify(data);
-    var xhr = new XMLHttpRequest();
+    //var xhr = new XMLHttpRequest();
 
-    xhr.open("post", url, true);
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.onload = function () {
-        if (xhr.status == 200) {
+    //xhr.open("post", postUrl, true);
+    //xhr.setRequestHeader("Content-type", "application/json");
+    //xhr.onload = function () {
+    //    if (xhr.status == 200) {
+    //        callback();
+    //    }
+    //}.bind(this);
+    //xhr.send(postData);
+
+    $.ajax({
+        url: postUrl,
+        type: "POST",
+        data: postData,
+        success: function (data) {
             callback();
+        },
+        failure: function (errMsg) {
+            window.location.reload();
         }
-    }.bind(this);
-    xhr.send(data);
+    });
 }
 
 var _actualPagePath;

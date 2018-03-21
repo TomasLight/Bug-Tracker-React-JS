@@ -7,18 +7,18 @@
     xhr.send();
 }
 
-function Send(data, url, callback) {
-    //var sendData = JSON.stringify(data);
-    var xhr = new XMLHttpRequest();
-
-    xhr.open("post", url, true);
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.onload = function () {
-        if (xhr.status == 200) {
+function Send(postData, postUrl, callback) {
+    $.ajax({
+        url: postUrl,
+        type: "POST",
+        data: postData,
+        success: function (data) {
             callback();
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
         }
-    }.bind(this);
-    xhr.send(data);
+    });
 }
 
 var _actualPagePath;
