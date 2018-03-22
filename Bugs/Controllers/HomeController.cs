@@ -10,6 +10,10 @@ using DataLayer.Enums;
 using DataLayer.Models;
 using DataLayer.Reposotories.Api;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bugs.Controllers
 {
@@ -18,23 +22,23 @@ namespace Bugs.Controllers
         private readonly IRepositoryFacade _repository;
 
         private User _currentUser;
-
         public HomeController(IRepositoryFacade repository)
         {
             _repository = repository;
-            _currentUser = _repository.Users().Get().FirstOrDefault();
+            //_currentUser = _repository.Users().Get().FirstOrDefault();
         }
 
+        [Authorize]
         public IActionResult Index()
         {
+            if (!HttpContext.Session.Keys.Contains("ActualPage"))
+                HttpContext.Session.SetString("ActualPage", "Login");
+
             return RedirectToAction(nameof(Bugs));
         }
 
         public IActionResult Bugs()
         {
-            if (!HttpContext.Session.Keys.Contains("ActualPage"))
-                HttpContext.Session.SetString("ActualPage", "BugList");
-
             return View();
         }
 
@@ -42,6 +46,51 @@ namespace Bugs.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        #region authentication
+
+        public IActionResult Login()
+        {
+            if (!HttpContext.Session.Keys.Contains("ActualPage"))
+                HttpContext.Session.SetString("ActualPage", "Login");
+
+            return RedirectToAction(nameof(Bugs));
+        }
+
+        [HttpPost]
+        public bool Login(UserViewModel model)
+        {
+            User user = _repository.Users().Find(model.Login, model.Password);
+            if (user != null)
+            {
+                Authenticate(model.Login); // аутентификация
+                _currentUser = user;
+                HttpContext.Session.SetString("ActualPage", "BugList");
+                return true;
+            }
+            return false;
+        }
+
+        private void Authenticate(string userLogin)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userLogin)
+            };
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);            
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+        [HttpPost]
+        public void Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.SetString("ActualPage", "Login");
+        }
+
+        #endregion
+
 
         #region for react queries
 
@@ -77,22 +126,26 @@ namespace Bugs.Controllers
 
         #region bugs
 
+        [Authorize]
         public IEnumerable<BugViewModel> Get()
         {
             HttpContext.Session.SetString("ActualPage", "BugList");
             return GetBugList();
         }
 
+        [Authorize]
         public Array GetStatusNames()
         {
             return Enum.GetNames(typeof(Status));
         }
 
+        [Authorize]
         public Array GetStatusValues()
         {
             return Enum.GetValues(typeof(Status));
         }
 
+        [Authorize]
         public BugViewModel VariesBug(int bugId)
         {
             if (bugId == 0)
@@ -109,6 +162,7 @@ namespace Bugs.Controllers
             return bugVM;
         }
 
+        [Authorize]
         public BugViewModel NewBug()
         {
             HttpContext.Session.SetString("ActualPage", "NewBug");
@@ -119,6 +173,7 @@ namespace Bugs.Controllers
             return bugVM;
         }
 
+        [Authorize]
         public List<HistoryViewModel> BugHistories(int bugId)
         {
             List<HistoryViewModel> model = new List<HistoryViewModel>();
@@ -143,13 +198,15 @@ namespace Bugs.Controllers
         #endregion
 
         #region users
-        
+
+        [Authorize]
         public IEnumerable<UserViewModel> GetUsers()
         {
             HttpContext.Session.SetString("ActualPage", "UserList");
             return GetUserList();
         }
-        
+
+        [Authorize]
         public UserViewModel EditUser(int userId)
         {
             if (userId == 0)
@@ -166,6 +223,7 @@ namespace Bugs.Controllers
             return userVM;
         }
 
+        [Authorize]
         public UserViewModel NewUser()
         {
             HttpContext.Session.SetString("ActualPage", "NewUser");
@@ -175,6 +233,7 @@ namespace Bugs.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public void SaveUser(UserViewModel model)
         {
             if (model.Id == 0)

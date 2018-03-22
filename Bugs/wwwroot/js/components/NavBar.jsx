@@ -8,6 +8,8 @@
 
         this.NewUser = this.NewUser.bind(this);
         this.UserList = this.UserList.bind(this);
+        
+        this.Logout = this.Logout.bind(this);
     }
     NewBug() {
         this.props.renderEditBug(0);
@@ -21,8 +23,8 @@
     UserList() {
         this.props.renderUserList();
     }
-    SignOut() {
-        //this.props.onRemove(this.state.data);
+    Logout() {
+        this.props.Logout();
     }
     render() {
         return <nav className="navbar navbar-inverse navbar-fixed-top">
@@ -42,7 +44,7 @@
                             <li><button onClick={this.NewBug}>New bug</button></li>
                             <li><button onClick={this.NewUser}>New user</button></li>
                             <li><button onClick={this.UserList}>User list</button></li>
-                            <li><button onClick={this.SignOut}>Sign out</button></li>
+                            <li><button onClick={this.Logout}>Sign out</button></li>
                         </ul>
                     </div>
                 </div>

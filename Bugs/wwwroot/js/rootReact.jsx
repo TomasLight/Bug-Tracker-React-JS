@@ -1,3 +1,46 @@
+function Login(url, login, password) {
+    let model = {
+        login: login,
+        password: password
+    }
+    Send(model, url, function (data) {
+        if (!data)
+            alert("Пользователь не найден или неверная пара логин-пароль");
+        else
+            ActualPage();
+    }, true);
+}
+
+class LoginPage extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { url: props.url};
+        this.onEnter = this.onEnter.bind(this);
+    }
+    onEnter() {
+        let log = this.refs.userLogin.value;
+        let pass = this.refs.userPassword.value;
+
+        if (log == "")
+            alert("Введите логин");
+        else if (pass == "")
+            alert("Введите пароль");
+        else
+            Login(this.state.url, log, pass);
+    }
+    render() {
+        return <div className="login-page">
+            <div>
+                <h3>Enter</h3>
+                <input defaultValue="" ref="userLogin" placeholder="Login" />
+                <input defaultValue="" ref="userPassword" placeholder="Password" type="password" />
+
+                <button onClick={this.onEnter}>Save</button>
+            </div>
+        </div>;
+    }
+}
 class NavBar extends React.Component {
 
     constructor(props) {
@@ -8,6 +51,8 @@ class NavBar extends React.Component {
 
         this.NewUser = this.NewUser.bind(this);
         this.UserList = this.UserList.bind(this);
+        
+        this.Logout = this.Logout.bind(this);
     }
     NewBug() {
         this.props.renderEditBug(0);
@@ -21,8 +66,8 @@ class NavBar extends React.Component {
     UserList() {
         this.props.renderUserList();
     }
-    SignOut() {
-        //this.props.onRemove(this.state.data);
+    Logout() {
+        this.props.Logout();
     }
     render() {
         return <nav className="navbar navbar-inverse navbar-fixed-top">
@@ -42,7 +87,7 @@ class NavBar extends React.Component {
                             <li><button onClick={this.NewBug}>New bug</button></li>
                             <li><button onClick={this.NewUser}>New user</button></li>
                             <li><button onClick={this.UserList}>User list</button></li>
-                            <li><button onClick={this.SignOut}>Sign out</button></li>
+                            <li><button onClick={this.Logout}>Sign out</button></li>
                         </ul>
                     </div>
                 </div>
@@ -65,7 +110,7 @@ function Send(postData, postUrl, callback) {
         type: "POST",
         data: postData,
         success: function (data) {
-            callback();
+            callback(data);
         },
         failure: function (errMsg) {
             alert(errMsg);
@@ -75,6 +120,9 @@ function Send(postData, postUrl, callback) {
 
 var _actualPagePath;
 var _homePath;
+var _loginPath;
+var _exitPath;
+
 var _variesBugPath;
 var _historiesPath;
 var _saveBug;
@@ -82,47 +130,87 @@ var _userListPath;
 var _editUserPath;
 var _saveUserPath;
 
-function ActualPage(actualPagePath,
-                    homePath, 
+function RegPaths(actualPagePath,
+                    homePath,
+                    loginPath,
+                    exitPath,
                     variesBugPath, historiesPath, saveBug,
                     userListPath, editUserPath, saveUserPath) {
 
     _actualPagePath = actualPagePath;
     _homePath = homePath;
+    _loginPath = loginPath;
+    _exitPath = exitPath;
+
     _variesBugPath = variesBugPath;
     _historiesPath = historiesPath;
     _saveBug = saveBug;
     _userListPath = userListPath;
     _editUserPath = editUserPath;
     _saveUserPath = saveUserPath;
+}
 
-    RenderNavBar();
-    Load(actualPagePath, function (data) {
-        if (data == "BugList") {
-            RenderBugList();
+function ActualPage() {
+    Load(_actualPagePath, function (data) {
+        if (data == "Login") {
+            document.getElementById("header").innerHTML = "";
+            RenderLogin();
+            return;
         }
-        else if (data == "UserList") {
-            RenderUserList();
-        }
-        else if (data == "NewBug") {
-            RenderEditBug(0);
-        }
-        else if (data.actualPage == "VariesBug") {
-            RenderEditBug(data.bugId);
-        }
-        else if (data == "NewUser") {
-            RenderEditUser(0);
-        }
-        else if (data.actualPage == "EditUser") {
-            RenderEditUser(data.userId);
-        }
+
+        RenderNavBar();
+        switch (data) {
+            case "BugList":
+                RenderBugList();
+                break;
+
+            case "UserList":
+                RenderUserList();
+                break;
+
+            case "NewBug":
+                RenderEditBug(0);
+                break;
+
+            case "NewUser":
+                RenderEditUser(0);
+                break;
+
+            case "BugList":
+                break;
+
+            default:
+                if (data.actualPage == "VariesBug") {
+                    RenderEditBug(data.bugId);
+                }
+                else if (data.actualPage == "EditUser") {
+                    RenderEditUser(data.userId);
+                }
+                else {
+                    alert("Упс. Что-то пошло не так");
+                }
+                break;
+        }        
+    }, true);
+}
+
+function RenderLogin() {
+    ReactDOM.render(
+        <LoginPage url={_loginPath}/>,
+        document.getElementById("content")
+    );
+}
+
+function Logout() {
+    Send(null, _exitPath, function (data) {
+        ActualPage();
     }, true);
 }
 
 function RenderNavBar() {
     ReactDOM.render(
         <NavBar renderBugList={RenderBugList} renderEditBug={RenderEditBug}
-                renderUserList={RenderUserList} renderEditUser={RenderEditUser} />,
+            renderUserList={RenderUserList} renderEditUser={RenderEditUser} Logout={Logout} />,
         document.getElementById("header")
     );
 }

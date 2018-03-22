@@ -55,8 +55,11 @@
     <script src="~/js/rootReact.jsx"></script>
 
     <script>
-        ActualPage("@Url.Action(nameof(Bugs.Controllers.HomeController.GetActualPage), "Home")",
+        RegPaths("@Url.Action(nameof(Bugs.Controllers.HomeController.GetActualPage), "Home")",
             "/Home",
+            "@Url.Action(nameof(Bugs.Controllers.HomeController.Login), "Home")",
+            "@Url.Action(nameof(Bugs.Controllers.HomeController.Logout), "Home")",
+
             "@Url.Action(nameof(Bugs.Controllers.HomeController.VariesBug), "Home")",
             "@Url.Action(nameof(Bugs.Controllers.HomeController.BugHistories), "Home")",
             "@Url.Action(nameof(Bugs.Controllers.HomeController.SaveBug), "Home")",
@@ -64,6 +67,8 @@
             "@Url.Action(nameof(Bugs.Controllers.HomeController.GetUsers), "Home")",
             "@Url.Action(nameof(Bugs.Controllers.HomeController.EditUser), "Home")",
             "@Url.Action(nameof(Bugs.Controllers.HomeController.SaveUser), "Home")");
+
+        ActualPage();
     </script>
 </body>
 </html>

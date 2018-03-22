@@ -2,6 +2,7 @@
 using DataLayer.Context;
 using DataLayer.Reposotories.Api;
 using DataLayer.Reposotories.Impl;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,13 @@ namespace Bugs
 
             services.AddDistributedMemoryCache();
             services.AddSession();
+                        
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new PathString("/Home/Login");
+                });
+
             services.AddMvc();
 
             return services.BuildServiceProvider();
@@ -53,6 +61,8 @@ namespace Bugs
             app.UseReact(config => { });
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

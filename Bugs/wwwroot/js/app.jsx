@@ -13,7 +13,7 @@ function Send(postData, postUrl, callback) {
         type: "POST",
         data: postData,
         success: function (data) {
-            callback();
+            callback(data);
         },
         failure: function (errMsg) {
             alert(errMsg);
@@ -23,6 +23,9 @@ function Send(postData, postUrl, callback) {
 
 var _actualPagePath;
 var _homePath;
+var _loginPath;
+var _exitPath;
+
 var _variesBugPath;
 var _historiesPath;
 var _saveBug;
@@ -30,47 +33,87 @@ var _userListPath;
 var _editUserPath;
 var _saveUserPath;
 
-function ActualPage(actualPagePath,
-                    homePath, 
+function RegPaths(actualPagePath,
+                    homePath,
+                    loginPath,
+                    exitPath,
                     variesBugPath, historiesPath, saveBug,
                     userListPath, editUserPath, saveUserPath) {
 
     _actualPagePath = actualPagePath;
     _homePath = homePath;
+    _loginPath = loginPath;
+    _exitPath = exitPath;
+
     _variesBugPath = variesBugPath;
     _historiesPath = historiesPath;
     _saveBug = saveBug;
     _userListPath = userListPath;
     _editUserPath = editUserPath;
     _saveUserPath = saveUserPath;
+}
 
-    RenderNavBar();
-    Load(actualPagePath, function (data) {
-        if (data == "BugList") {
-            RenderBugList();
+function ActualPage() {
+    Load(_actualPagePath, function (data) {
+        if (data == "Login") {
+            document.getElementById("header").innerHTML = "";
+            RenderLogin();
+            return;
         }
-        else if (data == "UserList") {
-            RenderUserList();
-        }
-        else if (data == "NewBug") {
-            RenderEditBug(0);
-        }
-        else if (data.actualPage == "VariesBug") {
-            RenderEditBug(data.bugId);
-        }
-        else if (data == "NewUser") {
-            RenderEditUser(0);
-        }
-        else if (data.actualPage == "EditUser") {
-            RenderEditUser(data.userId);
-        }
+
+        RenderNavBar();
+        switch (data) {
+            case "BugList":
+                RenderBugList();
+                break;
+
+            case "UserList":
+                RenderUserList();
+                break;
+
+            case "NewBug":
+                RenderEditBug(0);
+                break;
+
+            case "NewUser":
+                RenderEditUser(0);
+                break;
+
+            case "BugList":
+                break;
+
+            default:
+                if (data.actualPage == "VariesBug") {
+                    RenderEditBug(data.bugId);
+                }
+                else if (data.actualPage == "EditUser") {
+                    RenderEditUser(data.userId);
+                }
+                else {
+                    alert("Упс. Что-то пошло не так");
+                }
+                break;
+        }        
+    }, true);
+}
+
+function RenderLogin() {
+    ReactDOM.render(
+        <LoginPage url={_loginPath}/>,
+        document.getElementById("content")
+    );
+}
+
+function Logout() {
+    Send(null, _exitPath, function (data) {
+        ActualPage();
     }, true);
 }
 
 function RenderNavBar() {
     ReactDOM.render(
         <NavBar renderBugList={RenderBugList} renderEditBug={RenderEditBug}
-                renderUserList={RenderUserList} renderEditUser={RenderEditUser} />,
+            renderUserList={RenderUserList} renderEditUser={RenderEditUser} Logout={Logout} />,
         document.getElementById("header")
     );
 }

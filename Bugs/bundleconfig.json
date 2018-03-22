@@ -51,6 +51,7 @@
   {
     "outputFileName": "wwwroot/js/rootReact.jsx",
     "inputFiles": [
+      "wwwroot/js/components/LoginPage.jsx",
       "wwwroot/js/components/NavBar.jsx",
       "wwwroot/js/app.jsx"
     ],

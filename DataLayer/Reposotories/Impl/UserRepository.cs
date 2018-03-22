@@ -19,5 +19,10 @@ namespace DataLayer.Reposotories.Impl
         {
             return _context.Users.ToList();
         }
+
+        public User Find(string login, string password)
+        {
+            return _context.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+        }
     }
 }
