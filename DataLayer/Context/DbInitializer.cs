@@ -56,6 +56,11 @@ namespace DataLayer.Context
 
             List<User> users = context.Users.ToList();
 
+            foreach (Bug b in context.Bugs)
+            {
+                histories.AddHistory(b, users.FirstOrDefault(), Status.New, "create bug");
+            }
+
             Bug bug = context.Bugs.FirstOrDefault();
             histories.AddHistory1(users, bug);
             context.Entry(bug).State = EntityState.Modified;
@@ -95,9 +100,9 @@ namespace DataLayer.Context
             return context;
         }
 
-        private static List<History> AddHistory(this List<History> historyList, Bug bug, User user, Status status, string comment)
+        internal static List<History> AddHistory(this List<History> historyList, Bug bug, User user, Status status, string comment)
         {
-            _lastDate = _lastDate.AddHours(1);
+            _lastDate = _lastDate != null ? _lastDate.AddHours(1) : DateTime.Now;
             historyList.Add(new History(user, bug, _lastDate, status, comment));
             return historyList;
         }

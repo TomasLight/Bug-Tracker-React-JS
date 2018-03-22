@@ -1,8 +1,45 @@
-﻿.bug-table {
+﻿@media (min-width: 768px) {
+    .navbar-nav {
+        width: 100%;
+    }
+    .navbar-nav > li {
+        width: 19%;
+    }
+        .navbar-nav button {
+            margin: 8px auto;
+            display: block;
+        }
+}
+
+.bug-input,
+.bug-button,
+.bug-select{
+    border-radius: 6px;
+    margin-bottom: 1em;
+    padding: 0.5em 1em;
+}
+
+.bug-input,
+.bug-select {
+    border: 2px solid #E6E6E6;
+}
+
+.bug-input:focus,
+.bug-select:focus  {
+    border: 2px solid #ADD7CB;
+    outline: none;
+}
+
+.bug-button {
+    background-color: #38BE99;
+    border: none;
+    color: #DFFFFE;
+}
+
+.bug-table {
     display: table;
     font-size: 12pt;
     margin: auto;
-    width: 90%;
 }
 
 .bug-header {
@@ -47,11 +84,17 @@
     border: 1px solid #808080;
     cursor: pointer;
     display: table-cell;
-    padding: 0.5em;
+    border: 2px solid #E6E6E6;
+    border-radius: 6px;
+    padding: 0.5em 1em;
 }
-.bug-cell label{
-    cursor: pointer;
-}
+    .bug-cell:hover{
+        background-color: #e7f4ff;
+    }
+
+    .bug-cell label {
+        cursor: pointer;
+    }
 
 .bug-cell > div:nth-of-type(1){
     font-weight: bold;
@@ -67,43 +110,32 @@ div.login-page {
     height: 100%;
 }
 
-div.login-page > div{
+div.login-page > div {
     background-color: #FCFCFC;
     border-radius: 6px;
-
-    margin: 30% auto;
+    margin: auto;
+    max-width: 500px;
     position: relative;
     text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
     width: 60%;
 }
 
 div.login-page input,
 div.login-page button{
-    border-radius: 6px;
-    margin-bottom: 1em;
     padding: 1em;
     width: 80%;
 }
 
-div.login-page input{
-    border: 2px solid #E6E6E6;
-}
-div.login-page input:focus{
-    border: 2px solid #ADD7CB;    
-    outline: none;
-}
-
 div.login-page button{
-    background-color: #38BE99;
-    border: none;
-    color: #DFFFFE;
     margin-bottom: 3em;
 }
 
-    div.login-page h3 {
-        color: #27262D;
-        display: block;
-        font-size: 2em;
-        padding: 1em 0 1.5em 0;
-        text-transform: uppercase;
-    }
+div.login-page h3 {
+    color: #27262D;
+    display: block;
+    font-size: 2em;
+    padding: 1em 0 1.5em 0;
+    text-transform: uppercase;
+}

@@ -29,14 +29,19 @@ class LoginPage extends React.Component {
         else
             Login(this.state.url, log, pass);
     }
+    handleKeyPress = (event) => {
+        if (event.key == 'Enter') {
+            this.onEnter();
+        }
+    }
     render() {
         return <div className="login-page">
             <div>
                 <h3>Enter</h3>
-                <input defaultValue="" ref="userLogin" placeholder="Login" />
-                <input defaultValue="" ref="userPassword" placeholder="Password" type="password" />
+                <input className="bug-input" defaultValue="" ref="userLogin" placeholder="Login" onKeyPress={this.handleKeyPress} />
+                <input className="bug-input" defaultValue="" ref="userPassword" placeholder="Password" type="password" onKeyPress={this.handleKeyPress} />
 
-                <button onClick={this.onEnter}>Save</button>
+                <button className="bug-button" onClick={this.onEnter}>Save</button>
             </div>
         </div>;
     }

@@ -57,27 +57,27 @@ class EditUser extends React.Component {
                     <h4> User #{this.state.id} </h4>
                     <div>
                         <label>First name</label>
-                        <input key={globalElementIndex++} defaultValue={this.state.firstName} ref="userFirstName" />
+                        <input className="bug-input" key={globalElementIndex++} defaultValue={this.state.firstName} ref="userFirstName" />
                     </div>
                     <div>
                         <label>Last name</label>
-                        <input key={globalElementIndex++} defaultValue={this.state.lastName} ref="userLastName" />
+                        <input className="bug-input" key={globalElementIndex++} defaultValue={this.state.lastName} ref="userLastName" />
                     </div>
                     <div>
                         <label>Login</label>
-                        <input key={globalElementIndex++} defaultValue={this.state.login} ref="userLogin" disabled={!this.isNew} />
+                        <input className="bug-input" key={globalElementIndex++} defaultValue={this.state.login} ref="userLogin" disabled={!this.isNew} />
                     </div>
                     <div>
                         <label>Password</label>
-                        <input key={globalElementIndex++} defaultValue="" ref="userPassword" type="password" />
+                        <input className="bug-input" key={globalElementIndex++} defaultValue="" ref="userPassword" type="password" />
                     </div>
                     <div>
                         <label>Confirm password</label>
-                        <input key={globalElementIndex++} defaultValue="" ref="userConfirmPassword" type="password" />
+                        <input className="bug-input" key={globalElementIndex++} defaultValue="" ref="userConfirmPassword" type="password" />
                     </div>
                 </div>
 
-                <button onClick={this.onSave}>Save</button>
+                <button className="bug-button" onClick={this.onSave}>Save</button>
             </div>
         </div>;
     }

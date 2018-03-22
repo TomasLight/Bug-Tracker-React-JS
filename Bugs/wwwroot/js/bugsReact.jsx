@@ -159,12 +159,12 @@ class SelectStatus extends React.Component {
         switch (this.prevStatus) {
             case enumStatus.New:
                 if (this.state.isNew) {
-                    return <select value={this.state.selectedStatus} onChange={this.onChange}>
+                    return <select className="selectpicker bug-select" value={this.state.selectedStatus} onChange={this.onChange}>
                         <option key={globalElementIndex++} value={enumStatus.New}>{newStr}</option>
                     </select>;
                 }
                 else {
-                    return <select value={this.state.selectedStatus} onChange={this.onChange}>
+                    return <select className="selectpicker bug-select" value={this.state.selectedStatus} onChange={this.onChange}>
                         <option key={globalElementIndex++} value={enumStatus.New}>{newStr}</option>
                         <option key={globalElementIndex++} value={enumStatus.Opened}>{openedStr}</option>
                     </select>;
@@ -172,23 +172,23 @@ class SelectStatus extends React.Component {
                 break;
 
             case enumStatus.Opened:
-                return <select value={this.state.selectedStatus} onChange={this.onChange}>
-                    <option key={keyIndex++} value={enumStatus.Opened}>{openedStr}</option>
-                    <option key={keyIndex++} value={enumStatus.Resolved}>{resolvedStr}</option>
+                return <select className="selectpicker bug-select" value={this.state.selectedStatus} onChange={this.onChange}>
+                    <option key={globalElementIndex++} value={enumStatus.Opened}>{openedStr}</option>
+                    <option key={globalElementIndex++} value={enumStatus.Resolved}>{resolvedStr}</option>
                 </select>;
                 break;
 
             case enumStatus.Resolved:
-                return <select value={this.state.selectedStatus} onChange={this.onChange}>
-                    <option key={keyIndex++} value={enumStatus.Opened}>{openedStr}</option>
-                    <option key={keyIndex++} value={enumStatus.Resolved}>{resolvedStr}</option>
-                    <option key={keyIndex++} value={enumStatus.Closed}>{closedStr}</option>
+                return <select className="selectpicker bug-select" value={this.state.selectedStatus} onChange={this.onChange}>
+                    <option key={globalElementIndex++} value={enumStatus.Opened}>{openedStr}</option>
+                    <option key={globalElementIndex++} value={enumStatus.Resolved}>{resolvedStr}</option>
+                    <option key={globalElementIndex++} value={enumStatus.Closed}>{closedStr}</option>
                 </select>;
                 break;
 
             default: //  enumStatus.Closed
-                return <select value={this.state.selectedStatus} onChange={this.onChange}>
-                    <option key={keyIndex++} value={enumStatus.Closed}>{closedStr}</option>
+                return <select className="selectpicker bug-select" value={this.state.selectedStatus} onChange={this.onChange}>
+                    <option key={globalElementIndex++} value={enumStatus.Closed}>{closedStr}</option>
                 </select>;
                 break;
         }
@@ -207,10 +207,10 @@ class SelectPriority extends React.Component {
     }
     render() {
         var priorityNames = Object.keys(enumUrgency);
-        return <select value={this.state.selectedPriority} onChange={this.onChange}>
+        return <select className="selectpicker bug-select" value={this.state.selectedPriority} onChange={this.onChange}>
             {
                 priorityNames.map(function (priorityName) {
-                    return <option key={keyIndex++} value={enumUrgency[priorityName]}>{priorityName}</option>;
+                    return <option key={globalElementIndex++} value={enumUrgency[priorityName]}>{priorityName}</option>;
                 })
             }
         </select>;
@@ -229,10 +229,10 @@ class SelectSeverity extends React.Component {
     }
     render() {
         var severityNames = Object.keys(enumCriticality);
-        return <select value={this.state.selectedSeverity} onChange={this.onChange}>
+        return <select className="selectpicker bug-select" value={this.state.selectedSeverity} onChange={this.onChange}>
             {
                 severityNames.map(function (severityName) {
-                    return <option key={keyIndex++} value={enumCriticality[severityName]}>{severityName}</option>;
+                    return <option key={globalElementIndex++} value={enumCriticality[severityName]}>{severityName}</option>;
                 })
             }
         </select>;
@@ -313,32 +313,32 @@ class EditBug extends React.Component {
                         <h4>
                             Bug #{this.state.id}
                         </h4>
-                        <input key={keyIndex++} defaultValue={this.state.name} ref="bugName" />
+                        <input className="bug-input" key={globalElementIndex++} defaultValue={this.state.name} ref="bugName" />
                     </div>
                     <div className="bug-status">
                         <label>
                             State
                         </label>
-                        <SelectStatus key={keyIndex++} selectedStatus={this.state.status} prevStatus={this.prevStatus}
+                        <SelectStatus key={globalElementIndex++} selectedStatus={this.state.status} prevStatus={this.prevStatus}
                             commentDiv={this.refs.statusComment} ref="bugStatus" disable={this.state.id == 0} isNew={this.isNew}/>
                     </div>
                     <div id="commentDiv" ref="statusComment" className="notDisplay">
                         <label>
                             Comment
                         </label>
-                        <input key={keyIndex++} defaultValue={this.state.statusComment} ref="bugStatusComment" />
+                        <input className="bug-input" key={globalElementIndex++} defaultValue={this.state.statusComment} ref="bugStatusComment" />
                     </div>
                     <div className="bug-priority">
                         <label>
                             Priority
                         </label>
-                        <SelectPriority key={keyIndex++} selectedPriority={this.state.priority} ref="bugPriority" />
+                        <SelectPriority key={globalElementIndex++} selectedPriority={this.state.priority} ref="bugPriority" />
                     </div>
                     <div className="bug-severity">
                         <label>
                             Severity
                         </label>
-                        <SelectSeverity key={keyIndex++} selectedSeverity={this.state.severity} ref="bugSeverity" />
+                        <SelectSeverity key={globalElementIndex++} selectedSeverity={this.state.severity} ref="bugSeverity" />
                     </div>
                 </div>
 
@@ -346,10 +346,10 @@ class EditBug extends React.Component {
                     <h4>
                         Repro steps
                     </h4>
-                    <textarea key={keyIndex++} defaultValue={this.state.reproSteps} ref="bugReproSteps" ></textarea>
+                    <textarea className="bug-input" key={globalElementIndex++} defaultValue={this.state.reproSteps} ref="bugReproSteps" ></textarea>
                 </div>
 
-                <button onClick={this.onSave}>Save</button>
+                <button className="bug-button" onClick={this.onSave}>Save</button>
 
                 <div className="history-container">
                     <h4>
@@ -391,14 +391,16 @@ class History extends React.Component {
         var history = this.state.history;
         var statusNames = Object.keys(enumStatus);
         var status = statusNames[history.status - 1];
+        var date = Date.parse(history.dateUpdate);
+        var dateFormat = new Date(date).toDateString();
         return <div>
             <div>
-                {history.dateUpdate}
+                {dateFormat}
             </div>
             <div>
                 {history.updater.firstName} {history.updater.lastName}
             </div>
-            <Status key={keyIndex++} status={status} statusComment={history.statusComment} />
+            <Status key={globalElementIndex++} status={status} statusComment={history.statusComment} />
         </div>;
     }
 }
@@ -412,7 +414,7 @@ class Histories extends React.Component {
         return <div>
             {
                 this.state.histories.map(function (history) {
-                    return <History key={keyIndex++} history={history} />;
+                    return <History key={globalElementIndex++} history={history} />;
                 })
             }
         </div>

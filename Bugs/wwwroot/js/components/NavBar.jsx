@@ -35,16 +35,16 @@
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
-                    </button>
-                    <button className="navbar-brand" onClick={this.BugList}>Backlog</button>
+                    </button>                    
                 </div>
                 <div className="navbar-collapse collapse">
                     <div className="navbar-collapse collapse">
                         <ul className="nav navbar-nav">
-                            <li><button onClick={this.NewBug}>New bug</button></li>
-                            <li><button onClick={this.NewUser}>New user</button></li>
-                            <li><button onClick={this.UserList}>User list</button></li>
-                            <li><button onClick={this.Logout}>Sign out</button></li>
+                            <li><button className="btn btn-default navbar-btn" onClick={this.BugList}>Backlog</button></li>
+                            <li><button className="btn btn-default navbar-btn" onClick={this.NewBug}>New bug</button></li>
+                            <li><button className="btn btn-default navbar-btn" onClick={this.NewUser}>New user</button></li>
+                            <li><button className="btn btn-default navbar-btn" onClick={this.UserList}>User list</button></li>
+                            <li><button className="btn btn-default navbar-btn" onClick={this.Logout}>Sign out</button></li>
                         </ul>
                     </div>
                 </div>

@@ -20,12 +20,11 @@ namespace Bugs.Controllers
     public class HomeController : Controller
     {
         private readonly IRepositoryFacade _repository;
+        private const string CURRENT_USER_ID = "CurrentUserId";
 
-        private User _currentUser;
         public HomeController(IRepositoryFacade repository)
         {
             _repository = repository;
-            //_currentUser = _repository.Users().Get().FirstOrDefault();
         }
 
         [Authorize]
@@ -64,21 +63,21 @@ namespace Bugs.Controllers
             User user = _repository.Users().Find(model.Login, model.Password);
             if (user != null)
             {
-                Authenticate(model.Login); // аутентификация
-                _currentUser = user;
+                Authenticate(user.Id); // аутентификация
+                SetCurrentUser(user.Id);
                 HttpContext.Session.SetString("ActualPage", "BugList");
                 return true;
             }
             return false;
         }
 
-        private void Authenticate(string userLogin)
+        private void Authenticate(int userId)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userLogin)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userId.ToString())
             };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);            
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
@@ -87,6 +86,37 @@ namespace Bugs.Controllers
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.SetString("ActualPage", "Login");
+        }
+
+        private User GetCurrentUser()
+        {
+            int id = 0;
+            if (Request.Cookies.Keys.Contains(CURRENT_USER_ID))
+                id = Convert.ToInt32(Request.Cookies[CURRENT_USER_ID]);
+
+            return _repository.Users().Get(id);
+        }
+
+        /// <summary>  
+        /// set the cookie  
+        /// </summary>  
+        /// <param name="key">key (unique indentifier)</param>  
+        /// <param name="value">value to store in cookie object</param>  
+        /// <param name="expireTime">expiration time</param>  
+        private void SetCurrentUser(int userId)
+        {
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddHours(2);
+            Response.Cookies.Append(CURRENT_USER_ID, userId.ToString(), option);
+        }
+
+        /// <summary>  
+        /// Delete the key  
+        /// </summary>  
+        /// <param name="key">Key</param>  
+        private void RemoveCookie(string key)
+        {
+            Response.Cookies.Delete(key);
         }
 
         #endregion
@@ -168,7 +198,7 @@ namespace Bugs.Controllers
             HttpContext.Session.SetString("ActualPage", "NewBug");
 
             BugViewModel bugVM = new BugViewModel();
-            bugVM.Creator = new UserViewModel(_currentUser);
+            bugVM.Creator = new UserViewModel(GetCurrentUser());
             bugVM.DateCreate = DateTime.Now;
             return bugVM;
         }
@@ -189,10 +219,11 @@ namespace Bugs.Controllers
         [HttpPost]
         public void SaveBug(BugViewModel model)
         {
+            User user = GetCurrentUser();
             if (model.Id == 0)
-                AddBug(model);
+                AddBug(model, user);
             else
-                UpdateBug(model);
+                UpdateBug(model, user);
         }
 
         #endregion
@@ -264,7 +295,7 @@ namespace Bugs.Controllers
             return viewModelList;
         }
 
-        private void AddBug(BugViewModel model)
+        private void AddBug(BugViewModel model, User currentUser)
         {
             Bug newBug = new Bug();
             newBug.Set(model);
@@ -273,11 +304,11 @@ namespace Bugs.Controllers
             newBug.DateCreate = model.DateCreate;
             _repository.Bugs().Add(newBug);
 
-            History history = new History(_currentUser, newBug, DateTime.Now, model.Status, "");
+            History history = new History(currentUser, newBug, DateTime.Now, model.Status, "create bug");
             _repository.Histories().Add(history);
         }
 
-        private void UpdateBug(BugViewModel model)
+        private void UpdateBug(BugViewModel model, User currentUser)
         {
             Bug updatedBug = _repository.Bugs().Get(model.Id);
             if (updatedBug == null)
@@ -286,7 +317,7 @@ namespace Bugs.Controllers
             updatedBug.Set(model);
             _repository.Bugs().Update(updatedBug);
 
-            History history = new History(_currentUser, updatedBug, DateTime.Now, model.Status, model.StatusComment);
+            History history = new History(currentUser, updatedBug, DateTime.Now, model.Status, model.StatusComment);
             _repository.Histories().Add(history);
         }
 
