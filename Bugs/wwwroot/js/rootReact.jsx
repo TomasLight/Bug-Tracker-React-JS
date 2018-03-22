@@ -100,6 +100,14 @@ class NavBar extends React.Component {
         </nav>;
     }
 }
+var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+function IEReload() {
+    if (isIE) {
+        window.location.href = window.location.href;
+    }
+}
+
 function Load(url, callback, isAsync = true) {
     var xhr = new XMLHttpRequest();
     xhr.open("get", url, isAsync);
@@ -195,7 +203,8 @@ function ActualPage() {
                     alert("Упс. Что-то пошло не так");
                 }
                 break;
-        }        
+        }
+        IEReload();
     }, true);
 }
 
@@ -204,6 +213,7 @@ function RenderLogin() {
         <LoginPage url={_loginPath}/>,
         document.getElementById("content")
     );
+    IEReload();
 }
 
 function Logout() {
@@ -218,6 +228,7 @@ function RenderNavBar() {
             renderUserList={RenderUserList} renderEditUser={RenderEditUser} Logout={Logout} />,
         document.getElementById("header")
     );
+    IEReload();
 }
 
 function RenderBugList() {
@@ -225,6 +236,7 @@ function RenderBugList() {
         <BugList apiUrl={_homePath} renderEditBug={RenderEditBug}/>,
         document.getElementById("content")
     );
+    IEReload();
 }
 
 function RenderEditBug(bugId) {
@@ -235,6 +247,7 @@ function RenderEditBug(bugId) {
             <EditBug bug={variesBag} renderBugList={RenderBugList} />,
             document.getElementById("content")
         );
+        IEReload();
     }, true);    
 }
 
@@ -244,6 +257,7 @@ function RenderUserList() {
             <UserList users={data} renderEditUser={RenderEditUser} />,
             document.getElementById("content")
         );
+        IEReload();
     }, true);
 }
 
@@ -255,5 +269,6 @@ function RenderEditUser(userId) {
             <EditUser user={user} renderUserList={RenderUserList} />,
             document.getElementById("content")
         );
+        IEReload();
     }, true);
 }

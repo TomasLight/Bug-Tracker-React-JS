@@ -1,4 +1,12 @@
-﻿function Load(url, callback, isAsync = true) {
+﻿var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+function IEReload() {
+    if (isIE) {
+        window.location.href = window.location.href;
+    }
+}
+
+function Load(url, callback, isAsync = true) {
     var xhr = new XMLHttpRequest();
     xhr.open("get", url, isAsync);
     xhr.onload = function () {
@@ -93,7 +101,7 @@ function ActualPage() {
                     alert("Упс. Что-то пошло не так");
                 }
                 break;
-        }        
+        }
     }, true);
 }
 
