@@ -3,7 +3,8 @@
 }
 
 table.users tbody tr:hover {
-    background-color: #6ac0ff;
+    background-color: #38BE99;
+    color: #DFFFFE;
     cursor: pointer;
 }
 

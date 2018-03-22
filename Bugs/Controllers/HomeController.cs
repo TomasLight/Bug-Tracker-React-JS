@@ -219,11 +219,14 @@ namespace Bugs.Controllers
         [HttpPost]
         public void SaveBug(BugViewModel model)
         {
-            User user = GetCurrentUser();
+            User currentUser = GetCurrentUser();
+            if (currentUser == null)
+                return;
+
             if (model.Id == 0)
-                AddBug(model, user);
+                AddBug(model, currentUser);
             else
-                UpdateBug(model, user);
+                UpdateBug(model, currentUser);
         }
 
         #endregion
@@ -288,9 +291,7 @@ namespace Bugs.Controllers
             IEnumerable<Bug> bugList = _repository.Bugs().Get();
             foreach (Bug bug in bugList)
             {
-                BugViewModel shortBugInfo = new BugViewModel(bug);
-                if (shortBugInfo != null)
-                    viewModelList.Add(shortBugInfo);
+                viewModelList.Add(new BugViewModel(bug));
             }
             return viewModelList;
         }
@@ -322,19 +323,17 @@ namespace Bugs.Controllers
         }
 
         #endregion
-
+                        
         #region users
-        
+
         private IEnumerable<UserViewModel> GetUserList()
         {
             List<UserViewModel> viewModelList = new List<UserViewModel>();
 
             IEnumerable<User> userList = _repository.Users().Get();
-            foreach (User bug in userList)
+            foreach (User user in userList)
             {
-                UserViewModel userInfo = new UserViewModel(bug);
-                if (userInfo != null)
-                    viewModelList.Add(userInfo);
+                viewModelList.Add(new UserViewModel(user));
             }
             return viewModelList;
         }

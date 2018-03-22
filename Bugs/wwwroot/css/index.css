@@ -82,14 +82,15 @@
 .bug-cell {
     background-color: white;
     border: 1px solid #808080;
-    cursor: pointer;
     display: table-cell;
     border: 2px solid #E6E6E6;
     border-radius: 6px;
     padding: 0.5em 1em;
 }
-    .bug-cell:hover{
-        background-color: #e7f4ff;
+    .bug-cell:hover {
+        background-color: #38BE99;
+        color: #DFFFFE;
+        cursor: pointer;
     }
 
     .bug-cell label {
