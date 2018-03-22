@@ -1,10 +1,9 @@
-﻿var keyIndex = globalElementIndex++ || 100;
-
-class SelectStatus extends React.Component {
+﻿class SelectStatus extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { selectedStatus: props.selectedStatus, prevStatus: props.prevStatus, commentDiv: props.commentDiv };
+        this.state = { selectedStatus: props.selectedStatus, prevStatus: props.prevStatus, commentDiv: props.commentDiv, isNew: props.isNew };
         this.onChange = this.onChange.bind(this);
+        this.prevStatus = this.state.selectedStatus; 
     }
     onChange(e) {
         var nextState = Object.assign({}, this.state, { selectedStatus: e.target.value });
@@ -20,13 +19,47 @@ class SelectStatus extends React.Component {
     }
     render() {
         var statusNames = Object.keys(enumStatus);
-        return <select value={this.state.selectedStatus} onChange={this.onChange}>
-            {
-                statusNames.map(function (statusName) {
-                    return <option key={keyIndex++} value={enumStatus[statusName]}>{statusName}</option>;
-                })
-            }
-        </select>;
+        var newStr = statusNames[enumStatus.New - 1];
+        var openedStr = statusNames[enumStatus.Opened - 1];
+        var resolvedStr = statusNames[enumStatus.Resolved - 1];
+        var closedStr = statusNames[enumStatus.Closed - 1];
+
+        switch (this.prevStatus) {
+            case enumStatus.New:
+                if (this.state.isNew) {
+                    return <select value={this.state.selectedStatus} onChange={this.onChange}>
+                        <option key={globalElementIndex++} value={enumStatus.New}>{newStr}</option>
+                    </select>;
+                }
+                else {
+                    return <select value={this.state.selectedStatus} onChange={this.onChange}>
+                        <option key={globalElementIndex++} value={enumStatus.New}>{newStr}</option>
+                        <option key={globalElementIndex++} value={enumStatus.Opened}>{openedStr}</option>
+                    </select>;
+                }                
+                break;
+
+            case enumStatus.Opened:
+                return <select value={this.state.selectedStatus} onChange={this.onChange}>
+                    <option key={keyIndex++} value={enumStatus.Opened}>{openedStr}</option>
+                    <option key={keyIndex++} value={enumStatus.Resolved}>{resolvedStr}</option>
+                </select>;
+                break;
+
+            case enumStatus.Resolved:
+                return <select value={this.state.selectedStatus} onChange={this.onChange}>
+                    <option key={keyIndex++} value={enumStatus.Opened}>{openedStr}</option>
+                    <option key={keyIndex++} value={enumStatus.Resolved}>{resolvedStr}</option>
+                    <option key={keyIndex++} value={enumStatus.Closed}>{closedStr}</option>
+                </select>;
+                break;
+
+            default: //  enumStatus.Closed
+                return <select value={this.state.selectedStatus} onChange={this.onChange}>
+                    <option key={keyIndex++} value={enumStatus.Closed}>{closedStr}</option>
+                </select>;
+                break;
+        }
     }
 }
 
@@ -74,7 +107,7 @@ class SelectSeverity extends React.Component {
     }
 }
 
-function SaveBug(id, name, reproSteps, priority, severity, status, statusComment) {
+function SaveBug(id, name, reproSteps, priority, severity, status, statusComment, creator, dateCreate, renderFunction) {
     let model = new BugModel(null);
     model.id = id;
     model.name = name;
@@ -83,9 +116,11 @@ function SaveBug(id, name, reproSteps, priority, severity, status, statusComment
     model.severity = severity;
     model.status = status;
     model.statusComment = statusComment;
+    model.creator = creator;
+    model.dateCreate = dateCreate;
 
     Send(model, _saveBug, function (data) {
-        RenderBugList();
+        renderFunction();
     }, true);
 }
 
@@ -106,48 +141,60 @@ class EditBug extends React.Component {
             dateCreate: props.bug.dateCreate
         };
         this.prevStatus = this.state.status;
+        this.isNew = this.state.id == 0;
         this.onSave = this.onSave.bind(this);
     }
     onSave() {
-        let priority = parseInt(this.refs.bugPriority.state.selectedPriority);
-        let severity = parseInt(this.refs.bugSeverity.state.selectedSeverity);
-        let status = parseInt(this.refs.bugStatus.state.selectedStatus);
-        SaveBug(this.state.id,
-            this.refs.bugName.value,
-            this.refs.bugReproSteps.value,
-            priority,
-            severity,
-            status,
-            this.refs.bugStatusComment.value);
+        if (!this.isNew && this.prevStatus != this.state.status && this.refs.bugStatusComment.value == "") {
+            alert("Заполните комментарий по изменению статуса");
+        }
+        else {
+            let priority = parseInt(this.refs.bugPriority.state.selectedPriority);
+            let severity = parseInt(this.refs.bugSeverity.state.selectedSeverity);
+            let status = parseInt(this.refs.bugStatus.state.selectedStatus);
+            SaveBug(this.state.id,
+                this.refs.bugName.value,
+                this.refs.bugReproSteps.value,
+                priority,
+                severity,
+                status,
+                this.refs.bugStatusComment.value,
+                this.state.creator,
+                this.state.dateCreate,
+                this.state.renderBugList);
+        }
     }
     componentDidMount() {
         RenderHistories(this.state.id);
     }
     render() {
+        var date = Date.parse(this.state.dateCreate);
+        var dateFormat = new Date(date).toDateString();
         return <div>
             <div className="bug-info-container">
                 <div>
                     <div className="bug-name">
                         <div>
                             <label>Create by:</label> {this.state.creator.firstName} {this.state.creator.lastName}
-                            <label>Date of create:</label> {this.state.creator.dateCreate}
+                            <label>Date of create:</label> {dateFormat}
                         </div>
                         <h4>
                             Bug #{this.state.id}
                         </h4>
-                        <input key={keyIndex++} name="Name" defaultValue={this.state.name} ref="bugName" />
+                        <input key={keyIndex++} defaultValue={this.state.name} ref="bugName" />
                     </div>
                     <div className="bug-status">
                         <label>
                             State
                         </label>
-                        <SelectStatus key={keyIndex++} selectedStatus={this.state.status} prevStatus={this.prevStatus} commentDiv={this.refs.statusComment} ref="bugStatus" />
+                        <SelectStatus key={keyIndex++} selectedStatus={this.state.status} prevStatus={this.prevStatus}
+                            commentDiv={this.refs.statusComment} ref="bugStatus" disable={this.state.id == 0} isNew={this.isNew}/>
                     </div>
                     <div id="commentDiv" ref="statusComment" className="notDisplay">
                         <label>
                             Comment
                         </label>
-                        <input key={keyIndex++} name="Name" defaultValue={this.state.statusComment} ref="bugStatusComment" />
+                        <input key={keyIndex++} defaultValue={this.state.statusComment} ref="bugStatusComment" />
                     </div>
                     <div className="bug-priority">
                         <label>
@@ -167,7 +214,7 @@ class EditBug extends React.Component {
                     <h4>
                         Repro steps
                     </h4>
-                    <textarea key={keyIndex++} name="ReproSteps" defaultValue={this.state.reproSteps} ref="bugReproSteps" ></textarea>
+                    <textarea key={keyIndex++} defaultValue={this.state.reproSteps} ref="bugReproSteps" ></textarea>
                 </div>
 
                 <button onClick={this.onSave}>Save</button>
@@ -178,10 +225,6 @@ class EditBug extends React.Component {
                     </h4>
                     <div id="historyContainer"></div>
                 </div>
-            </div>
-
-            <div>
-                <a onClick={this.state.renderBugList}>Back to List</a>
             </div>
         </div>;
     }
@@ -214,6 +257,8 @@ class History extends React.Component {
     }
     render() {
         var history = this.state.history;
+        var statusNames = Object.keys(enumStatus);
+        var status = statusNames[history.status - 1];
         return <div>
             <div>
                 {history.dateUpdate}
@@ -221,7 +266,7 @@ class History extends React.Component {
             <div>
                 {history.updater.firstName} {history.updater.lastName}
             </div>
-            <Status key={keyIndex++} status={history.status} statusComment={history.statusComment} />
+            <Status key={keyIndex++} status={status} statusComment={history.statusComment} />
         </div>;
     }
 }

@@ -26,28 +26,51 @@ var _homePath;
 var _variesBugPath;
 var _historiesPath;
 var _saveBug;
+var _userListPath;
+var _editUserPath;
+var _saveUserPath;
 
-function ActualPage(actualPagePath, homePath, variesBugPath, historiesPath, saveBug) {
+function ActualPage(actualPagePath,
+                    homePath, 
+                    variesBugPath, historiesPath, saveBug,
+                    userListPath, editUserPath, saveUserPath) {
+
     _actualPagePath = actualPagePath;
     _homePath = homePath;
     _variesBugPath = variesBugPath;
     _historiesPath = historiesPath;
     _saveBug = saveBug;
+    _userListPath = userListPath;
+    _editUserPath = editUserPath;
+    _saveUserPath = saveUserPath;
 
     RenderNavBar();
     Load(actualPagePath, function (data) {
         if (data == "BugList") {
             RenderBugList();
         }
+        else if (data == "UserList") {
+            RenderUserList();
+        }
+        else if (data == "NewBug") {
+            RenderEditBug(0);
+        }
         else if (data.actualPage == "VariesBug") {
             RenderEditBug(data.bugId);
+        }
+        else if (data == "NewUser") {
+            RenderEditUser(0);
+        }
+        else if (data.actualPage == "EditUser") {
+            RenderEditUser(data.userId);
         }
     }, true);
 }
 
 function RenderNavBar() {
     ReactDOM.render(
-        <NavBar renderBugList={RenderBugList} />,
+        <NavBar renderBugList={RenderBugList} renderEditBug={RenderEditBug}
+                renderUserList={RenderUserList} renderEditUser={RenderEditUser} />,
         document.getElementById("header")
     );
 }
@@ -68,4 +91,24 @@ function RenderEditBug(bugId) {
             document.getElementById("content")
         );
     }, true);    
+}
+
+function RenderUserList() {
+    Load(_userListPath, function (data) {
+        ReactDOM.render(
+            <UserList users={data} renderEditUser={RenderEditUser} />,
+            document.getElementById("content")
+        );
+    }, true);
+}
+
+function RenderEditUser(userId) {
+    var url = _editUserPath + "?userId=" + userId;
+    Load(url, function (data) {
+        var user = new UserModel(data);
+        ReactDOM.render(
+            <EditUser user={user} renderUserList={RenderUserList} />,
+            document.getElementById("content")
+        );
+    }, true);
 }

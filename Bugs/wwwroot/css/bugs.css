@@ -22,8 +22,12 @@
     width: 100%;
 }
 
+.bug-name > div > label:nth-of-type(2){
+    margin-left: 1em;
+}
+
 .bug-name > input {
-    min-width:500px;
+    min-width: 500px;
 }
 
 .bug-description {

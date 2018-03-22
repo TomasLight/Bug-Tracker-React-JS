@@ -1,0 +1,8 @@
+﻿table.users {
+
+}
+
+table.users tbody tr:hover {
+    background-color: #6ac0ff;
+    cursor: pointer;
+}

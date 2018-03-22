@@ -11,8 +11,6 @@ namespace Bugs.Models
         public string LastName { get; set; }
         public string FirstName { get; set; }
 
-        //public ICollection<HistoryViewModel> Histories { get; set; }
-
         public UserViewModel() { }
 
         public UserViewModel(User user)
@@ -25,8 +23,6 @@ namespace Bugs.Models
             Password = user.Password;
             LastName = user.LastName;
             FirstName = user.FirstName;
-
-            //Histories = new List<HistoryViewModel>();
         }
     }
 }

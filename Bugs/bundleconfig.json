@@ -22,13 +22,36 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/js/rootReact.jsx",
+    "outputFileName": "wwwroot/js/bugsReact.jsx",
     "inputFiles": [
       "wwwroot/js/classes/BugModel.js",
+      "wwwroot/js/components/bug/ShortBug.jsx",
+      "wwwroot/js/components/bug/BugList.jsx",
+      "wwwroot/js/components/bug/EditBug.jsx"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/usersReact.jsx",
+    "inputFiles": [
+      "wwwroot/js/classes/UserModel.js",
+      "wwwroot/js/components/user/UserList.jsx",
+      "wwwroot/js/components/user/EditUser.jsx"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/rootReact.jsx",
+    "inputFiles": [
       "wwwroot/js/components/NavBar.jsx",
-      "wwwroot/js/components/ShortBug.jsx",
-      "wwwroot/js/components/BugList.jsx",
-      "wwwroot/js/components/EditBug.jsx",
       "wwwroot/js/app.jsx"
     ],
     "minify": {

@@ -9,12 +9,12 @@ namespace Bugs.Models
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
-        public Urgency Priority { get; set; }
-        public string ReproSteps { get; set; }
-        public Criticality Severity { get; set; }
-        public Status Status { get; set; }
-        public string StatusComment { get; set; }
+        public string Name { get; set; } = "";
+        public Urgency Priority { get; set; } = Urgency.Fourth;
+        public string ReproSteps { get; set; } = "";
+        public Criticality Severity { get; set; } = Criticality.Low;
+        public Status Status { get; set; } = Status.New;
+        public string StatusComment { get; set; } = "";
         public UserViewModel Creator { get; set; }
         public DateTime DateCreate { get; set; }
 

@@ -2,20 +2,24 @@
 
     constructor(props) {
         super(props);
-        this.state = { };
+        this.state = {};
+        this.NewBug = this.NewBug.bind(this);
         this.BugList = this.BugList.bind(this);
+
+        this.NewUser = this.NewUser.bind(this);
+        this.UserList = this.UserList.bind(this);
     }
     NewBug() {
-        //this.props.onRemove(this.state.data);
+        this.props.renderEditBug(0);
     }
     BugList() {
         this.props.renderBugList();
     }
     NewUser() {
-        //this.props.onRemove(this.state.data);
+        this.props.renderEditUser(0);
     }
     UserList() {
-        //this.props.onRemove(this.state.data);
+        this.props.renderUserList();
     }
     SignOut() {
         //this.props.onRemove(this.state.data);

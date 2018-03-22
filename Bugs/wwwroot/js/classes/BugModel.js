@@ -17,21 +17,6 @@ const enumStatus = Object.freeze({
     "Closed": 4
 })
 
-class UserModel {
-    constructor(user) {
-        if (user == null) {
-            this.id = 0;
-            this.firstName = "";
-            this.lastName = "";
-        }
-        else {
-            this.id = user.id;
-            this.firstName = user.firstName;
-            this.lastName = user.lastName;
-        }
-    }
-}
-
 class BugModel {
     constructor(bug) {
         if (bug == null) {

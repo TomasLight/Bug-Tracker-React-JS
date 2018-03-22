@@ -28,57 +28,7 @@ namespace Bugs.Controllers
         public IActionResult Index()
         {
             return RedirectToAction(nameof(Bugs));
-            //return View(GetBugList());
         }
-
-        public IActionResult EditBug(int bugId)
-        {
-            Bug bug = _repository.Bugs().Get(bugId);
-            if (bug == null)
-                return View(null);
-
-            ViewData["Status"] = new SelectList(Enum.GetValues(typeof(Status)));
-            ViewData["Priority"] = new SelectList(Enum.GetValues(typeof(Urgency)));
-            ViewData["Severity"] = new SelectList(Enum.GetValues(typeof(Criticality)));
-
-            BugViewModel bugVM = GetBugInfo(bug);
-            return View(bugVM);
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        private IEnumerable<BugViewModel> GetBugList()
-        {
-            List<BugViewModel> viewModelList = new List<BugViewModel>();
-
-            IEnumerable<Bug> bugList = _repository.Bugs().Get();
-            foreach(Bug bug in bugList)
-            {
-                BugViewModel shortBugInfo = new BugViewModel(bug);
-                if(shortBugInfo != null)
-                    viewModelList.Add(shortBugInfo);
-            }
-            return viewModelList;
-        }
-        
-        private BugViewModel GetBugInfo(Bug bug)
-        {
-            if (bug == null)
-                return null;
-
-            BugViewModel bugVM = new BugViewModel(bug);
-
-            IEnumerable<History> bugHistoryList = _repository.Histories().GetBugHistories(bug.Id).OrderBy(bhl => bhl.DateUpdate);
-            foreach (History history in bugHistoryList)
-                bugVM.Histories.Add(new HistoryViewModel(history, bugVM));
-
-            return bugVM;
-        }
-
-        // react
 
         public IActionResult Bugs()
         {
@@ -87,6 +37,13 @@ namespace Bugs.Controllers
 
             return View();
         }
+
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        #region for react queries
 
         public JsonResult GetActualPage()
         {
@@ -100,7 +57,11 @@ namespace Bugs.Controllers
                         string bugId = HttpContext.Session.GetString("bugId");
                         return Json(new { actualPage, bugId });
 
-                    // BugList
+                    case "EditUser":
+                        string userId = HttpContext.Session.GetString("userId");
+                        return Json(new { actualPage, userId });
+
+                    // BugList, NewBug, UserList, NewUser
                     default:
                         return Json(actualPage);
                 }
@@ -114,12 +75,14 @@ namespace Bugs.Controllers
             }
         }
 
+        #region bugs
+
         public IEnumerable<BugViewModel> Get()
         {
             HttpContext.Session.SetString("ActualPage", "BugList");
             return GetBugList();
         }
-        
+
         public Array GetStatusNames()
         {
             return Enum.GetNames(typeof(Status));
@@ -132,6 +95,9 @@ namespace Bugs.Controllers
 
         public BugViewModel VariesBug(int bugId)
         {
+            if (bugId == 0)
+                return NewBug();
+
             HttpContext.Session.SetString("ActualPage", "VariesBug");
             HttpContext.Session.SetString("bugId", bugId.ToString());
 
@@ -139,8 +105,17 @@ namespace Bugs.Controllers
             if (bug == null)
                 return null;
 
-            //BugViewModel bugVM = GetBugInfo(bug);
             BugViewModel bugVM = new BugViewModel(bug);
+            return bugVM;
+        }
+
+        public BugViewModel NewBug()
+        {
+            HttpContext.Session.SetString("ActualPage", "NewBug");
+
+            BugViewModel bugVM = new BugViewModel();
+            bugVM.Creator = new UserViewModel(_currentUser);
+            bugVM.DateCreate = DateTime.Now;
             return bugVM;
         }
 
@@ -157,23 +132,168 @@ namespace Bugs.Controllers
         }
 
         [HttpPost]
-        public bool SaveBug(BugViewModel model)
+        public void SaveBug(BugViewModel model)
         {
-            Bug editableBug = _repository.Bugs().Get(model.Id);
-            if (editableBug == null)
-                return false;
+            if (model.Id == 0)
+                AddBug(model);
+            else
+                UpdateBug(model);
+        }
 
-            editableBug.Name = model.Name;
-            editableBug.Description = model.ReproSteps;
-            editableBug.Priority = model.Priority;
-            editableBug.Severity = model.Severity;
-            editableBug.Status = model.Status;
-            _repository.Bugs().Update(editableBug);
+        #endregion
 
-            History history = new History(_currentUser, editableBug, DateTime.Now, model.Status, model.StatusComment);
+        #region users
+        
+        public IEnumerable<UserViewModel> GetUsers()
+        {
+            HttpContext.Session.SetString("ActualPage", "UserList");
+            return GetUserList();
+        }
+        
+        public UserViewModel EditUser(int userId)
+        {
+            if (userId == 0)
+                return NewUser();
+
+            HttpContext.Session.SetString("ActualPage", "EditUser");
+            HttpContext.Session.SetString("userId", userId.ToString());
+
+            User user = _repository.Users().Get(userId);
+            if (user == null)
+                return null;
+
+            UserViewModel userVM = new UserViewModel(user);
+            return userVM;
+        }
+
+        public UserViewModel NewUser()
+        {
+            HttpContext.Session.SetString("ActualPage", "NewUser");
+
+            UserViewModel userVM = new UserViewModel();
+            return userVM;
+        }
+
+        [HttpPost]
+        public void SaveUser(UserViewModel model)
+        {
+            if (model.Id == 0)
+                AddUser(model);
+            else
+                UpdateUser(model);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region data handlers
+
+        #region bugs
+
+        private IEnumerable<BugViewModel> GetBugList()
+        {
+            List<BugViewModel> viewModelList = new List<BugViewModel>();
+
+            IEnumerable<Bug> bugList = _repository.Bugs().Get();
+            foreach (Bug bug in bugList)
+            {
+                BugViewModel shortBugInfo = new BugViewModel(bug);
+                if (shortBugInfo != null)
+                    viewModelList.Add(shortBugInfo);
+            }
+            return viewModelList;
+        }
+
+        private void AddBug(BugViewModel model)
+        {
+            Bug newBug = new Bug();
+            newBug.Set(model);
+
+            newBug.Creator = _repository.Users().Get(model.Creator.Id);
+            newBug.DateCreate = model.DateCreate;
+            _repository.Bugs().Add(newBug);
+
+            History history = new History(_currentUser, newBug, DateTime.Now, model.Status, "");
             _repository.Histories().Add(history);
-            
-            return true;
+        }
+
+        private void UpdateBug(BugViewModel model)
+        {
+            Bug updatedBug = _repository.Bugs().Get(model.Id);
+            if (updatedBug == null)
+                return;
+
+            updatedBug.Set(model);
+            _repository.Bugs().Update(updatedBug);
+
+            History history = new History(_currentUser, updatedBug, DateTime.Now, model.Status, model.StatusComment);
+            _repository.Histories().Add(history);
+        }
+
+        #endregion
+
+        #region users
+        
+        private IEnumerable<UserViewModel> GetUserList()
+        {
+            List<UserViewModel> viewModelList = new List<UserViewModel>();
+
+            IEnumerable<User> userList = _repository.Users().Get();
+            foreach (User bug in userList)
+            {
+                UserViewModel userInfo = new UserViewModel(bug);
+                if (userInfo != null)
+                    viewModelList.Add(userInfo);
+            }
+            return viewModelList;
+        }
+
+        private void AddUser(UserViewModel model)
+        {
+            User newUser = new User();
+            newUser.Set(model);
+            newUser.Login = model.Login;
+            newUser.Password = model.Password;
+            _repository.Users().Add(newUser);
+        }
+
+        private void UpdateUser(UserViewModel model)
+        {
+            User updatedUser = _repository.Users().Get(model.Id);
+            if (updatedUser == null)
+                return;
+
+            updatedUser.Set(model);
+            if(model.Password != null && model.Password != "")
+                updatedUser.Password = model.Password;
+
+            _repository.Users().Update(updatedUser);
+        }
+
+        #endregion
+
+        #endregion
+    }
+
+    internal static class LocalExtenssions
+    {
+        internal static Bug Set(this Bug bug, BugViewModel model)
+        {
+            bug.Name = model.Name;
+            bug.Description = model.ReproSteps;
+            bug.Priority = model.Priority;
+            bug.Severity = model.Severity;
+            bug.Status = model.Status;
+
+            return bug;
+        }
+
+        internal static User Set(this User user, UserViewModel model)
+        {
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            return user;
         }
     }
 }

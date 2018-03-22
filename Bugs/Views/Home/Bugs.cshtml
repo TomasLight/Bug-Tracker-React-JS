@@ -21,7 +21,8 @@
     </environment>
 
     <link rel="stylesheet" href="~/css/index.css" />
-    <link rel="stylesheet" href="~/css/editBug.css" />
+    <link rel="stylesheet" href="~/css/bugs.css" />
+    <link rel="stylesheet" href="~/css/users.css" />
 </head>
 <body>
     <div id="header"></div>
@@ -49,6 +50,8 @@
     </environment>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+    <script src="~/js/usersReact.jsx"></script>
+    <script src="~/js/bugsReact.jsx"></script>
     <script src="~/js/rootReact.jsx"></script>
 
     <script>
@@ -56,7 +59,11 @@
             "/Home",
             "@Url.Action(nameof(Bugs.Controllers.HomeController.VariesBug), "Home")",
             "@Url.Action(nameof(Bugs.Controllers.HomeController.BugHistories), "Home")",
-            "@Url.Action(nameof(Bugs.Controllers.HomeController.SaveBug), "Home")"); 
+            "@Url.Action(nameof(Bugs.Controllers.HomeController.SaveBug), "Home")",
+
+            "@Url.Action(nameof(Bugs.Controllers.HomeController.GetUsers), "Home")",
+            "@Url.Action(nameof(Bugs.Controllers.HomeController.EditUser), "Home")",
+            "@Url.Action(nameof(Bugs.Controllers.HomeController.SaveUser), "Home")");
     </script>
 </body>
 </html>
