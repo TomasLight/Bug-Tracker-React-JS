@@ -7,6 +7,7 @@
     "buildDev": "set NODE_ENV=development && set NODE_OPTIONS=--max_old_space_size=2560 && webpack -d --config webpack.config.js --color --progress --watch"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "ts-loader": "^5.3.3",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
+    "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
