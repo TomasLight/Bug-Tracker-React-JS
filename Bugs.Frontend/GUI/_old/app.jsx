@@ -136,7 +136,7 @@ function RenderBugList() {
 function RenderEditBug(bugId) {
     var url = _variesBugPath + "?bugId=" + bugId;
     Load(url, function (data) {
-        var variesBag = new BugModel(data);
+        var variesBag = new Bug(data);
         ReactDOM.render(
             <EditBug bug={variesBag} renderBugList={RenderBugList} />,
             document.getElementById("content")

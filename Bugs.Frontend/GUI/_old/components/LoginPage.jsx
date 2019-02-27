@@ -1,17 +1,20 @@
-﻿function Login(url, login, password) {
+﻿import * as React from "react";
+import {TempAjax} from '../../utils/temp/TempAjax';
+
+function Login(url, login, password) {
     let model = {
         login: login,
         password: password
-    }
-    Send(model, url, function (data) {
+    };
+    TempAjax.Send(model, url, function (data) {
         if (!data)
             alert("Пользователь не найден или неверная пара логин-пароль");
         else
             ActualPage();
-    }, true);
+    });
 }
 
-class LoginPage extends React.Component {
+export class LoginPage extends React.Component {
 
     constructor(props) {
         super(props);

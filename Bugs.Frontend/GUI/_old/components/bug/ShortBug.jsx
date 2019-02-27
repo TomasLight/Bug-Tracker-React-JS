@@ -2,7 +2,7 @@
 
     constructor(props) {
         super(props);
-        this.state = { bug: new BugModel(props.bug) };
+        this.state = { bug: new Bug(props.bug) };
         this.onEditBug = this.onEditBug.bind(this);
     }
     onEditBug() {

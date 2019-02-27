@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "jsx": "react",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noErrorTruncation": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "es6",
+    "watch": false
+  },
+  "include": [
+    "**/*.tsx",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

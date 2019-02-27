@@ -4,4 +4,27 @@
         <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
         <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     </PropertyGroup>
+    <ItemGroup>
+      <Folder Include="GUI\users" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="GUI\bugs\ShortBug.tsx">
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="GUI\_old\app.jsx">
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="GUI\_old\bugsReact.jsx">
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="GUI\_old\index.js">
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="GUI\_old\rootReact.jsx">
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="GUI\_old\usersReact.jsx">
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
 </Project>
