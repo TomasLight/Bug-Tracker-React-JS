@@ -1,3 +1,5 @@
+import {Bug} from "../bugs/logic/models/Bug";
+
 function Login(url, login, password) {
     let model = {
         login: login,
@@ -106,29 +108,6 @@ function IEReload() {
     if (isIE) {
         window.location.href = window.location.href;
     }
-}
-
-function Load(url, callback, isAsync = true) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("get", url, isAsync);
-    xhr.onload = function () {
-        callback(JSON.parse(xhr.responseText));
-    }.bind(this);
-    xhr.send();
-}
-
-function Send(postData, postUrl, callback) {
-    $.ajax({
-        url: postUrl,
-        type: "POST",
-        data: postData,
-        success: function (data) {
-            callback(data);
-        },
-        failure: function (errMsg) {
-            alert(errMsg);
-        }
-    });
 }
 
 var _actualPagePath;
@@ -242,7 +221,7 @@ function RenderBugList() {
 function RenderEditBug(bugId) {
     var url = _variesBugPath + "?bugId=" + bugId;
     Load(url, function (data) {
-        var variesBag = new BugModel(data);
+        var variesBag = new Bug(data);
         ReactDOM.render(
             <EditBug bug={variesBag} renderBugList={RenderBugList} />,
             document.getElementById("content")

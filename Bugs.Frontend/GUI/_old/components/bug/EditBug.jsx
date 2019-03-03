@@ -108,7 +108,7 @@ class SelectSeverity extends React.Component {
 }
 
 function SaveBug(id, name, reproSteps, priority, severity, status, statusComment, creator, dateCreate, renderFunction) {
-    let model = new BugModel(null);
+    let model = new Bug(null);
     model.id = id;
     model.name = name;
     model.priority = priority;

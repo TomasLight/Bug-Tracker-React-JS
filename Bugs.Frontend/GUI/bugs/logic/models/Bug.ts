@@ -1,33 +1,30 @@
-﻿const enumUrgency = Object.freeze({
-    "First": 1,
-    "Second": 2,
-    "Third": 3,
-    "Fourth": 4
-})
-const enumCriticality = Object.freeze({
-    "Low": 1,
-    "Medium": 2,
-    "High": 3,
-    "Critical": 4
-})
-const enumStatus = Object.freeze({
-    "New": 1,
-    "Opened": 2,
-    "Resolved": 3,
-    "Closed": 4
-})
+import {Urgency} from "./Urgency";
+import {Criticality} from "./Criticality";
+import {Status} from "./Status";
+import {User} from "../../../users/logic/models/User";
 
-class BugModel {
-    constructor(bug) {
+export class Bug {
+    id: number;
+    name: string;
+    priority: Urgency;
+    reproSteps: string;
+    severity: Criticality;
+    status: Status;
+    statusComment: string;
+    creator = new User(null);
+    dateCreate: string;
+    histories = [];
+    
+    constructor(bug: Bug) {
         if (bug == null) {
             this.id = 0;
             this.name = "";
-            this.priority = enumUrgency.Fourth;
+            this.priority = Urgency.Fourth;
             this.reproSteps = "";
-            this.severity = enumCriticality.Low;
-            this.status = enumStatus.New;
+            this.severity = Criticality.Low;
+            this.status = Status.New;
             this.statusComment = "";
-            this.creator = new UserModel(null);
+            this.creator = new User(null);
             this.dateCreate = "";
             this.histories = [];
         }
@@ -42,6 +39,6 @@ class BugModel {
             this.creator = bug.creator;
             this.dateCreate = bug.dateCreate;
             this.histories = bug.histories;
-        }        
+        }
     }
 }

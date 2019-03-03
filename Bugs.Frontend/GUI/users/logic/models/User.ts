@@ -1,5 +1,11 @@
-﻿class UserModel {
-    constructor(user) {
+export class User {
+    id: number;
+    firstName: string;
+    lastName: string;
+    login: string;
+    password: string;
+
+    constructor(user: User) {
         if (user == null) {
             this.id = 0;
             this.firstName = "";
