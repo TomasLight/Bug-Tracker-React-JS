@@ -1,7 +1,7 @@
 import {Urgency} from "./Urgency";
 import {Criticality} from "./Criticality";
 import {Status} from "./Status";
-import {User} from "../../../users/logic/models/User";
+import {User} from "../../../Users/logic/models/User";
 
 export class Bug {
     id: number;
