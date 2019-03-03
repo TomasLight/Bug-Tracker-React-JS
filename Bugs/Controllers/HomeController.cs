@@ -30,10 +30,11 @@ namespace Bugs.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            if (!HttpContext.Session.Keys.Contains("ActualPage"))
-                HttpContext.Session.SetString("ActualPage", "Login");
+//            if (!HttpContext.Session.Keys.Contains("ActualPage"))
+//                HttpContext.Session.SetString("ActualPage", "Login");
 
-            return RedirectToAction(nameof(Bugs));
+//            return RedirectToAction(nameof(Bugs));
+            return View();
         }
 
         public IActionResult Bugs()

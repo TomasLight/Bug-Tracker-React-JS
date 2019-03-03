@@ -1,9 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import {LoginPage} from "./_old/components/LoginPage";
+import {App} from "./App";
+
+const root = document.getElementById("root");
 
 ReactDOM.render(
-    <LoginPage url={""}/>,
-    document.getElementById("content")
+    <>
+        <App/>
+    </>,
+    root
 );
