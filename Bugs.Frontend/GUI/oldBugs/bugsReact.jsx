@@ -1,4 +1,4 @@
-import {Bug} from "../bugs/logic/models/Bug";
+import {Bug} from "../newBugs/Bugs/logic/models/Bug";
 
 class ShortBug extends React.Component {
 
