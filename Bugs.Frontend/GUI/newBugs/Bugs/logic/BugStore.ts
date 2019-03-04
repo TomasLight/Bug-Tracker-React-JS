@@ -4,7 +4,11 @@ export interface IBugStore {
 
 }
 
-export const BugStore = (state: IBugStore, action: AnyAction): IBugStore => {
+const initialState: IBugStore = {
+
+};
+
+export const BugStore = (state: IBugStore = initialState, action: AnyAction): IBugStore => {
     switch(action.type) {
 
     }

@@ -16,7 +16,8 @@ module.exports = merge(
         },
         output: {
             filename: "[name].js",
-            path: path.join(__dirname, "/../../Bugs/wwwroot/js/")
+            path: path.join(__dirname, "/../../Bugs/wwwroot/js/"),
+            publicPath: '/js/'
         },
         resolve: {
             extensions: [".js", ".jsx", ".ts", ".tsx"],
