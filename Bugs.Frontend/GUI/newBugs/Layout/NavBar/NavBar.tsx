@@ -1,13 +1,15 @@
 import * as React from "react";
 
-import {urls} from "../../App/PageComponentRouter";
-
 export interface INavBarProps {
 
 }
 
 export interface INavBarCallProps {
-    redirect: (path: string) => void;
+    redirectToLogin: () => void;
+    redirectToNewBug: () => void;
+    redirectToBugList: () => void;
+    redirectToUserList: () => void;
+    redirectToNewUser: () => void;
     logout: () => void;
 }
 
@@ -18,29 +20,13 @@ class State {
 }
 
 export class NavBar extends React.Component<Props, State> {
-
-    Login = () => {
-        this.props.redirect(urls.loginPath);
-    };
-
-    NewBug = () => {
-        this.props.redirect(urls.editBugLink(0));
-    };
-
-    BugList = () => {
-        this.props.redirect(urls.bugListPath);
-    };
-
-    NewUser = () => {
-        this.props.redirect(urls.editUserLink(0));
-    };
-
-    UserList = () => {
-        this.props.redirect(urls.userListPath);
-    };
-
     render() {
-        const {logout} = this.props;
+        const {
+            redirectToLogin,
+            redirectToBugList, redirectToUserList,
+            redirectToNewBug, redirectToNewUser,
+            logout
+        } = this.props;
 
         return (
             <nav className="navbar navbar-inverse navbar-fixed-top">
@@ -58,27 +44,27 @@ export class NavBar extends React.Component<Props, State> {
                         <div className="navbar-collapse collapse">
                             <ul className="nav navbar-nav">
                                 <li>
-                                    <button className="btn btn-default navbar-btn" onClick={this.Login}>
+                                    <button className="btn btn-default navbar-btn" onClick={redirectToLogin}>
                                         Login
                                     </button>
                                 </li>
                                 <li>
-                                    <button className="btn btn-default navbar-btn" onClick={this.BugList}>
+                                    <button className="btn btn-default navbar-btn" onClick={redirectToBugList}>
                                         Backlog
                                     </button>
                                 </li>
                                 <li>
-                                    <button className="btn btn-default navbar-btn" onClick={this.NewBug}>
+                                    <button className="btn btn-default navbar-btn" onClick={redirectToNewBug}>
                                         New bug
                                     </button>
                                 </li>
                                 <li>
-                                    <button className="btn btn-default navbar-btn" onClick={this.NewUser}>
+                                    <button className="btn btn-default navbar-btn" onClick={redirectToUserList}>
                                         New user
                                     </button>
                                 </li>
                                 <li>
-                                    <button className="btn btn-default navbar-btn" onClick={this.UserList}>
+                                    <button className="btn btn-default navbar-btn" onClick={redirectToNewUser}>
                                         User list
                                     </button>
                                 </li>

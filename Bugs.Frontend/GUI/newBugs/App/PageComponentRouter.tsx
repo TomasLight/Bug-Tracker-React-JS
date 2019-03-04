@@ -16,7 +16,7 @@ export const urls = {
 };
 
 export interface IPageComponentRouterProps {
-    redirect: (path: string) => void;
+
 }
 
 export class PageComponentRouter extends React.Component<IPageComponentRouterProps> {
@@ -26,11 +26,11 @@ export class PageComponentRouter extends React.Component<IPageComponentRouterPro
         fallback: PageComponentRouter.LoadingComponent
     });
 
-    public GetRoutes() {
-        const {redirect} = this.props;
+    render() {
+        const {} = this.props;
         const {PageLogin} = this;
         return (
-            <Layout redirect={redirect}>
+            <Layout>
                 <Switch>
                     <Route exact path={urls.loginPath} component={() => <PageLogin/>}/>
                 </Switch>

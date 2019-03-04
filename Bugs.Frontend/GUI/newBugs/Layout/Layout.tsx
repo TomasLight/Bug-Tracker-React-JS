@@ -1,20 +1,18 @@
 import * as React from "react";
-import {NavBar} from "./NavBar/NavBar";
+import {NavBarContainer} from "./NavBar/NavBarContainer";
 
 export interface ILayoutProps {
     children: any;
-
-    redirect: (path: string) => void;
 }
 
 type Props = ILayoutProps;
 
 export class Layout extends React.Component<Props> {
     render() {
-        const {children, redirect} = this.props;
+        const {children} = this.props;
         return (
             <>
-                <NavBar redirect={redirect} logout={() => {}}/>
+                <NavBarContainer/>
                 <div>
                     {children}
                 </div>

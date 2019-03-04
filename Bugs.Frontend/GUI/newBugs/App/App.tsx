@@ -27,12 +27,10 @@ class State {
 
 export class App extends React.Component<Props, State> {
     render () {
-        const redirect = (path: string) => store.dispatch(push(path));
-        const pageComponentRouter = new PageComponentRouter({redirect});
         return (
             <Provider store={store}>
                 <ConnectedRouter history={history}>
-                    {pageComponentRouter.GetRoutes()}
+                    <PageComponentRouter/>
                 </ConnectedRouter>
             </Provider>
         );
