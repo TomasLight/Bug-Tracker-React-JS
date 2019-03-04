@@ -2,27 +2,39 @@ import * as React from 'react';
 import {Route, Switch} from "react-router";
 import loadable from '@loadable/component';
 
+import {Layout} from "../Layout/Layout";
+
 export const urls = {
-    login: "/"
+    loginPath: "/",
+    bugListPath: "/bugs",
+    userListPath: "/users",
+    editUserPath: "/users/:id",
+    editBugPath: "/bugs/:id",
+
+    editUserLink: (userId: number) => "/users/" + userId,
+    editBugLink: (bugId: number) => "/bugs/" + bugId
 };
 
-export class PageComponentRouter {
+export interface IPageComponentRouterProps {
+    redirect: (path: string) => void;
+}
+
+export class PageComponentRouter extends React.Component<IPageComponentRouterProps> {
     private static LoadingComponent = <div>loading...</div>;
-
-    constructor(props: any) {
-
-    }
 
     private readonly PageLogin = loadable(() => import("../PageLogin/PageLogin"), {
         fallback: PageComponentRouter.LoadingComponent
     });
 
     public GetRoutes() {
+        const {redirect} = this.props;
         const {PageLogin} = this;
         return (
-            <Switch>
-                <Route exact path={urls.login} component={() => <PageLogin/>}/>
-            </Switch>
+            <Layout redirect={redirect}>
+                <Switch>
+                    <Route exact path={urls.loginPath} component={() => <PageLogin/>}/>
+                </Switch>
+            </Layout>
         );
     };
 }
