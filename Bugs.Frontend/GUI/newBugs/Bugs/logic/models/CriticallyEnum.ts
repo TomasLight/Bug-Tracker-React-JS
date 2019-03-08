@@ -1,4 +1,4 @@
-export enum Criticality {
+export enum CriticallyEnum {
     Low = 1,
     Medium = 2,
     High = 3,

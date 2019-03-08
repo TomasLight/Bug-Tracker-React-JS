@@ -1,28 +1,28 @@
-import {Urgency} from "./Urgency";
-import {Criticality} from "./Criticality";
-import {Status} from "./Status";
+import {UrgencyEnum} from "./UrgencyEnum";
+import {CriticallyEnum} from "./CriticallyEnum";
+import {StatusEnum} from "./StatusEnum";
 import {User} from "../../../Users/logic/models/User";
 
-export class Bug {
+export class BugDTO {
     id: number;
     name: string;
-    priority: Urgency;
+    priority: UrgencyEnum;
     reproSteps: string;
-    severity: Criticality;
-    status: Status;
+    severity: CriticallyEnum;
+    status: StatusEnum;
     statusComment: string;
     creator = new User(null);
     dateCreate: string;
     histories = [];
     
-    constructor(bug: Bug) {
+    constructor(bug: BugDTO = null) {
         if (bug == null) {
             this.id = 0;
             this.name = "";
-            this.priority = Urgency.Fourth;
+            this.priority = UrgencyEnum.Fourth;
             this.reproSteps = "";
-            this.severity = Criticality.Low;
-            this.status = Status.New;
+            this.severity = CriticallyEnum.Low;
+            this.status = StatusEnum.New;
             this.statusComment = "";
             this.creator = new User(null);
             this.dateCreate = "";

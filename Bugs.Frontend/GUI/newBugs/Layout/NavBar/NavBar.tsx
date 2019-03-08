@@ -1,16 +1,17 @@
 import * as React from "react";
+import {Callback} from "../../utils/types/Callback";
 
 export interface INavBarProps {
 
 }
 
 export interface INavBarCallProps {
-    redirectToLogin: () => void;
-    redirectToNewBug: () => void;
-    redirectToBugList: () => void;
-    redirectToUserList: () => void;
-    redirectToNewUser: () => void;
-    logout: () => void;
+    redirectToLogin: Callback;
+    redirectToNewBug: Callback;
+    redirectToBugList: Callback;
+    redirectToUserList: Callback;
+    redirectToNewUser: Callback;
+    logout: Callback;
 }
 
 type Props = INavBarProps & INavBarCallProps;
