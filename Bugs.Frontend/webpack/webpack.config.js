@@ -11,12 +11,13 @@ module.exports = merge(
         entry: {
             app: [
                 "@babel/polyfill",
-                "./GUI/index.tsx"
+                "./GUI/newBugs/index.tsx"
             ]
         },
         output: {
             filename: "[name].js",
-            path: path.join(__dirname, "/../../Bugs/wwwroot/js/")
+            path: path.join(__dirname, "/../../Bugs/wwwroot/js/"),
+            publicPath: '/js/'
         },
         resolve: {
             extensions: [".js", ".jsx", ".ts", ".tsx"],
