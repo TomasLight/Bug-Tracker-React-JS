@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import {Callback} from "../../utils/types/Callback";
-// import {TempAjax} from "../../utils/temp/TempAjax";
 import {BugDTO} from "../logic/models/BugDTO";
 import {StatusEnum} from "../logic/models/StatusEnum";
 import {StatusSelector} from "./StatusSelector/StatusSelector";
@@ -11,12 +10,11 @@ import {Histories} from "./Histories/Histories";
 
 export interface IBugEditorProps {
     apiUrl: string;
-    routerBugId: number;
     bug: BugDTO;
 }
 
 export interface IBugEditorCallProps {
-    load: (bugId: number) => void;
+    load: () => void;
     save: (bug: BugDTO) => void;
     renderBugList: Callback;
 }
@@ -31,43 +29,43 @@ class State {
 export class PageBugEditor extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        const {bug, routerBugId} = props;
+        const {bug} = props;
         this.state = {
-            isNew: routerBugId === 0,
+            isNew: bug.id === 0,
             prevStatus: bug.status
         };
     }
 
     componentDidMount() {
-        this.props.load(this.props.routerBugId);
+        this.props.load();
         // RenderHistories(this.state.bug.id);
     }
 
     onSave = () => {
-        const {isNew, prevStatus} = this.state;
-        const {bug, save, renderBugList} = this.props;
-
-        if (!isNew && prevStatus != bug.status && this.refs.bugStatusComment.value == "") {
-            alert("Заполните комментарий по изменению статуса");
-        } else {
-            let priority = parseInt(this.refs.bugPriority.state.selectedPriority);
-            let severity = parseInt(this.refs.bugSeverity.state.selectedSeverity);
-            let status = parseInt(this.refs.bugStatus.state.selectedStatus);
-
-            const changedBug = new BugDTO();
-            changedBug.id = bug.id;
-            changedBug.name = this.refs.bugName.value;
-            changedBug.reproSteps = this.refs.bugReproSteps.value;
-            changedBug.priority = priority;
-            changedBug.severity = severity;
-            changedBug.status = status;
-            changedBug.statusComment = this.refs.bugStatusComment.value;
-            changedBug.creator = bug.creator;
-            changedBug.dateCreate = bug.dateCreate;
-
-            save(changedBug);
-            renderBugList();
-        }
+        // const {isNew, prevStatus} = this.state;
+        // const {bug, save, renderBugList} = this.props;
+        //
+        // if (!isNew && prevStatus != bug.status && this.refs.bugStatusComment.value == "") {
+        //     alert("Заполните комментарий по изменению статуса");
+        // } else {
+        //     let priority = parseInt(this.refs.bugPriority.state.selectedPriority);
+        //     let severity = parseInt(this.refs.bugSeverity.state.selectedSeverity);
+        //     let status = parseInt(this.refs.bugStatus.state.selectedStatus);
+        //
+        //     const changedBug = new BugDTO();
+        //     changedBug.id = bug.id;
+        //     changedBug.name = this.refs.bugName.value;
+        //     changedBug.reproSteps = this.refs.bugReproSteps.value;
+        //     changedBug.priority = priority;
+        //     changedBug.severity = severity;
+        //     changedBug.status = status;
+        //     changedBug.statusComment = this.refs.bugStatusComment.value;
+        //     changedBug.creator = bug.creator;
+        //     changedBug.dateCreate = bug.dateCreate;
+        //
+        //     save(changedBug);
+        //     renderBugList();
+        // }
     };
 
     render() {

@@ -1,27 +1,33 @@
+import {AnyAction, Dispatch} from "redux";
 import {connect} from "react-redux";
-import {withRouter} from "react-router";
+import {match, withRouter} from "react-router";
 
 import {IReducers} from "../../App/logic/createReducers";
 import {BugDTO} from "../logic/models/BugDTO";
 import {PageBugEditor, IBugEditorProps, IBugEditorCallProps} from "./PageBugEditor";
 
-const mapStateToProps = (state: IReducers, ownProps): IBugEditorProps => {
+const mapStateToProps = (state: IReducers, ownProps: IBugEditorProps): IBugEditorProps => {
     return {
         apiUrl: ownProps.apiUrl,
-        bug: state.BugEditorStore.bug,
-        routerBugId: ownProps.match.params.id
+        bug: state.BugEditorStore.bug
     };
 };
 
-const mapDispatchToProps = (dispatch, ownProps): IBugEditorCallProps => {
+type OwnCallProps = IBugEditorCallProps & {
+    match: match<any>
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>, ownProps: OwnCallProps): IBugEditorCallProps => {
         return {
-            load: (bugId: number) => {},
+            load: () => {ownProps.match.params.id},
             renderBugList: () => {},
             save: (bug: BugDTO) => {}
         };
     };
 
-export const PageBugEditorContainer = withRouter(connect(
+const connector = connect(
     mapStateToProps,
     mapDispatchToProps
-)(PageBugEditor));
+)(PageBugEditor);
+
+export const PageBugEditorContainer = withRouter(connector);

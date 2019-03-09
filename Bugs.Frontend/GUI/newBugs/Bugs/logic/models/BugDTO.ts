@@ -1,7 +1,7 @@
 import {UrgencyEnum} from "./UrgencyEnum";
 import {CriticallyEnum} from "./CriticallyEnum";
 import {StatusEnum} from "./StatusEnum";
-import {User} from "../../../Users/logic/models/User";
+import {UserDTO} from "../../../Users/logic/models/UserDTO";
 
 export class BugDTO {
     id: number;
@@ -11,7 +11,7 @@ export class BugDTO {
     severity: CriticallyEnum;
     status: StatusEnum;
     statusComment: string;
-    creator = new User(null);
+    creator = new UserDTO(null);
     dateCreate: string;
     histories = [];
     
@@ -24,7 +24,7 @@ export class BugDTO {
             this.severity = CriticallyEnum.Low;
             this.status = StatusEnum.New;
             this.statusComment = "";
-            this.creator = new User(null);
+            this.creator = new UserDTO(null);
             this.dateCreate = "";
             this.histories = [];
         }

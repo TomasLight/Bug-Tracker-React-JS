@@ -34,12 +34,22 @@ export class PageComponentRouter extends React.Component<IPageComponentRouterPro
         fallback: PageComponentRouter.LoadingComponent
     });
 
+    private readonly PageUsers = loadable(() => import("../Users/PageUsers/PageUsersContainer"), {
+        fallback: PageComponentRouter.LoadingComponent
+    });
+
+    private readonly PageUserEditor = loadable(() => import("../Users/PageUserEditor/PageUserEditorContainer"), {
+        fallback: PageComponentRouter.LoadingComponent
+    });
+
     render() {
         const {} = this.props;
         const {
             PageLogin,
             PageBugs,
-            PageBugEditor
+            PageBugEditor,
+            PageUsers,
+            PageUserEditor
         } = this;
 
         return (
@@ -49,6 +59,9 @@ export class PageComponentRouter extends React.Component<IPageComponentRouterPro
                     <Route exact path={urls.bugListPath} component={() => <PageBugs/>}/>
                     <Route exact path={urls.editBugPath}
                            component={(props: RouteComponentProps<{id: string}>) => <PageBugEditor/>}/>
+                    <Route exact path={urls.userListPath} component={() => <PageUsers/>}/>
+                    <Route exact path={urls.editUserPath}
+                           component={(props: RouteComponentProps<{id: string}>) => <PageUserEditor/>}/>
                 </Switch>
             </Layout>
         );

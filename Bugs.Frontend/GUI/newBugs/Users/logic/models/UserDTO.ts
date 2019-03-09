@@ -1,11 +1,11 @@
-export class User {
+export class UserDTO {
     id: number;
     firstName: string;
     lastName: string;
     login: string;
     password: string;
 
-    constructor(user: User) {
+    constructor(user: UserDTO = null) {
         if (user == null) {
             this.id = 0;
             this.firstName = "";

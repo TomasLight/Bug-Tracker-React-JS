@@ -1,4 +1,4 @@
-import {User} from "../../../../Users/logic/models/User";
+import {UserDTO} from "../../../../Users/logic/models/UserDTO";
 import {BugDTO} from "../../../logic/models/BugDTO";
 import {StatusEnum} from "../../../logic/models/StatusEnum";
 
@@ -6,7 +6,7 @@ export class HistoryDTO {
     bugId: number;
     userId: number;
     dateUpdate: Date;
-    updater: User;
+    updater: UserDTO;
     variesBug: BugDTO;
     status: StatusEnum;
     statusComment: string;
