@@ -1,5 +1,7 @@
 import * as React from "react";
-import {Callback} from "../../utils/interfaces/Callback";
+
+import {Callback} from "utils/interfaces/Callback";
+
 import {UserDTO} from "../logic/models/UserDTO";
 
 

@@ -2,7 +2,7 @@ import {AnyAction, Dispatch} from "redux";
 import {connect} from "react-redux";
 import {match, withRouter} from "react-router";
 
-import {IReducers} from "../../App/logic/createReducers";
+import {IReducers} from "@reducer";
 import {BugDTO} from "../logic/models/BugDTO";
 import {PageBugEditor, IBugEditorProps, IBugEditorCallProps} from "./PageBugEditor";
 
@@ -30,4 +30,5 @@ const connector = connect(
     mapDispatchToProps
 )(PageBugEditor);
 
-export const PageBugEditorContainer = withRouter(connector);
+const PageBugEditorContainer = withRouter(connector);
+export default PageBugEditorContainer;

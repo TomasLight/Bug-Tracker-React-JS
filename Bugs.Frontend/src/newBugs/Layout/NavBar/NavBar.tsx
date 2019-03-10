@@ -1,5 +1,6 @@
 import * as React from "react";
-import {Callback} from "../../utils/interfaces/Callback";
+
+import {Callback} from "utils/interfaces/Callback";
 
 export interface INavBarProps {
 
@@ -61,12 +62,12 @@ export class NavBar extends React.Component<Props, State> {
                                 </li>
                                 <li>
                                     <button className="btn btn-default navbar-btn" onClick={redirectToUserList}>
-                                        New user
+                                        Users
                                     </button>
                                 </li>
                                 <li>
                                     <button className="btn btn-default navbar-btn" onClick={redirectToNewUser}>
-                                        User list
+                                        New user
                                     </button>
                                 </li>
                                 {/*<li>

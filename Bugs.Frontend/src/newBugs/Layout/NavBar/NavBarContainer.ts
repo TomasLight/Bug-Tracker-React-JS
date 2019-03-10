@@ -2,8 +2,8 @@ import {connect} from "react-redux";
 import {AnyAction, Dispatch} from "redux";
 import {push} from "connected-react-router";
 
-import {IReducers} from "../../App/logic/createReducers";
-import {urls} from "../../App/PageComponentRouter";
+import {IReducers} from "@reducer";
+import {urls} from "@core/App/PageComponentRouter";
 import {INavBarCallProps, INavBarProps, NavBar} from "./NavBar";
 
 const mapStateToProps = (state: IReducers, ownProps: INavBarProps): INavBarProps => {

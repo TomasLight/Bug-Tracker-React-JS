@@ -3,9 +3,9 @@ import{connect} from "react-redux";
 import {push} from "connected-react-router";
 import {match, withRouter} from "react-router";
 
-import {IReducers} from "../../App/logic/createReducers";
+import {IReducers} from "@reducer";
+import {urls} from "@core/App/PageComponentRouter";
 import {IPageUserEditorCallProps, IPageUserEditorProps, PageUserEditor} from "./PageUserEditor";
-import {urls} from "../../App/PageComponentRouter";
 
 
 const mapStateToProps = (state: IReducers, ownProps: IPageUserEditorProps): IPageUserEditorProps => {
@@ -30,4 +30,5 @@ const connector = connect(
     mapDispatchToProps
 )(PageUserEditor);
 
-export const PageUserEditorContainer = withRouter(connector);
+const PageUserEditorContainer = withRouter(connector);
+export default PageUserEditorContainer;

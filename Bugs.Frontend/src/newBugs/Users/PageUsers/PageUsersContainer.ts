@@ -1,6 +1,7 @@
 import {AnyAction, Dispatch} from "redux";
 import {connect} from "react-redux";
-import {IReducers} from "../../App/logic/createReducers";
+
+import {IReducers} from "@reducer";
 import {PageUsers, IPageUsersCallProps, IPageUsersProps} from "./PageUsers";
 
 const mapStateToProps = (state: IReducers, ownProps: IPageUsersProps): IPageUsersProps => {
@@ -15,7 +16,9 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>, ownProps: IPageUsersC
     };
 };
 
-export const PageUsersContainer = connect(
+const PageUsersContainer = connect(
     mapStateToProps,
    mapDispatchToProps
 )(PageUsers);
+
+export default PageUsersContainer;

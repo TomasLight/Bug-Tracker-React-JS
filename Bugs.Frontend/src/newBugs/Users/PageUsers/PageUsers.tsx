@@ -1,7 +1,8 @@
 import * as React from "react";
 
+import {Callback} from "utils/interfaces/Callback";
+
 import {UserDTO} from "../logic/models/UserDTO";
-import {Callback} from "../../utils/interfaces/Callback";
 import {UserItemContainer} from "./UserItem/UserItemContainer";
 
 export interface IPageUsersProps {
@@ -31,6 +32,10 @@ export class PageUsers extends React.Component<Props> {
 
     render(): React.ReactNode {
         const {users} = this.props;
+
+        if (users == null || users.length == null || users.length === 0) {
+            return <></>;
+        }
 
         const userProperties = Object.keys(users[0]);
         return (

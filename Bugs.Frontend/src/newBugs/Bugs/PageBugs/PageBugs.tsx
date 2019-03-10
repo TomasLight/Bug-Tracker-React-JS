@@ -1,18 +1,19 @@
 import * as React from "react";
+
+import {Callback} from "utils/interfaces/Callback";
+
 import {BugDTO} from "../logic/models/BugDTO";
-import {Callback} from "../../utils/interfaces/Callback";
 import {StatusEnum} from "../logic/models/StatusEnum";
 import {BugItemContainer} from "./BugItem/BugItemContainer";
 
 export interface IPageBugsProps {
-    apiUrl: string;
+    // apiUrl: string;
     bugs: Array<BugDTO>;
-    statusNames: Array<string>;
-    statusValues: Array<StatusEnum>;
 }
 
 export interface IPageBugsCallProps {
-    renderEditBug: Callback;
+    load: Callback;
+    openBug: (userId: number) => void;
 }
 
 type Props = IPageBugsProps & IPageBugsCallProps;
@@ -22,9 +23,13 @@ class State {
 }
 
 export class PageBugs extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {statusNames: [], statusValues: [], bugList: [], renderEditBug: props.renderEditBug};
+    // constructor(props: Props) {
+    //     super(props);
+    //     this.state = {statusNames: [], statusValues: [], bugList: [], renderEditBug: props.renderEditBug};
+    // }
+
+    componentDidMount(): void {
+        this.props.load();
     }
 
     loadStatusNames() {
@@ -55,7 +60,8 @@ export class PageBugs extends React.Component<Props, State> {
     }
 
     render() {
-        const {bugs, statusNames, statusValues, renderEditBug} = this.props;
+        const {bugs} = this.props;
+        const statusNames: Array<string> = Object.keys(StatusEnum);
 
         return (
             <div className="bug-table">
@@ -74,7 +80,8 @@ export class PageBugs extends React.Component<Props, State> {
                 </div>
                 <div className="bug-body">
                     {
-                        statusValues.map((status: StatusEnum) => {
+                        statusNames.map((name: string) => {
+                            const status: StatusEnum = StatusEnum[name];
                             return (
                                 <div key={"status-value-" + status} className="bug-column">
                                     {

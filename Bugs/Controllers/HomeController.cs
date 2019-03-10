@@ -27,7 +27,7 @@ namespace Bugs.Controllers
             _repository = repository;
         }
 
-        [Authorize]
+//        [Authorize]
         public IActionResult Index()
         {
 //            if (!HttpContext.Session.Keys.Contains("ActualPage"))

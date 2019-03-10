@@ -6,8 +6,8 @@ import {ConnectedRouter, routerMiddleware, push} from 'connected-react-router';
 import {History} from "history";
 import createBrowserHistory from "history/createBrowserHistory";
 
+import {createReducers} from "@reducer";
 import {PageComponentRouter} from "./PageComponentRouter";
-import {createReducers} from "./logic/createReducers";
 
 const history: History = createBrowserHistory();
 const middleware = applyMiddleware(routerMiddleware(history));

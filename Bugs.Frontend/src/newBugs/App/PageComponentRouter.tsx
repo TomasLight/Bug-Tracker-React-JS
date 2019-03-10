@@ -26,7 +26,7 @@ export class PageComponentRouter extends React.Component<IPageComponentRouterPro
         fallback: PageComponentRouter.LoadingComponent
     });
 
-    private readonly PageBugs = loadable(() => import("../Bugs/PageBugs/PageBugs"), {
+    private readonly PageBugs = loadable(() => import("../Bugs/PageBugs/PageBugsContainer"), {
         fallback: PageComponentRouter.LoadingComponent
     });
 

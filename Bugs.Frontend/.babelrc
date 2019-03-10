@@ -5,6 +5,16 @@
     "@babel/preset-typescript"
   ],
   "plugins": [
-    "@babel/plugin-syntax-dynamic-import"
+    "@babel/plugin-syntax-dynamic-import",
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "@reducer": "./src/newBugs/App/logic/createReducers",
+          "@core": "./src/newBugs"
+        }
+      }
+    ]
   ]
 }

@@ -13,7 +13,13 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "target": "es6",
-    "watch": false
+    "watch": false,
+
+    "baseUrl": "./src",
+    "paths": {
+      "@reducer": ["newBugs/App/logic/createReducers"],
+      "@core/*": ["newBugs/*"]
+    }
   },
   "include": [
     "**/*.tsx",
