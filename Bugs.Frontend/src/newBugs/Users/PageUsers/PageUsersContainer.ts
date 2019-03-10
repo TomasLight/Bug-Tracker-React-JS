@@ -1,8 +1,7 @@
+import {AnyAction, Dispatch} from "redux";
 import {connect} from "react-redux";
 import {IReducers} from "../../App/logic/createReducers";
 import {PageUsers, IPageUsersCallProps, IPageUsersProps} from "./PageUsers";
-import {AnyAction, Dispatch} from "redux";
-
 
 const mapStateToProps = (state: IReducers, ownProps: IPageUsersProps): IPageUsersProps => {
     return {

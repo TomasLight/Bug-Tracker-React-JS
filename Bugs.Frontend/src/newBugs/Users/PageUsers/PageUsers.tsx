@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import {UserDTO} from "../logic/models/UserDTO";
-import {Callback} from "../../utils/types/Callback";
+import {Callback} from "../../utils/interfaces/Callback";
 import {UserItemContainer} from "./UserItem/UserItemContainer";
 
 export interface IPageUsersProps {

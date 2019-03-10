@@ -1,6 +1,6 @@
 import * as React from "react";
 import {BugDTO} from "../logic/models/BugDTO";
-import {Callback} from "../../utils/types/Callback";
+import {Callback} from "../../utils/interfaces/Callback";
 import {StatusEnum} from "../logic/models/StatusEnum";
 import {BugItemContainer} from "./BugItem/BugItemContainer";
 

@@ -11,7 +11,7 @@ module.exports = merge(
         entry: {
             app: [
                 "@babel/polyfill",
-                "./GUI/newBugs/index.tsx"
+                "./src/newBugs/index.tsx"
             ]
         },
         output: {

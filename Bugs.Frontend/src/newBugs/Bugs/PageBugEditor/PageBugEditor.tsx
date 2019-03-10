@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Callback} from "../../utils/types/Callback";
+import {Callback} from "../../utils/interfaces/Callback";
 import {BugDTO} from "../logic/models/BugDTO";
 import {StatusEnum} from "../logic/models/StatusEnum";
 import {StatusSelector} from "./StatusSelector/StatusSelector";
