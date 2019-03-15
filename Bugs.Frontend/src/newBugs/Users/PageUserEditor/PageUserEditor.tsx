@@ -2,7 +2,7 @@ import * as React from "react";
 
 import {Callback} from "utils/interfaces/Callback";
 
-import {UserDTO} from "../logic/models/UserDTO";
+import {UserDTO} from "../../../models/users/UserDTO";
 
 
 export interface IPageUserEditorProps {

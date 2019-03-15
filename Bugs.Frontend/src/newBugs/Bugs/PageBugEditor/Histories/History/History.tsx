@@ -1,6 +1,6 @@
 import * as React from "react";
-import {HistoryDTO} from "../../logic/models/HistoryDTO";
-import {StatusEnum} from "../../../logic/models/StatusEnum";
+import {HistoryDTO} from "../../../../../models/histories/HistoryDTO";
+import {StatusEnum} from "../../../../../models/enums/StatusEnum";
 import {Status} from "./Status/Status";
 
 export interface IHistoryProps {

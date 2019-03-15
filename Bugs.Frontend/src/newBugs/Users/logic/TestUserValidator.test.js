@@ -1,6 +1,6 @@
 import {} from "jest";
 import {TestUserValidator} from "./TestUserValidator";
-import {UserDTO} from "./UserDTO";
+import {UserDTO} from "../../../models/users/UserDTO";
 
 test("validate of user model", () => {
     const user = new UserDTO();

@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {match, withRouter} from "react-router";
 
 import {IReducers} from "@reducer";
-import {BugDTO} from "../logic/models/BugDTO";
+import {BugDTO} from "../../../models/bugs/BugDTO";
 import {PageBugEditor, IBugEditorProps, IBugEditorCallProps} from "./PageBugEditor";
 
 const mapStateToProps = (state: IReducers, ownProps: IBugEditorProps): IBugEditorProps => {

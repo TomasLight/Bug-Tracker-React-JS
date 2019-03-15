@@ -1,5 +1,5 @@
 import * as React from "react";
-import {UrgencyEnum} from "../../logic/models/UrgencyEnum";
+import {UrgencyEnum} from "../../../../models/enums/UrgencyEnum";
 
 export interface IPrioritySelectorProps {
     selectedPriority: UrgencyEnum;

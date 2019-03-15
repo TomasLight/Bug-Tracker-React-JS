@@ -11,7 +11,7 @@
       {
         "root": ["./src"],
         "alias": {
-          "@reducer": "./src/newBugs/App/logic/createReducers",
+          "@reducer": "./src/newBugs/App/redux/createReducers",
           "@core": "./src/newBugs"
         }
       }

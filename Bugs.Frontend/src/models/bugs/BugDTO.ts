@@ -1,7 +1,7 @@
-import {UrgencyEnum} from "./UrgencyEnum";
-import {CriticallyEnum} from "./CriticallyEnum";
-import {StatusEnum} from "./StatusEnum";
-import {UserDTO} from "../../../Users/logic/models/UserDTO";
+import {UrgencyEnum} from "../enums/UrgencyEnum";
+import {CriticallyEnum} from "../enums/CriticallyEnum";
+import {StatusEnum} from "../enums/StatusEnum";
+import {UserDTO} from "../users/UserDTO";
 
 export class BugDTO {
     id: number;

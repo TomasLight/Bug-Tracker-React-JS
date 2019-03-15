@@ -1,5 +1,5 @@
 import {AnyAction} from "redux";
-import {BugDTO} from "../../logic/models/BugDTO";
+import {BugDTO} from "../../../../models/bugs/BugDTO";
 
 export interface IBugEditorStore {
     bug: BugDTO;

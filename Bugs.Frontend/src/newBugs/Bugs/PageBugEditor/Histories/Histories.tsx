@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {HistoryDTO} from "../logic/models/HistoryDTO";
+import {HistoryDTO} from "../../../../models/histories/HistoryDTO";
 import {History} from "./History/History";
 
 export interface IHistoriesProps {

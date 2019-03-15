@@ -1,5 +1,5 @@
 import {AnyAction} from "redux";
-import {UserDTO} from "../../logic/models/UserDTO";
+import {UserDTO} from "../../../../models/users/UserDTO";
 
 export interface IUserEditorStore {
     user: UserDTO;

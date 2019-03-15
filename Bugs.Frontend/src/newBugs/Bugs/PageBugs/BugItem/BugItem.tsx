@@ -1,5 +1,5 @@
 import * as React from "react";
-import {BugDTO} from "../../logic/models/BugDTO";
+import {BugDTO} from "../../../../models/bugs/BugDTO";
 
 export interface IBugItemProps {
     bug: BugDTO;

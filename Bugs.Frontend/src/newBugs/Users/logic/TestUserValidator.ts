@@ -1,4 +1,4 @@
-import {UserDTO} from "./UserDTO";
+import {UserDTO} from "../../../models/users/UserDTO";
 
 export class TestUserValidator {
     static validate(user: UserDTO, isNew: boolean = false) {

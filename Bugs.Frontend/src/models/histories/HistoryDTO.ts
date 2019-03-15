@@ -1,6 +1,6 @@
-import {UserDTO} from "../../../../Users/logic/models/UserDTO";
-import {BugDTO} from "../../../logic/models/BugDTO";
-import {StatusEnum} from "../../../logic/models/StatusEnum";
+import {UserDTO} from "../users/UserDTO";
+import {BugDTO} from "../bugs/BugDTO";
+import {StatusEnum} from "../enums/StatusEnum";
 
 export class HistoryDTO {
     bugId: number;

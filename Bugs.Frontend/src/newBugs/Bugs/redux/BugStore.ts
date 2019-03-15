@@ -1,5 +1,5 @@
 import {AnyAction} from "redux";
-import {BugDTO} from "./models/BugDTO";
+import {BugDTO} from "../../../models/bugs/BugDTO";
 
 export interface IBugStore {
     bugs: Array<BugDTO>;

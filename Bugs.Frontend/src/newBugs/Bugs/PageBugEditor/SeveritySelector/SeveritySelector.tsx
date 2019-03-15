@@ -1,5 +1,5 @@
 import * as React from "react";
-import {CriticallyEnum} from "../../logic/models/CriticallyEnum";
+import {CriticallyEnum} from "../../../../models/enums/CriticallyEnum";
 
 export interface ISeveritySelectorProps {
     selectedSeverity: CriticallyEnum

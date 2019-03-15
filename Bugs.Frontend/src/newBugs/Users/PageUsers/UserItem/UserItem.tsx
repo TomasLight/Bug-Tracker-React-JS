@@ -1,5 +1,5 @@
 import * as React from "react";
-import {UserDTO} from "../../logic/models/UserDTO";
+import {UserDTO} from "../../../../models/users/UserDTO";
 
 export interface IUserItemProps {
     user: UserDTO;

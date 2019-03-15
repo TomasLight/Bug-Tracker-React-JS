@@ -1,5 +1,5 @@
 import * as React from "react";
-import {StatusEnum} from "../../logic/models/StatusEnum";
+import {StatusEnum} from "../../../../models/enums/StatusEnum";
 
 export interface IStatusSelectorProps {
     selectedStatus: StatusEnum,
