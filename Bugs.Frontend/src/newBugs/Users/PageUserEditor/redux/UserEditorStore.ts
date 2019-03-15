@@ -1,17 +1,11 @@
-import {AnyAction} from "redux";
-import {UserDTO} from "../../../../models/users/UserDTO";
+import {UserDTO} from "@models/users/UserDTO";
 
-export interface IUserEditorStore {
+export class UserEditorStore {
+    public disabled: boolean;
     user: UserDTO;
+
+    public static initialState: UserEditorStore = {
+        disabled: false,
+        user: new UserDTO()
+    };
 }
-
-const initialState: IUserEditorStore = {
-    user: new UserDTO()
-};
-
-export const UserEditorStore = (state: IUserEditorStore = initialState, action: AnyAction): IUserEditorStore => {
-    switch(action.type) {
-
-    }
-    return state;
-};

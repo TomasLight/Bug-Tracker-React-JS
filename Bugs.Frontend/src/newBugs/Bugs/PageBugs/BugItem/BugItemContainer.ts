@@ -3,11 +3,11 @@ import {AnyAction, Dispatch} from "redux";
 import {push} from "connected-react-router";
 import {BugItem, IBugItemProps, IBugItemCallProps} from "./BugItem";
 
-import {IReducers} from "@reducer";
+import {Reducers} from "@reducers";
 import {urls} from "@core/App/PageComponentRouter";
 
 
-const mapStateToProps = (state: IReducers, ownProps: IBugItemProps): IBugItemProps => {
+const mapStateToProps = (state: Reducers, ownProps: IBugItemProps): IBugItemProps => {
     return {
         bug: ownProps.bug
     };

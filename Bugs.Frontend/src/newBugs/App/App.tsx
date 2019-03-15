@@ -6,7 +6,7 @@ import {ConnectedRouter, routerMiddleware, push} from 'connected-react-router';
 import {History} from "history";
 import createBrowserHistory from "history/createBrowserHistory";
 
-import {createReducers} from "@reducer";
+import {createReducers} from "@reducers";
 import {PageComponentRouter} from "./PageComponentRouter";
 
 const history: History = createBrowserHistory();

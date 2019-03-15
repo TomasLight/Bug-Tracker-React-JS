@@ -17,8 +17,10 @@
 
     "baseUrl": "./src",
     "paths": {
-      "@reducer": ["newBugs/App/logic/createReducers"],
-      "@core/*": ["newBugs/*"]
+      "@reducers": ["newBugs/App/redux/Reducers"],
+      "@core/*": ["newBugs/*"],
+      "@models/*": ["models/*"],
+      "@utils/*": ["utils/*"]
     }
   },
   "include": [

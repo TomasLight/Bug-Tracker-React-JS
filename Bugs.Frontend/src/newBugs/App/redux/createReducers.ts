@@ -1,26 +1,20 @@
-import {combineReducers, Reducer} from "redux";
-import {connectRouter, LocationChangeAction, RouterState} from "connected-react-router";
+import {combineReducers} from "redux";
+import {connectRouter} from "connected-react-router";
 import {History} from "history";
 
-import {BugStore, IBugStore} from "@core/Bugs/redux/BugStore";
-import {BugEditorStore, IBugEditorStore} from "@core/Bugs/PageBugEditor/redux/BugEditorStore";
-import {UserStore, IUserStore} from "@core/Users/PageUsers/redux/UserStore";
-import {UserEditorStore, IUserEditorStore} from "@core/Users/PageUserEditor/redux/UserEditorStore";
-
-export interface IReducers {
-    router: Reducer<RouterState, LocationChangeAction>;
-    BugStore: IBugStore;
-    BugEditorStore: IBugEditorStore;
-    UserStore: IUserStore;
-    UserEditorStore: IUserEditorStore;
-}
+import {BugsStoreReducer} from "@core/Bugs/PageBugs/redux/BugsStoreReducer";
+import {BugEditorStoreReducer} from "@core/Bugs/PageBugEditor/redux/BugEditorStoreReducer";
+import {UsersStoreReducer} from "@core/Users/PageUsers/redux/UsersStoreReducer";
+import {UserEditorStoreReducer} from "@core/Users/PageUserEditor/redux/UserEditorStoreReducer";
 
 export function createReducers(history: History) {
     return combineReducers({
         router: connectRouter(history),
-        BugStore,
-        BugEditorStore,
-        UserStore,
-        UserEditorStore
+
+        BugsStoreReducer,
+        BugEditorStoreReducer,
+
+        UsersStoreReducer,
+        UserEditorStoreReducer
     });
 }

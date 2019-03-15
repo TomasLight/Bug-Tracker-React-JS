@@ -11,8 +11,10 @@
       {
         "root": ["./src"],
         "alias": {
-          "@reducer": "./src/newBugs/App/redux/createReducers",
-          "@core": "./src/newBugs"
+          "@reducers": "./src/newBugs/App/redux/Reducers",
+          "@core": "./src/newBugs",
+          "@models": "./src/models",
+          "@utils": "./src/utils"
         }
       }
     ]

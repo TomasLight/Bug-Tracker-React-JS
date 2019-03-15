@@ -1,18 +1,19 @@
 import {AnyAction, Dispatch} from "redux";
 import {connect} from "react-redux";
 
-import {IReducers} from "@reducer";
+import {Reducers} from "@reducers";
+import {UsersActions} from "@core/Users/PageUsers/redux/UsersActions";
 import {PageUsers, IPageUsersCallProps, IPageUsersProps} from "./PageUsers";
 
-const mapStateToProps = (state: IReducers, ownProps: IPageUsersProps): IPageUsersProps => {
+const mapStateToProps = (state: Reducers, ownProps: IPageUsersProps): IPageUsersProps => {
     return {
-        users: state.UserStore.users
+        users: state.usersStore.users
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>, ownProps: IPageUsersCallProps): IPageUsersCallProps => {
     return {
-        load: () => {}
+        load: () => dispatch(UsersActions.get())
     };
 };
 

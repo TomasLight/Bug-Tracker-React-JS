@@ -1,15 +1,18 @@
 import {AnyAction, Dispatch} from "redux";
 import {connect} from "react-redux";
 import {match, withRouter} from "react-router";
+import {push} from "connected-react-router";
 
-import {IReducers} from "@reducer";
-import {BugDTO} from "../../../models/bugs/BugDTO";
+import {Reducers} from "@reducers";
+import {urls} from "@core/App/PageComponentRouter";
+import {BugEditorActions} from "@core/Bugs/PageBugEditor/redux/BugEditorActions";
+import {BugDTO} from "@models/bugs/BugDTO";
 import {PageBugEditor, IBugEditorProps, IBugEditorCallProps} from "./PageBugEditor";
 
-const mapStateToProps = (state: IReducers, ownProps: IBugEditorProps): IBugEditorProps => {
+const mapStateToProps = (state: Reducers, ownProps: IBugEditorProps): IBugEditorProps => {
     return {
         apiUrl: ownProps.apiUrl,
-        bug: state.BugEditorStore.bug
+        bug: state.bugEditorStore.bug
     };
 };
 
@@ -19,9 +22,9 @@ type OwnCallProps = IBugEditorCallProps & {
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>, ownProps: OwnCallProps): IBugEditorCallProps => {
         return {
-            load: () => {ownProps.match.params.id},
-            renderBugList: () => {},
-            save: (bug: BugDTO) => {}
+            load: () => dispatch(BugEditorActions.get(ownProps.match.params.id)),
+            renderBugList: () => dispatch(push(urls.bugListPath)),
+            save: (bug: BugDTO) => dispatch(BugEditorActions.update(bug))
         };
     };
 
