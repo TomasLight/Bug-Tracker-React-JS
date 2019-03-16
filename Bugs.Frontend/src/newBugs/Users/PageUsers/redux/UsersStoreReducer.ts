@@ -5,7 +5,7 @@ import {UsersStore} from "@core/Users/PageUsers/redux/UsersStore";
 import {getNewState} from "@utils/stores/getNewState";
 import {nameof} from "@utils/nameof";
 
-export const UsersStoreReducer = (state: UsersStore = UsersStore.initialState, action: AnyAction): UsersStore => {
+export const UsersStoreReducer = (state: UsersStore = new UsersStore(), action: AnyAction): UsersStore => {
     switch(action.type) {
         case UsersActionsToStore.SET_DISABLED:
             return getNewState(state, action, nameof(() => state.disabled));

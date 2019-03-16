@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import {Callback} from "utils/interfaces/Callback";
+import {BugDTO} from "@models/bugs/BugDTO";
+import {StatusEnum} from "@models/enums/StatusEnum";
+import {Callback} from "@utils/interfaces/Callback";
 
-import {BugDTO} from "../../../models/bugs/BugDTO";
-import {StatusEnum} from "../../../models/enums/StatusEnum";
 import {StatusSelector} from "./StatusSelector/StatusSelector";
 import {PrioritySelector} from "./PrioritySelector/PrioritySelector";
 import {SeveritySelector} from "./SeveritySelector/SeveritySelector";

@@ -1,21 +1,16 @@
-const path = require("path");
-const merge = require("webpack-merge");
+import path from "path";
+import merge from "webpack-merge";
 
-const jsxRule = require("./rules/jsx-rule");
-const tsxRule = require("./rules/tsx-rule");
+import {jsxRule} from "./rules/jsx-rule";
+import {tsxRule} from "./rules/tsx-rule";
 
-const forkTsCheckerWebpackPlugin = require("./plugins/fork-ts-checker-webpack-plugin");
+import {forkTsCheckerWebpackPlugin} from "./plugins/fork-ts-checker-webpack-plugin";
 
 module.exports = merge(
     {
+        entry: "./src/newBugs/index.tsx",
         mode: "development",
         devtool: "eval-source-map",
-        entry: {
-            app: [
-                "@babel/polyfill",
-                "./src/newBugs/index.tsx"
-            ]
-        },
         output: {
             filename: "[name].js",
             path: path.join(__dirname, "/../../Bugs/wwwroot/js/"),
@@ -25,6 +20,7 @@ module.exports = merge(
             extensions: [".js", ".jsx", ".ts", ".tsx"],
             modules: [
                 path.resolve(__dirname + "../"),
+                path.resolve(__dirname + "../src/"),
                 "node_modules"
             ]
         }

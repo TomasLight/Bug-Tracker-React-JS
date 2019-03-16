@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Callback} from "utils/interfaces/Callback";
+import {Callback} from "@utils/interfaces/Callback";
 
 export interface INavBarProps {
 

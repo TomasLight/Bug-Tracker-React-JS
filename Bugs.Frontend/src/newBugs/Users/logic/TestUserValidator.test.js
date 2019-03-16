@@ -1,4 +1,3 @@
-import {} from "jest";
 import {TestUserValidator} from "./TestUserValidator";
 import {UserDTO} from "../../../models/users/UserDTO";
 

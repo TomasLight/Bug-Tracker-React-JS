@@ -1,9 +1,9 @@
-const forkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+import Plugin from "fork-ts-checker-webpack-plugin";
 
-module.exports = function() {
+export function forkTsCheckerWebpackPlugin() {
     return {
         plugins: [
-            new forkTsCheckerWebpackPlugin()
+            new Plugin()
         ]
     };
 };

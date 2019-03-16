@@ -5,7 +5,7 @@ import {BugEditorStore} from "@core/Bugs/PageBugEditor/redux/BugEditorStore";
 import {getNewState} from "@utils/stores/getNewState";
 import {nameof} from "@utils/nameof";
 
-export const BugEditorStoreReducer = (state: BugEditorStore = BugEditorStore.initialState, action: AnyAction): BugEditorStore => {
+export const BugEditorStoreReducer = (state: BugEditorStore = new BugEditorStore(), action: AnyAction): BugEditorStore => {
     switch(action.type) {
         case BugEditorActionsToStore.SET_DISABLED:
             return getNewState(state, action, nameof(() => state.disabled));

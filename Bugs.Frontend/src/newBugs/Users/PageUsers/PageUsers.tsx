@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import {Callback} from "utils/interfaces/Callback";
+import {UserDTO} from "@models/users/UserDTO";
+import {Callback} from "@utils/interfaces/Callback";
 
-import {UserDTO} from "../../../models/users/UserDTO";
 import {UserItemContainer} from "./UserItem/UserItemContainer";
 
 export interface IPageUsersProps {

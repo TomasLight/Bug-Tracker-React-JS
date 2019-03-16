@@ -2,7 +2,7 @@ import {AnyAction, Dispatch} from "redux";
 import {connect} from "react-redux";
 
 import {Reducers} from "@reducers";
-import {UsersActions} from "@core/Users/PageUsers/redux/UsersActions";
+import {UsersActions} from "@core/Users/PageUsers/redux/saga/UsersActions";
 import {PageUsers, IPageUsersCallProps, IPageUsersProps} from "./PageUsers";
 
 const mapStateToProps = (state: Reducers, ownProps: IPageUsersProps): IPageUsersProps => {

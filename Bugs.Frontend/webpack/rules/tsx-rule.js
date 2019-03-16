@@ -1,4 +1,4 @@
-module.exports = function() {
+export function tsxRule() {
     return {
         module: {
             rules: [

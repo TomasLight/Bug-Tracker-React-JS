@@ -1,4 +1,4 @@
-module.exports = function() {
+export function jsxRule() {
     return {
         module: {
             rules: [
@@ -10,4 +10,4 @@ module.exports = function() {
             ],
         },
     };
-};
+}

@@ -1,9 +1,12 @@
 {
   "presets": [
-    "@babel/preset-env",
+    ["@babel/preset-env", {
+      "useBuiltIns": "usage"
+    }],
     "@babel/preset-react",
     "@babel/preset-typescript"
   ],
+
   "plugins": [
     "@babel/plugin-syntax-dynamic-import",
     [
@@ -13,6 +16,7 @@
         "alias": {
           "@reducers": "./src/newBugs/App/redux/Reducers",
           "@core": "./src/newBugs",
+          "@api": "./src/api",
           "@models": "./src/models",
           "@utils": "./src/utils"
         }
