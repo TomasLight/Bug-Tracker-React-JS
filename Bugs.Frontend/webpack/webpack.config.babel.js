@@ -1,14 +1,18 @@
 import path from "path";
 import merge from "webpack-merge";
 
-import {jsxRule} from "./rules/jsx-rule";
 import {tsxRule} from "./rules/tsx-rule";
 
 import {forkTsCheckerWebpackPlugin} from "./plugins/fork-ts-checker-webpack-plugin";
 
 module.exports = merge(
     {
-        entry: "./src/newBugs/index.tsx",
+        entry: {
+            app: [
+                "@babel/polyfill",
+                "./src/newBugs/index.tsx"
+            ]
+        },
         mode: "development",
         devtool: "eval-source-map",
         output: {
@@ -25,7 +29,6 @@ module.exports = merge(
             ]
         }
     },
-    jsxRule(),
     tsxRule(),
     forkTsCheckerWebpackPlugin()
 );

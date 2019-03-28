@@ -58,8 +58,8 @@ export class PageUsers extends React.Component<Props> {
                     users.map((user: UserDTO) => {
                         return (
                             <UserItemContainer key={"user-" + user.id}
-                                      user={user}
-                                      userProperties={userProperties}/>
+                                               user={user}
+                                               userProperties={userProperties}/>
                         );
                     })
                 }

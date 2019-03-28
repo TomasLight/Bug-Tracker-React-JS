@@ -17,13 +17,15 @@ export class UsersSaga {
 
     public static* getUsers() {
         yield UsersSaga.setDisabled(true);
-        try {
-            const response: HttpResponse<Array<UserDTO>> = yield UsersApi.getUsers();
-            yield UsersSaga.setUsers(response.data);
+        const {data, errorMessage} = yield UsersApi.getUsers();
+        debugger;
+        if (data) {
+            yield UsersSaga.setUsers(data);
         }
-        catch (e) {
-            console.log(e);
+        else {
+            console.log(errorMessage);
         }
+
         yield UsersSaga.setDisabled(false);
     }
 }

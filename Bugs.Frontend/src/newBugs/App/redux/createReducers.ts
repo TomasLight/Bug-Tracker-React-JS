@@ -11,10 +11,10 @@ export function createReducers(history: History) {
     return combineReducers({
         router: connectRouter(history),
 
-        BugsStoreReducer,
-        BugEditorStoreReducer,
+        bugsStore: BugsStoreReducer,
+        bugEditorStore: BugEditorStoreReducer,
 
-        UsersStoreReducer,
-        UserEditorStoreReducer
+        usersStore: UsersStoreReducer,
+        userEditorStore: UserEditorStoreReducer
     });
 }

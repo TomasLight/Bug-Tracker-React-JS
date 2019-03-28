@@ -27,7 +27,31 @@ namespace Bugs.Controllers
             _repository = repository;
         }
 
+        [Route("api/users")]
+        public IActionResult TestUsers()
+        {
+            return BadRequest("asd");
+            
+            return Ok(new List<User>
+            {
+                new User
+                {
+                    Id = 1,
+                    Login = "test login",
+                    Password = "test password",
+                    Histories = new List<History>(),
+                    LastName = "test lastname",
+                    FirstName = "test firstname"
+                }
+            });
+        }
+
 //        [Authorize]
+        [Route("/")]
+        [Route("/users")]
+        [Route("/bugs")]
+        [Route("/users/{id}")]
+        [Route("/bugs/{id}")]
         public IActionResult Index()
         {
 //            if (!HttpContext.Session.Keys.Contains("ActualPage"))
