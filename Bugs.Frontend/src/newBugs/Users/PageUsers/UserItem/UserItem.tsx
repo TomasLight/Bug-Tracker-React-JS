@@ -1,5 +1,6 @@
 import * as React from "react";
-import {UserDTO} from "../../../../models/users/UserDTO";
+
+import {UserDTO} from "@models/users/UserDTO";
 
 export interface IUserItemProps {
     user: UserDTO;

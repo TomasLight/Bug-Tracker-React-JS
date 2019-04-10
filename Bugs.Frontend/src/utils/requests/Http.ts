@@ -26,23 +26,19 @@ export class Http {
         return isResolveResponse ? Http.resolvePromise(promise) : promise;
     }
 
-    private static resolvePromise<T>(promise: Promise<HttpResponse<T>>): Promise<{data: T} | {errorMessage: T}> {
+    private static resolvePromise<T>(promise: Promise<HttpResponse<T>>): Promise<HttpResponse<T>> {
         return promise
             .then(
-                response => Http.extractDataResponse<T>(response)
+                response => response
             )
             .catch(
-                error => Http.extractErrorDataResponse<T>(error)
+                error => Http.extractErrorDataResponse(error)
             );
     }
 
-    private static extractDataResponse<T>(response: HttpResponse): {data: T} {
-        const data: T = response.data;
-        return {data};
-    }
-
-    private static extractErrorDataResponse<T>(error: AxiosError): {errorMessage: T} {
-        const errorMessage: T = error.response.data;
-        return {errorMessage};
+    private static extractErrorDataResponse(error: AxiosError): HttpResponse {
+        return {
+            errorMessage: error.response.data
+        };
     }
 }

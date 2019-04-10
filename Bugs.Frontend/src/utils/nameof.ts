@@ -1,4 +1,3 @@
-// export const nameof = obj => obj.toString().match(/[.](\w+)/)[1];
 export function nameof(expression: () => any): string {
     if (typeof(expression) !== "function") {
         return undefined;

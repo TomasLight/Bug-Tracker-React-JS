@@ -2,7 +2,7 @@ import {AnyAction, Dispatch} from "redux";
 import {connect} from "react-redux";
 
 import {Reducers} from "@reducers";
-import {UsersActions} from "@core/Users/PageUsers/redux/saga/UsersActions";
+import {UsersSagaActions} from "@core/Users/PageUsers/redux/saga/UsersSaga.actions";
 import {PageUsers, IPageUsersCallProps, IPageUsersProps} from "./PageUsers";
 
 const mapStateToProps = (state: Reducers, ownProps: IPageUsersProps): IPageUsersProps => {
@@ -13,7 +13,7 @@ const mapStateToProps = (state: Reducers, ownProps: IPageUsersProps): IPageUsers
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>, ownProps: IPageUsersCallProps): IPageUsersCallProps => {
     return {
-        load: () => dispatch(UsersActions.get())
+        load: () => dispatch(UsersSagaActions.get())
     };
 };
 

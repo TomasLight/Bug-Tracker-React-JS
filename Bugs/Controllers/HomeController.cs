@@ -30,8 +30,6 @@ namespace Bugs.Controllers
         [Route("api/users")]
         public IActionResult TestUsers()
         {
-            return BadRequest("asd");
-            
             return Ok(new List<User>
             {
                 new User

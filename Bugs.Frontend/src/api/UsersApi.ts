@@ -2,10 +2,9 @@ import {call, CallEffect} from "redux-saga/effects";
 
 import {UserDTO} from "@models/users/UserDTO";
 import {Http} from "@utils/requests/Http";
-import {HttpResponse} from "@utils/requests/HttpResponse";
 
 export class UsersApi {
-    public static getUsers() {
+    public static getUsers(): CallEffect {
         return call(Http.get, "api/users");
     }
 

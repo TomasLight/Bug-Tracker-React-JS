@@ -4,7 +4,7 @@ import {History} from "history";
 
 import {BugsStoreReducer} from "@core/Bugs/PageBugs/redux/BugsStoreReducer";
 import {BugEditorStoreReducer} from "@core/Bugs/PageBugEditor/redux/BugEditorStoreReducer";
-import {UsersStoreReducer} from "@core/Users/PageUsers/redux/UsersStoreReducer";
+import {UsersStoreReducer} from "@core/Users/PageUsers/redux/UsersStore.reducer";
 import {UserEditorStoreReducer} from "@core/Users/PageUserEditor/redux/UserEditorStoreReducer";
 
 export function createReducers(history: History) {

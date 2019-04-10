@@ -55,11 +55,11 @@ export class PageComponentRouter extends React.Component<IPageComponentRouterPro
         return (
             <Layout>
                 <Switch>
-                    <Route exact path={urls.loginPath} component={() => <PageLogin/>}/>
-                    <Route exact path={urls.bugListPath} component={() => <PageBugs/>}/>
+                    <Route exact path={urls.loginPath} component={PageLogin}/>
+                    <Route exact path={urls.bugListPath} component={PageBugs}/>
                     <Route exact path={urls.editBugPath}
                            component={(props: RouteComponentProps<{id: string}>) => <PageBugEditor/>}/>
-                    <Route exact path={urls.userListPath} component={() => <PageUsers/>}/>
+                    <Route exact path={urls.userListPath} component={PageUsers}/>
                     <Route exact path={urls.editUserPath}
                            component={(props: RouteComponentProps<{id: string}>) => <PageUserEditor/>}/>
                 </Switch>

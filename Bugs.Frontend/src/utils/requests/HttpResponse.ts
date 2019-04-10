@@ -1,6 +1,6 @@
 export class HttpResponse<T = any> {
     data?: T;
-    errorMessage?: T;
+    errorMessage?: string;
     // status: number;
     // statusText: string;
     // headers: any;
