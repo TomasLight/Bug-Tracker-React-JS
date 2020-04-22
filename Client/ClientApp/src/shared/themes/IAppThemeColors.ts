@@ -1,13 +1,13 @@
-import { IActiveColor } from "@shared/themes/colors/IActiveColor";
+import { IButtonColor } from "@shared/themes/colors/IButtonColor";
 import { IBorderColor } from "@shared/themes/colors/IBorderColor";
 import { IColor } from "@shared/themes/colors/IColor";
 import { ITextColor } from "@shared/themes/colors/ITextColor";
 
 export interface IAppThemeColors {
-    default: IActiveColor;
-    primary: IActiveColor;
-    secondary: IActiveColor;
-    destructive: IActiveColor;
+    default: IButtonColor;
+    primary: IButtonColor;
+    secondary: IButtonColor;
+    destructive: IButtonColor;
 
     success: IColor;
     info: IColor;
