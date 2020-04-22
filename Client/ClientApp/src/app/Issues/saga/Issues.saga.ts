@@ -30,8 +30,7 @@ export class IssuesSaga extends SagaBase {
             yield IssuesSaga.updateStore({
                 issuesAreLoading: false,
             });
-            const notification = new Notification(response);
-            yield put(NotifierActions.enqueueSnackbar(notification));
+            yield SagaBase.displayClientError(response);
             return;
         }
 
