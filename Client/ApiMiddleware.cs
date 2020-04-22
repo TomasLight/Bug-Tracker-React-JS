@@ -23,11 +23,11 @@ namespace Client
 			if (context.Request.Path.StartsWithSegments("/api"))
 			{
 				var request = new HttpRequestMessage();
-				
+
 				var baseUrl = $"http://localhost:5000";
 				var url = $"{context.Request.Path}";
 				request.RequestUri = new Uri($"{baseUrl}{url}");
-				
+
 				request.Method = new HttpMethod(context.Request.Method);
 
 				foreach (var header in context.Request.Headers)
@@ -38,11 +38,9 @@ namespace Client
 				var client = _clientFactory.CreateClient();
 
 				var response = await client.SendAsync(request);
-				if (response.IsSuccessStatusCode)
-				{
-					var responseJson = await response.Content.ReadAsStringAsync();
-					await context.Response.WriteAsync(responseJson);
-				}
+				var responseJson = await response.Content.ReadAsStringAsync();
+				context.Response.StatusCode = (int) response.StatusCode;
+				await context.Response.WriteAsync(responseJson);
 			}
 		}
 	}

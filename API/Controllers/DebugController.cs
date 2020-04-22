@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Routing;
 namespace API.Controllers
 {
 	[ApiController]
-	[Route("debug")]
+	[Route("api/debug")]
 	public class DebugController : ControllerBase
 	{
 		private readonly EndpointDataSource _endpointDataSource;
@@ -16,6 +16,13 @@ namespace API.Controllers
 		public DebugController(EndpointDataSource endpointDataSource)
 		{
 			_endpointDataSource = endpointDataSource;
+		}
+
+		[HttpGet]
+		[Route("error")]
+		public IActionResult GetError()
+		{
+			return NotFound("Some error message");
 		}
 
 		[HttpGet]
