@@ -1,32 +1,29 @@
-import { OptionsObject } from "notistack";
+import { ApiResponse } from "@utils/api/ApiResponse";
+import { OptionsObject, VariantType } from "notistack";
 import { ReactNode } from "react";
-
-// import { HttpException } from "@utils/exceptions/HttpException";
-// import { HttpError } from "@utils/http/HttpError";
 
 export class Notification {
     public message: string | ReactNode;
     public options?: OptionsObject;
     public key?: string;
 
-    constructor(messageOrError: string /*| HttpError | HttpException*/, options?: OptionsObject) {
-        if (options) {
-            this.options = options;
+    constructor(messageOrApiResponse: string | ApiResponse, options: OptionsObject = {}) {
+        this.options = options;
+
+        if (messageOrApiResponse instanceof ApiResponse) {
+            this.message = messageOrApiResponse.error;
+            this.options.variant = this.chooseVariant(messageOrApiResponse);
         }
         else {
-            this.options = {};
+            this.message = messageOrApiResponse;
+        }
+    }
+
+    private chooseVariant(response: ApiResponse): VariantType {
+        if (response.hasClientError()) {
+            return "warning";
         }
 
-        // if (messageOrError instanceof HttpException) {
-        //     this.message = messageOrError.message;
-        //     this.options.variant = "error";
-        // }
-        // else if (messageOrError instanceof HttpError) {
-        //     this.message = messageOrError.message;
-        //     this.options.variant = messageOrError.isClientError() ? "warning" : "error";
-        // }
-        // else {
-            this.message = messageOrError;
-        // }
+        return "error";
     }
 }

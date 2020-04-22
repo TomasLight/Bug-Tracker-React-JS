@@ -1,13 +1,16 @@
 import { put } from "@redux-saga/core/effects";
 
+import { ApiResponse } from "@utils/api/ApiResponse";
+import { AppAction } from "@utils/redux/AppAction";
+import { DebugApi } from "@api/DebugApi";
 import { IssuesApi } from "@api/IssuesApi";
 import { IIssueDto } from "@api/models/issues/responses/IssueDto";
 import { Issue } from "@app/Issues/models/Issue";
 import { IssuesActions } from "@app/Issues/redux/Issues.actions";
 import { IssuesStore } from "@app/Issues/redux/Issues.store";
-import { ApiResponse } from "@utils/api/ApiResponse";
+import { NotifierActions } from "@app/Notifier/redux/Notifier.actions";
+import { Notification } from "@app/Notifier/Notification";
 import { Mapper } from "@utils/mapping/Mapper";
-import { AppAction } from "@utils/redux/AppAction";
 import { SagaBase } from "@utils/saga/SagaBase";
 
 export class IssuesSaga extends SagaBase {
@@ -21,8 +24,14 @@ export class IssuesSaga extends SagaBase {
         });
 
         const response: ApiResponse<IIssueDto[]> = yield IssuesApi.getIssues();
-        if (response.statusCode !== 200) {
-
+        // const response: ApiResponse<IIssueDto[]> = yield DebugApi.getError();
+        // debugger;
+        if (response.hasError()) {
+            yield IssuesSaga.updateStore({
+                issuesAreLoading: false,
+            });
+            const notification = new Notification(response);
+            yield put(NotifierActions.enqueueSnackbar(notification));
             return;
         }
 

@@ -1,9 +1,8 @@
-import { call } from "@redux-saga/core/effects";
-
+import { IIssueDto } from "@api/models/issues/responses/IssueDto";
 import { ApiBase } from "@utils/api/ApiBase";
 
 export class IssuesApi extends ApiBase {
     public static getIssues() {
-        return call(this.get, "/api/issues");
+        return this.get<IIssueDto[]>("/api/issues");
     }
 }

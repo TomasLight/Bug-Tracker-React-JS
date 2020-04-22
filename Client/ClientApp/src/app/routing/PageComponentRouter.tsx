@@ -1,3 +1,4 @@
+import { NotifierContainer } from "@app/Notifier/Notifier.container";
 import React, { FunctionComponent } from "react";
 import { Route, Switch } from "react-router";
 
@@ -12,6 +13,8 @@ const PageComponentRouter: FunctionComponent = () => {
             <Switch>
                 <Route exact path={appUrls.rootPath} component={IssuesPageContainer}/>
             </Switch>
+
+            <NotifierContainer/>
         </Layout>
     );
 };
