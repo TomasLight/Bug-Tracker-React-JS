@@ -1,5 +1,7 @@
+import { ApiResponseStatus } from "@utils/api/ApiResponseStatus";
+
 export class ApiResponse<TResponseData> {
-    public statusCode: number;
+    public statusCode: ApiResponseStatus;
     public data: TResponseData;
 
     constructor() {
