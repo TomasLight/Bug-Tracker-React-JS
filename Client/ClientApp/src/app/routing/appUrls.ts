@@ -1,5 +1,7 @@
 export const appUrls = {
     rootPath: "/",
+    issuesPath: "/issues",
+    usersPath: "/users",
 };
 
 // todo: think about improvements

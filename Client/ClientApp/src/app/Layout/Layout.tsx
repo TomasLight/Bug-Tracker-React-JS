@@ -6,6 +6,8 @@ import {
 } from "@material-ui/core";
 import { IAppTheme } from "@shared/themes/IAppTheme";
 
+import { NavbarContainer } from "@app/Layout/Navbar/Navbar.container";
+
 const useStyles = makeStyles((theme: IAppTheme) => ({
         root: {
             height: "100%",
@@ -23,6 +25,7 @@ const Layout: FunctionComponent = ({ children }) => {
 
     return (
         <Grid container className={classes.root}>
+            <NavbarContainer/>
             <Grid item className={classes.container}>
                 {children}
             </Grid>

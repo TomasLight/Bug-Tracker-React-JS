@@ -38,17 +38,17 @@ export class AppThemeColors implements IAppThemeColors {
         };
 
         this.primary = {
-            main: "rgba(224, 224, 224)",
-            hover: "rgba(213, 213, 213)",
-            text: "rgba(0, 0, 0, 0.87)",
+            main: "rgba(33, 33, 33)",
+            hover: "rgba(66, 66, 66)",
+            text: "rgba(189, 189, 189, 0.87)",
 
             outline: {
                 main: "rgba(255, 255, 255)",
                 hover: "rgba(0, 0, 0, 0.08)",
             },
             disabled: {
-                main: "rgba(0, 0, 0, 0.12)",
-                text: "rgba(0, 0, 0, 0.38)",
+                main: "rgba(238, 238, 238)",
+                text: "rgba(189, 189, 189, 0.87)",
             },
         };
 
