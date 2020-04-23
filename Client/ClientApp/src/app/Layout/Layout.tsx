@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
 );
 
 const Layout: FunctionComponent = ({ children }) => {
-    const classes = useStyles({});
+    const classes = useStyles();
 
     return (
         <Grid container className={classes.root}>

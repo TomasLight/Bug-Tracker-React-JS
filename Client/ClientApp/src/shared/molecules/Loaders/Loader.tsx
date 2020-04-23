@@ -21,7 +21,7 @@ interface ILoaderBlockOwnProps {
 type Props = ILoaderBlockOwnProps & CircularProgressProps;
 
 const Loader: FunctionComponent<Props> = (props: Props) => {
-    const classes = useStyles({});
+    const classes = useStyles();
     const { isLoading, className, testId, ...rest } = props;
 
     const loaderClassName = clsx(

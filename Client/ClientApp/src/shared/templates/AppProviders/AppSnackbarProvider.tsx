@@ -28,7 +28,7 @@ type Props = PropsWithChildren<any>;
 const AppSnackbarProvider: FunctionComponent<Props> = (props: Props) => {
     const { children } = props;
 
-    const classes = useStyles({});
+    const classes = useStyles();
     return (
         <SnackbarProvider
             maxSnack={5}

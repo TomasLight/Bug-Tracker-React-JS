@@ -36,7 +36,7 @@ interface ILoaderBlockProps {
 type Props = ILoaderBlockProps;
 
 const LoaderBlock: FunctionComponent<Props> = (props: Props) => {
-    const classes = useStyles({});
+    const classes = useStyles();
     const { isLoading, className } = props;
 
     const rootClasses = clsx(

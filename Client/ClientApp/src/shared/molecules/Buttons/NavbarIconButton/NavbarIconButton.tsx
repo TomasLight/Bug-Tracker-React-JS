@@ -43,7 +43,7 @@ const NavbarIconButton: FunctionComponent<Props> = (props) => {
         ...rest
     } = props;
 
-    const classes = useStyles({});
+    const classes = useStyles();
 
     let className = classes.root;
     if (isActive) {

@@ -34,7 +34,7 @@ type Props = INavbarProps & INavbarCallProps;
 
 const Navbar: FunctionComponent<Props> = (props) => {
     const { location, redirect } = props;
-    const classes = useStyles({});
+    const classes = useStyles();
 
     const redirectToRoot = () => {
         redirect(appUrls.rootPath);
