@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Enums", "Domain.Enum
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Services", "Domain.Services\Domain.Services.csproj", "{AAF87D92-A414-4055-A6BF-EE422B7AFA0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{BD78E77C-5FB0-418E-BCB4-CD77CBC20E22}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{FBF81C21-9D9D-4C38-9857-219B8AE7EFD5}"
 EndProject
 Global
@@ -57,10 +55,6 @@ Global
 		{AAF87D92-A414-4055-A6BF-EE422B7AFA0E}.Release|Any CPU.Build.0 = Release|Any CPU
 				# Bugs
 				# DataLayer
-		{BD78E77C-5FB0-418E-BCB4-CD77CBC20E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD78E77C-5FB0-418E-BCB4-CD77CBC20E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD78E77C-5FB0-418E-BCB4-CD77CBC20E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD78E77C-5FB0-418E-BCB4-CD77CBC20E22}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBF81C21-9D9D-4C38-9857-219B8AE7EFD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FBF81C21-9D9D-4C38-9857-219B8AE7EFD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBF81C21-9D9D-4C38-9857-219B8AE7EFD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
