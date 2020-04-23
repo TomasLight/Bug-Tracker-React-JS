@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
             backgroundColor: theme.colors.background,
             boxSizing: "border-box",
             minHeight: "100%",
+            flex: 1,
         },
     })
 );
