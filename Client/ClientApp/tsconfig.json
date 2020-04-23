@@ -1,0 +1,41 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "checkJs": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "jsx": "react",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "noErrorTruncation": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "target": "es6",
+        "watch": false,
+
+        "baseUrl": "./src/",
+        "paths": {
+            "@State": ["config/redux/State"],
+            "@app/*": ["app/*"],
+
+            "@api/*": ["api/*"],
+            "@config/*": ["config/*"],
+            "@models/*": ["models/*"],
+            "@selectors/*": ["utils/redux/selectors/*"],
+            "@shared/*": ["shared/*"],
+            "@utils/*": ["utils/*"]
+        },
+        "plugins": [{ "name": "typescript-tslint-plugin" }]
+    },
+    "include": ["**/*.tsx", "**/*.ts"],
+    "exclude": [
+        "node_modules",
+        "build",
+        "scripts",
+        "src/apps/oldApp/assets",
+        "webpack"
+    ]
+}
