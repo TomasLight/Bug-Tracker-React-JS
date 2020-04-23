@@ -14,9 +14,9 @@ namespace Data.Issues
 		
 		public string Description { get; set; }
 		
-		public int Urgency { get; set; }
+		public int Priority { get; set; }
 		
-		public int Severity { get; set; }
+		public int Difficulty { get; set; }
 		
 		public int Status { get; set; }
 		

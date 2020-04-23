@@ -1,7 +1,7 @@
 import { IssueType } from "@app/Issues/models/IssueType";
-import { Severity } from "@app/Issues/models/Severity";
+import { Priority } from "@app/Issues/models/Priority";
 import { Status } from "@app/Issues/models/Status";
-import { Urgency } from "@app/Issues/models/Urgency";
+import { Difficulty } from "@app/Issues/models/Difficulty";
 
 export class Issue {
     public id: number;
@@ -9,8 +9,8 @@ export class Issue {
     public reporterId: number;
     public title: string;
     public description: string;
-    public urgency: Urgency;
-    public severity: Severity;
+    public urgency: Difficulty;
+    public severity: Priority;
     public status: Status;
     public date: Date;
 
@@ -20,8 +20,8 @@ export class Issue {
         this.reporterId = null;
         this.title = "";
         this.description = "";
-        this.urgency = Urgency.NA;
-        this.severity = Severity.NA;
+        this.urgency = Difficulty.NA;
+        this.severity = Priority.NA;
         this.status = Status.NA;
         this.date = new Date();
     }

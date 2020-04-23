@@ -116,10 +116,10 @@ namespace Domain.Services
 			
 			builder.AppendDiff(nameof(pristineIssue.Title));
 			builder.AppendDiff(nameof(pristineIssue.Description));
-			builder.AppendDiff(nameof(pristineIssue.Severity));
+			builder.AppendDiff(nameof(pristineIssue.Priority));
+			builder.AppendDiff(nameof(pristineIssue.Difficulty));
 			builder.AppendDiff(nameof(pristineIssue.Status));
 			builder.AppendDiff(nameof(pristineIssue.Type));
-			builder.AppendDiff(nameof(pristineIssue.Urgency));
 
 			var changes = builder.Build();
 			return changes;

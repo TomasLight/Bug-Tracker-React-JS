@@ -4,8 +4,8 @@ export interface IIssueDto {
     reporterId: number;
     title: string;
     description: string;
-    urgency: number;
-    severity: number;
+    difficulty: number;
+    priority: number;
     status: number;
     date: Date;
 }

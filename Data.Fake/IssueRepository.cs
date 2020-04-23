@@ -19,8 +19,7 @@ namespace Data.Fake
 				Date = DateTime.Now,
 				Title = "Currency cannot be null",
 				Description = "'Currency' field on Main form can be empty, and no validation errors here",
-				Urgency = (int) Urgency.Third,
-				Severity = (int) Severity.Low,
+				Priority = (int) Priority.Low,
 				Status = (int) Status.New,
 			},
 			new Issue
@@ -31,8 +30,7 @@ namespace Data.Fake
 				Date = DateTime.Today,
 				Title = "Spike: Price converting",
 				Description = "Investigate how we can convert prices to client currency",
-				Urgency = (int) Urgency.Second,
-				Severity = (int) Severity.Medium,
+				Priority = (int) Priority.Medium,
 				Status = (int) Status.New,
 			},
 		};
@@ -65,11 +63,11 @@ namespace Data.Fake
 
 			targetIssue.Date = issue.Date;
 			targetIssue.Description = issue.Description;
-			targetIssue.Severity = issue.Severity;
+			targetIssue.Priority = issue.Priority;
+			targetIssue.Difficulty = issue.Difficulty;
 			targetIssue.Status = issue.Status;
 			targetIssue.Title = issue.Title;
 			targetIssue.Type = issue.Type;
-			targetIssue.Urgency = issue.Urgency;
 			targetIssue.ReporterId = issue.ReporterId;
 			
 			return Task.FromResult(targetIssue);

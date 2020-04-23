@@ -14,10 +14,10 @@ namespace API.Models.Issues.Requests
 		public string Description { get; set; }
 		
 		[Required]
-		public Urgency Urgency { get; set; }
+		public Priority Priority { get; set; }
 		
 		[Required]
-		public Severity Severity { get; set; }
+		public Difficulty Difficulty { get; set; }
 		
 		[Required]
 		public Status Status { get; set; }

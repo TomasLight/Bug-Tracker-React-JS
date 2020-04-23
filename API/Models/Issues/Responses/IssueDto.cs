@@ -15,9 +15,9 @@ namespace API.Models.Issues.Responses
 		
 		public string Description { get; set; }
 		
-		public Urgency Urgency { get; set; }
+		public Priority Priority { get; set; }
 		
-		public Severity Severity { get; set; }
+		public Difficulty Difficulty { get; set; }
 		
 		public Status Status { get; set; }
 		
