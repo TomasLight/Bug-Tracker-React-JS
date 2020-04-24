@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { IAppTheme } from "@shared/themes/IAppTheme";
+import { IAppTheme } from "mui-app-theme";
 import { TypographySizeVariant } from "./TypographySizeVariant";
 
 export const useTypographySizeStyles = makeStyles<IAppTheme, TypographySizeVariant>((theme: IAppTheme) => ({

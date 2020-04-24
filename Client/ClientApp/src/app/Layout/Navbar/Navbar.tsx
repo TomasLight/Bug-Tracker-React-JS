@@ -1,13 +1,15 @@
-import { NavbarButton } from "@app/Layout/Navbar/NavbarButton/NavbarButton";
-import { appUrls } from "@app/routing/appUrls";
+import { Location } from "history";
+import { IAppTheme } from "mui-app-theme";
+import React, { FunctionComponent } from "react";
+
 import { Grid } from "@material-ui/core";
 import { BugReport, People, ExitToApp } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
+
+import { NavbarButton } from "@app/Layout/Navbar/NavbarButton/NavbarButton";
+import { appUrls } from "@app/routing/appUrls";
 import { Logo } from "@shared/atoms/icons/Logo";
 import { NavbarIconButton } from "@shared/molecules/Buttons/NavbarIconButton/NavbarIconButton";
-import { IAppTheme } from "@shared/themes/IAppTheme";
-import { Location } from "history";
-import React, { FunctionComponent } from "react";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     navbar: {

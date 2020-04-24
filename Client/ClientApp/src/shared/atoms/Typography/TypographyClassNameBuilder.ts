@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { ClassNameMap } from "@material-ui/styles";
-
-import { useThemeColorStyles } from "@shared/themes/styles/ThemeColorStyles";
+import { useThemeColorStyles } from "mui-app-theme";
 
 import { TypographyColorVariant } from "./TypographyColorVariant";
 import { useTypographySizeStyles } from "./TypographySizeStyles";

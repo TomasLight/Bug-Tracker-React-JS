@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
-import { IAppTheme } from "@shared/themes/IAppTheme";
+import { IAppTheme } from "mui-app-theme";
 
 export type TypographyClassNameKeys =
     | "root"

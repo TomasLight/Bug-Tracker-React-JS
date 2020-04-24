@@ -1,10 +1,10 @@
+import { IAppTheme } from "mui-app-theme";
 import React, { FunctionComponent } from "react";
 
 import {
     Grid,
     makeStyles
 } from "@material-ui/core";
-import { IAppTheme } from "@shared/themes/IAppTheme";
 
 import { NavbarContainer } from "@app/Layout/Navbar/Navbar.container";
 

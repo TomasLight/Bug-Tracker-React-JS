@@ -1,5 +1,4 @@
-import { MainColorVariant } from "@shared/themes/styles/MainColorVariant";
-import { TextColorVariant } from "@shared/themes/styles/TextColorVariant";
+import { MainColorVariant, TextColorVariant } from "mui-app-theme";
 
 export type TypographyColorVariant =
     | TextColorVariant

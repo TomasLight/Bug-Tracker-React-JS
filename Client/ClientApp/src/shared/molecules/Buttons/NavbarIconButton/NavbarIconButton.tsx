@@ -1,9 +1,9 @@
 import clsx from "clsx";
+import { IAppTheme } from "mui-app-theme";
 import React, { FunctionComponent } from "react";
 
 import { IconButton, IconButtonProps } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { IAppTheme } from "@shared/themes/IAppTheme";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     root: {
