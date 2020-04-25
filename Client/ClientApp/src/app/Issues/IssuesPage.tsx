@@ -59,6 +59,7 @@ const IssuesPage: FunctionComponent<Props> = (props) => {
         <Grid container direction={"column"} className={classes.page}>
             <IssuePageHeaderContainer/>
 
+            <IssuesContainer openIssue={openIssue}/>
 
             <Fab color="primary" aria-label="add" onClick={createIssue} className={classes.addButton}>
                 <Add/>
