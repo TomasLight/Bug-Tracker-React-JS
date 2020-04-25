@@ -5,6 +5,7 @@ import React, { FunctionComponent } from "react";
 interface INavbarButtonProp {
     location: Location;
     url: string;
+    exact?: boolean;
 }
 
 interface INavbarButtonCallProp {
@@ -18,10 +19,13 @@ const NavbarButton: FunctionComponent<Props> = (props) => {
         children,
         location,
         url,
+        exact = false,
         redirect,
     } = props;
 
-    const isActive = location.pathname.startsWith(url);
+    const isActive = exact
+        ? location.pathname === url
+        : location.pathname.startsWith(url);
 
     const handleRedirect = () => {
         if (!isActive) {

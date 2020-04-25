@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
     cardFooter: {
         padding: "0px 8px 8px 12px",
     },
+    issueId: {
+        cursor: "pointer",
+    },
 }));
 
 export interface IIssueCardProps {
@@ -66,7 +69,7 @@ const IssueCard: FunctionComponent<Props> = (props) => {
                     </Grid>
 
                     <Grid item>
-                        <Typography onClick={handleOpenIssueByLink}>
+                        <Typography onClick={handleOpenIssueByLink} className={classes.issueId}>
                             {`Id-${issue.id}`}
                         </Typography>
                     </Grid>

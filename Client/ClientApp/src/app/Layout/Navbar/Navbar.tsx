@@ -58,11 +58,11 @@ const Navbar: FunctionComponent<Props> = (props) => {
                     onClick={redirectToRoot}
                 />
 
-                <NavbarButton {...navigationProps} url={appUrls.issuesPath}>
+                <NavbarButton {...navigationProps} url={appUrls.issuesPath} exact>
                     <BugReport/>
                 </NavbarButton>
 
-                <NavbarButton {...navigationProps} url={appUrls.usersPath}>
+                <NavbarButton {...navigationProps} url={appUrls.usersPath} exact>
                     <People/>
                 </NavbarButton>
             </Grid>
