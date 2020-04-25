@@ -16,8 +16,8 @@ export class Translate {
         [ "issue-status", Translate.getIssueStatusText ],
     ]);
 
-    private static getIssueStatusText(options: { issueStatus: Status }): string {
-        switch (options.issueStatus) {
+    private static getIssueStatusText(options: { status: Status }): string {
+        switch (options.status) {
             case Status.New:
             case Status.Reopened:
                 return "Open";
@@ -38,7 +38,7 @@ export class Translate {
                 return "Done";
 
             default:
-                throw Error(`Translate.getString - Invalid key for Issue status: ${options.issueStatus}`);
+                throw Error(`Translate.getString - Invalid key for Issue status: ${options.status}`);
         }
     }
 }

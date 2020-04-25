@@ -1,11 +1,11 @@
-import { IssuePanel } from "@app/Issues/IssuePanel/IssuePanel";
-import { IssuesContainer } from "@app/Issues/Issues/Issues.container";
 import { IAppTheme } from "mui-app-theme";
 import React, { FunctionComponent, useEffect, useState } from "react";
 
 import { Fab, Grid, makeStyles } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
+import { IssuePanel } from "./IssuePanel/IssuePanel";
+import { Issues } from "./Issues/Issues";
 import { IssuePageHeaderContainer } from "./IssuePageHeader/IssuesPageHeader.container";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
@@ -59,7 +59,7 @@ const IssuesPage: FunctionComponent<Props> = (props) => {
         <Grid container direction={"column"} className={classes.page}>
             <IssuePageHeaderContainer/>
 
-            <IssuesContainer openIssue={openIssue}/>
+            <Issues openIssue={openIssue}/>
 
             <Fab color="primary" aria-label="add" onClick={createIssue} className={classes.addButton}>
                 <Add/>

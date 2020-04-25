@@ -12,32 +12,43 @@ import { IssueCard } from "./IssueCard/IssueCard";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     column: {
-        flex: 1,
-        width: 232,
+        borderRightWidth: 2,
+        borderRightStyle: "dashed",
+        borderRightColor: "transparent",
+        boxSizing: "content-box",
+
+        flexShrink: 0,
         paddingTop: 16,
-        marginLeft: 24,
+        width: 232,
 
         "&:not(:first-of-type)": {
-            marginLeft: 20,
+            paddingLeft: 20,
         },
         "&:not(:last-of-type)": {
-            marginRight: 20,
+            borderRightColor: theme.colors.secondary.disabled.main,
+            paddingRight: 20,
         },
     },
 }));
 
 export interface IIssueColumnOwnProps {
-    issueStatus: Status;
-    issues: Issue[];
+    status: Status;
     openIssue: (issueId: number) => void;
+}
+
+export interface IIssueColumnProps {
+    issues: Issue[];
+}
+
+export interface IIssueColumnCallProps {
     openIssueByLink: (issueId: number) => void;
 }
 
-type Props = IIssueColumnOwnProps;
+type Props = IIssueColumnOwnProps & IIssueColumnProps & IIssueColumnCallProps;
 
 const IssueColumn: FunctionComponent<Props> = (props) => {
     const {
-        issueStatus,
+        status,
         issues,
         openIssue,
         openIssueByLink,
@@ -48,10 +59,10 @@ const IssueColumn: FunctionComponent<Props> = (props) => {
     return (
         <Grid container direction={"column"} className={classes.column}>
             <Typography size={400}>
-                {Translate.getString("issue-status", { issueStatus })}
+                {Translate.getString("issue-status", { status })}
             </Typography>
 
-            {issues.filter((issue: Issue) => issue.status === issueStatus).map((issue: Issue) => (
+            {issues.filter((issue: Issue) => issue.status === status).map((issue: Issue) => (
                 <IssueCard
                     key={`issue-${issue.id}`}
                     issue={issue}

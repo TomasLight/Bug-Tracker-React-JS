@@ -6,24 +6,23 @@ import { connect } from "react-redux";
 import { State } from "@State";
 import { Dispatch } from "redux";
 
-import { IIssuesProps, IIssuesCallProps, Issues, IIssuesOwnProps } from "./Issues";
+import { IIssueColumnProps, IIssueColumnCallProps, IssueColumn, IIssueColumnOwnProps } from "./IssueColumn";
 
-const mapStateToProps = (state: State): IIssuesProps => {
+const mapStateToProps = (state: State): IIssueColumnProps => {
     return {
         issues: state.issuesStore.issues,
-        issuesAreLoading: state.issuesStore.issuesAreLoading,
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch): IIssuesCallProps => {
+const mapDispatchToProps = (dispatch: Dispatch): IIssueColumnCallProps => {
     return {
         openIssueByLink: (issueId: number) => dispatch(push(appUrls.getIssuePath(issueId))),
     };
 };
 
-const IssuesContainer: ComponentType<IIssuesOwnProps> = connect(
+const IssuesColumnContainer: ComponentType<IIssueColumnOwnProps> = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Issues);
+)(IssueColumn);
 
-export { IssuesContainer };
+export { IssuesColumnContainer };

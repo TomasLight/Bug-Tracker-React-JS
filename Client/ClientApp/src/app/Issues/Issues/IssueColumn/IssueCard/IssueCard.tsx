@@ -9,7 +9,7 @@ import { IssuePriorityIcon } from "@app/Issues/IssuePriorityIcon/IssuePriorityIc
 import { IssueTypeIcon } from "@app/Issues/IssueTypeIcon/IssueTypeIcon";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
-    root: {
+    card: {
         marginTop: 24,
         padding: 0,
     },
@@ -57,7 +57,7 @@ const IssueCard: FunctionComponent<Props> = (props) => {
     const handleOpenIssueByLink = () => openIssueByLink(issue.id);
 
     return (
-        <Card classes={{ root: classes.root }}>
+        <Card classes={{ root: classes.card }}>
             <CardActionArea onClick={handleOpenIssue} className={classes.cardContent}>
                 <CardContent classes={{ root: classes.cardRoot }}>
                     <Typography size={300} color={"strong"} component={"p"}>
