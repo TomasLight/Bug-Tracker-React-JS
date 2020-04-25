@@ -6,7 +6,7 @@ import { Grid } from "@material-ui/core";
 import { BugReport, People, ExitToApp } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
-import { NavbarButton } from "@app/Layout/Navbar/NavbarButton/NavbarButton";
+import { NavbarButton, NavbarButtonProps } from "@app/Layout/Navbar/NavbarButton/NavbarButton";
 import { appUrls } from "@app/routing/appUrls";
 import { Logo } from "@shared/atoms/icons/Logo";
 import { NavbarIconButton } from "@shared/molecules/Buttons/NavbarIconButton/NavbarIconButton";
@@ -42,7 +42,8 @@ const Navbar: FunctionComponent<Props> = (props) => {
         redirect(appUrls.rootPath);
     };
 
-    const navigationProps: INavbarProps & INavbarCallProps = {
+    const navigationProps: NavbarButtonProps = {
+        url: "",
         location,
         redirect,
     };
@@ -57,11 +58,11 @@ const Navbar: FunctionComponent<Props> = (props) => {
                     onClick={redirectToRoot}
                 />
 
-                <NavbarButton url={appUrls.issuesPath} {...navigationProps}>
+                <NavbarButton {...navigationProps} url={appUrls.issuesPath}>
                     <BugReport/>
                 </NavbarButton>
 
-                <NavbarButton url={appUrls.usersPath} {...navigationProps}>
+                <NavbarButton {...navigationProps} url={appUrls.usersPath}>
                     <People/>
                 </NavbarButton>
             </Grid>

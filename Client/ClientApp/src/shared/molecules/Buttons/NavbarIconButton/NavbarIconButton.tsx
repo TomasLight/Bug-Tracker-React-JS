@@ -7,26 +7,26 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     root: {
+        backgroundColor: theme.colors.secondary.main,
+        color: theme.colors.secondary.text,
+        "&:hover": {
+            backgroundColor: theme.colors.secondary.hover,
+        },
+
+        borderRadius: "50%",
+        borderWidth: 2,
+        borderStyle: "solid",
+
         "&:not(first-of-type)": {
             marginTop: 20,
         },
     },
+
     default: {
-        backgroundColor: theme.colors.primary.main,
-        color: theme.colors.primary.text,
-
-        "&:hover": {
-            backgroundColor: theme.colors.primary.hover,
-        },
+        borderColor: "transparent",
     },
-    // todo: change color binding
     active: {
-        backgroundColor: theme.colors.primary.disabled.main,
-        color: theme.colors.primary.disabled.text,
-
-        "&:hover": {
-            backgroundColor: theme.colors.primary.disabled.main,
-        },
+        borderColor: theme.colors.primary.main,
     },
 }));
 
@@ -54,7 +54,7 @@ const NavbarIconButton: FunctionComponent<Props> = (props) => {
     }
 
     return (
-        <IconButton className={className} {...rest}>
+        <IconButton className={className} color={"secondary"} {...rest}>
             {children}
         </IconButton>
     );

@@ -36,4 +36,4 @@ const NavbarButton: FunctionComponent<Props> = (props) => {
     );
 };
 
-export { NavbarButton };
+export { NavbarButton, Props as NavbarButtonProps };
