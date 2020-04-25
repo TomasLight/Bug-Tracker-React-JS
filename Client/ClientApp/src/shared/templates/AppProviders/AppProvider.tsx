@@ -1,10 +1,11 @@
-import { createAppTheme } from "@shared/themes/createAppTheme";
+import { createAppTheme } from "mui-app-theme";
 import React, { FunctionComponent, PropsWithChildren, useEffect } from "react";
 
 import withTheme from "@material-ui/core/styles/withTheme";
 import { ThemeProvider } from "@material-ui/styles";
 
 import { LoaderBlock } from "@shared/molecules/Loaders/LoaderBlock";
+import { AppThemeColors } from "@shared/themes/AppThemeColors";
 
 import { AppSnackbarProvider } from "./AppSnackbarProvider";
 
@@ -36,7 +37,7 @@ const AppProvider: FunctionComponent<Props> = (props: Props) => {
         );
     }
 
-    const appTheme = createAppTheme();
+    const appTheme = createAppTheme({ themeColors: new AppThemeColors() });
 
     return (
         <ThemeProvider theme={appTheme}>

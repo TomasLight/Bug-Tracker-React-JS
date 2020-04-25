@@ -1,113 +1,31 @@
-import { IButtonColor } from "@shared/themes/colors/IButtonColor";
-import { IBorderColor } from "@shared/themes/colors/IBorderColor";
-import { IColor } from "@shared/themes/colors/IColor";
-import { ITextColor } from "@shared/themes/colors/ITextColor";
-import { IAppThemeColors } from "@shared/themes/IAppThemeColors";
+import { AppThemeColors as Colors } from "mui-app-theme";
+import { IButtonColor } from "mui-app-theme/dist/colors";
 
-export class AppThemeColors implements IAppThemeColors {
-    public default: IButtonColor;
-    public primary: IButtonColor;
-    public secondary: IButtonColor;
-    public destructive: IButtonColor;
-
-    public text: ITextColor;
-    public border: IBorderColor;
-
-    public success: IColor;
-    public info: IColor;
-    public warning: IColor;
-    public error: IColor;
-
-    public background: string;
-    public surface: string;
-
+export class AppThemeColors extends Colors {
     constructor() {
-        this.default = {
-            main: "rgba(224, 224, 224)",
-            hover: "rgba(213, 213, 213)",
-            text: "rgba(0, 0, 0, 0.87)",
+        super();
 
-            outline: {
-                main: "rgba(255, 255, 255)",
-                hover: "rgba(0, 0, 0, 0.08)",
-            },
-            disabled: {
-                main: "rgba(0, 0, 0, 0.12)",
-                text: "rgba(0, 0, 0, 0.38)",
-            },
-        };
-
-        this.primary = {
-            main: "rgba(33, 33, 33)",
-            hover: "rgba(66, 66, 66)",
-            text: "rgba(189, 189, 189, 0.87)",
-
-            outline: {
-                main: "rgba(255, 255, 255)",
-                hover: "rgba(0, 0, 0, 0.08)",
-            },
-            disabled: {
-                main: "rgba(238, 238, 238)",
-                text: "rgba(189, 189, 189, 0.87)",
-            },
-        };
-
-        this.secondary = {
-            main: "rgba(224, 224, 224)",
-            hover: "rgba(213, 213, 213)",
-            text: "rgba(0, 0, 0, 0.87)",
-
-            outline: {
-                main: "rgba(255, 255, 255)",
-                hover: "rgba(0, 0, 0, 0.08)",
-            },
-            disabled: {
-                main: "rgba(0, 0, 0, 0.12)",
-                text: "rgba(0, 0, 0, 0.38)",
-            },
-        };
-
-        this.destructive = {
-            main: "rgba(224, 224, 224)",
-            hover: "rgba(213, 213, 213)",
-            text: "rgba(0, 0, 0, 0.87)",
-
-            outline: {
-                main: "rgba(255, 255, 255)",
-                hover: "rgba(0, 0, 0, 0.08)",
-            },
-            disabled: {
-                main: "rgba(0, 0, 0, 0.12)",
-                text: "rgba(0, 0, 0, 0.38)",
-            },
-        };
-
-        this.success = {
-            main: "rgba(67, 160, 71)",
-            text: "rgba(255, 255, 255)",
-        };
-
-        this.error = {
-            main: "rgba(176, 0, 32)",
-            text: "rgba(255, 255, 255)",
-        };
-
-        this.info = {
-            main: "rgba(41, 121, 255)",
-            text: "rgba(255, 255, 255)",
-        };
+        this.primary = this.createButtonColor(
+            [255, 160, 0],
+            [255, 143, 0],
+            true
+        );
+        this.secondary = this.createButtonColor(
+            [0, 121, 107],
+            [0, 105, 92],
+            false
+        );
+        this.destructive = this.createButtonColor(
+            [220, 0, 53],
+            [205, 0, 49],
+            false
+        );
 
         this.warning = {
-            main: "rgba(255, 160, 0)",
-            text: "rgba(255, 255, 255)",
+            main: "rgba(255, 238, 88)",
+            text: "rgba(0, 0, 0, 0.87)",
         };
 
-        this.text = {
-            strong: "rgba(0, 0, 0, 0.87)",
-            medium: "rgba(0, 0, 0, 0.60)",
-            light: "rgba(0, 0, 0, 0.38)",
-            disabled: "rgba(0, 0, 0, 0.12)",
-        };
         this.border = {
             primary: this.primary.main,
             secondary: this.secondary.main,
@@ -118,9 +36,25 @@ export class AppThemeColors implements IAppThemeColors {
             dark: "rgba(33, 33, 33)",
             disabled: this.text.disabled,
         };
+    }
 
-        this.background = "rgba(255, 255, 255)";
-        this.surface = "rgba(250, 250, 250)";
+    private createButtonColor(main: number[], hover: number[], isBlackText: boolean): IButtonColor {
+        const whiteText = "rgba(255, 255, 255, 0.87)";
+        const blackText = "rgba(0, 0, 0, 0.87)";
 
+        return {
+            main: `rgba(${main.join(",")})`,
+            hover: `rgba(${hover.join(",")})`,
+            text: isBlackText ? blackText : whiteText,
+
+            outline: {
+                main: "rgba(255, 255, 255)",
+                hover: `rgba(${main.join(",")}, 0.8)`,
+            },
+            disabled: {
+                main: `rgba(${main.join(",")}, 0.12)`,
+                text: `rgba(${main.join(",")}, 0.38)`,
+            },
+        };
     }
 }

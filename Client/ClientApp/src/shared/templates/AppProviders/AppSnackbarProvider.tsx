@@ -1,8 +1,8 @@
+import { IAppTheme } from "mui-app-theme";
 import { SnackbarProvider } from "notistack";
 import React, { FunctionComponent, PropsWithChildren } from "react";
 
 import { makeStyles } from "@material-ui/core";
-import { IAppTheme } from "@shared/themes/IAppTheme";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     variantSuccess: {

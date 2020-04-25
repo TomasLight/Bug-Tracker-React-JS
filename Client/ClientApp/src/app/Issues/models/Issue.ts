@@ -9,8 +9,8 @@ export class Issue {
     public reporterId: number;
     public title: string;
     public description: string;
-    public urgency: Difficulty;
-    public severity: Priority;
+    public difficulty: Difficulty;
+    public priority: Priority;
     public status: Status;
     public date: Date;
 
@@ -20,8 +20,8 @@ export class Issue {
         this.reporterId = null;
         this.title = "";
         this.description = "";
-        this.urgency = Difficulty.NA;
-        this.severity = Priority.NA;
+        this.difficulty = Difficulty.NA;
+        this.priority = Priority.NA;
         this.status = Status.NA;
         this.date = new Date();
     }

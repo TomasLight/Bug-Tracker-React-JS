@@ -11,7 +11,14 @@ const PageComponentRouter: FunctionComponent = () => {
     return (
         <Layout>
             <Switch>
-                <Route exact path={appUrls.rootPath} component={IssuesPageContainer}/>
+                <Route
+                    exact
+                    path={[
+                        appUrls.rootPath,
+                        appUrls.issuesPath,
+                    ]}
+                    component={IssuesPageContainer}
+                />
             </Switch>
 
             <NotifierContainer/>
