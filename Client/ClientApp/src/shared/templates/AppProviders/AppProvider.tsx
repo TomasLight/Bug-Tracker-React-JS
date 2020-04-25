@@ -37,7 +37,7 @@ const AppProvider: FunctionComponent<Props> = (props: Props) => {
         );
     }
 
-    const appTheme = createAppTheme(new AppThemeColors());
+    const appTheme = createAppTheme({ themeColors: new AppThemeColors() });
 
     return (
         <ThemeProvider theme={appTheme}>
