@@ -10,5 +10,18 @@ export class IssuesWatcher extends WatcherBase {
             IssuesActions.LOAD_ISSUES,
             IssuesSaga.loadIssues
         );
+
+        this.watchLatest(
+            IssuesActions.OPEN_ISSUE_TO_CREATE,
+            IssuesSaga.openIssueToCreate
+        );
+        this.watchLatest(
+            IssuesActions.OPEN_ISSUE_TO_EDIT,
+            IssuesSaga.openIssueToEdit
+        );
+        this.watchLatest(
+            IssuesActions.CLOSE_ISSUE,
+            IssuesSaga.closeIssue
+        );
     }
 }

@@ -13,7 +13,7 @@ import { NavbarIconButton } from "@shared/molecules/Buttons/NavbarIconButton/Nav
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     navbar: {
-        backgroundColor: theme.colors.primary.main,
+        backgroundColor: theme.colors.secondary.main,
         padding: 24,
         width: 96,
     },

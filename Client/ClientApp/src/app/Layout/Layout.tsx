@@ -25,7 +25,7 @@ const Layout: FunctionComponent = ({ children }) => {
     const classes = useStyles();
 
     return (
-        <Grid container className={classes.root}>
+        <Grid container wrap={"nowrap"} className={classes.root}>
             <NavbarContainer/>
             <Grid item className={classes.container}>
                 {children}

@@ -9,14 +9,22 @@ import { IIssuesPageProps, IIssuesPageCallProps, IssuesPage } from "./IssuesPage
 
 const mapStateToProps = (state: State): IIssuesPageProps => {
     return {
-        issues: state.issuesStore.issues,
-        issuesAreLoading: state.issuesStore.issuesAreLoading,
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): IIssuesPageCallProps => {
     return {
         loadIssues: () => dispatch(IssuesActions.loadIssues()),
+        openIssueToCreate: (openIssuePanel) => dispatch(IssuesActions.openIssueToCreate({
+            openIssuePanel,
+        })),
+        openIssueToEdit: (issueId, openIssuePanel) => dispatch(IssuesActions.openIssueToEdit({
+            issueId,
+            openIssuePanel,
+        })),
+        closeIssue: (closeIssuePanel) => dispatch(IssuesActions.closeIssue({
+            closeIssuePanel,
+        })),
     };
 };
 

@@ -1,46 +1,69 @@
-import { Issue } from "@app/Issues/models/Issue";
-import { Grid } from "@material-ui/core";
-import { Translate } from "@utils/translates/Translate";
-import React, { FunctionComponent, useEffect } from "react";
+import { IssuePanel } from "@app/Issues/IssuePanel/IssuePanel";
+import { IssuesContainer } from "@app/Issues/Issues/Issues.container";
+import { IAppTheme } from "mui-app-theme";
+import React, { FunctionComponent, useEffect, useState } from "react";
+
+import { Fab, Grid, makeStyles } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
+
+import { IssuePageHeaderContainer } from "./IssuePageHeader/IssuesPageHeader.container";
+
+const useStyles = makeStyles((theme: IAppTheme) => ({
+    page: {
+        minHeight: "100%",
+    },
+    addButton: {
+        position: "absolute",
+        bottom: 20,
+        right: 24,
+        zIndex: 1,
+    },
+}));
 
 export interface IIssuesPageProps {
-    issues: Issue[];
-    issuesAreLoading: boolean;
 }
 
 export interface IIssuesPageCallProps {
     loadIssues: () => void;
+    openIssueToCreate: (openIssuePanel) => void;
+    openIssueToEdit: (issueId: number, openIssuePanel: () => void) => void;
+    closeIssue: (closeIssuePanel: () => void) => void;
 }
 
 type Props = IIssuesPageProps & IIssuesPageCallProps;
 
 const IssuesPage: FunctionComponent<Props> = (props) => {
-    const {issues, issuesAreLoading, loadIssues} = props;
+    const {
+        loadIssues,
+        openIssueToCreate,
+        openIssueToEdit,
+        closeIssue,
+    } = props;
+
+    const classes = useStyles();
+    const [ isOpen, setIsOpen ] = useState<boolean>(false);
+
+    const createIssue = () =>
+        openIssueToCreate(() => setIsOpen(true));
+
+    const openIssue = (issueId: number) =>
+        openIssueToEdit(issueId, () => setIsOpen(true));
+
+    const onCloseIssue = () => closeIssue(() => setIsOpen(false));
 
     useEffect(() => {
         loadIssues();
     }, []);
 
     return (
-        <Grid container direction={"column"}>
-            <Grid item>
-                {Translate.getString("Issues page")}
-            </Grid>
-            <Grid item container direction={"column"}>
-                {issues.map((issue: Issue) => (
-                    <Grid item container key={`issue-${issue.id}`}>
-                        <Grid item>
-                            {issue.id}
-                        </Grid>
-                        <Grid item>
-                            {issue.title}
-                        </Grid>
-                        <Grid item>
-                            {issue.description}
-                        </Grid>
-                    </Grid>
-                ))}
-            </Grid>
+        <Grid container direction={"column"} className={classes.page}>
+            <IssuePageHeaderContainer/>
+
+
+            <Fab color="primary" aria-label="add" onClick={createIssue} className={classes.addButton}>
+                <Add/>
+            </Fab>
+            <IssuePanel isOpen={isOpen} close={onCloseIssue}/>
         </Grid>
     );
 };
