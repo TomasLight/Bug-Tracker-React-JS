@@ -1,7 +1,9 @@
 import { SvgIconProps } from "@material-ui/core";
-import { BugIcon } from "@shared/atoms/icons/BugIcon";
-import { InvestigationIcon } from "@shared/atoms/icons/InvestigationIcon";
-import { TaskIcon } from "@shared/atoms/icons/TaskIcon";
+// why it no works? webpack freezes when 70% in FlagDependencyExportsPlugin
+// import { BugIcon, InvestigationIcon, TaskIcon } from "@shared/atoms/icons";
+import { BugIcon } from "@shared/atoms/icons/IssueTypes/BugIcon";
+import { InvestigationIcon } from "@shared/atoms/icons/IssueTypes/InvestigationIcon";
+import { TaskIcon } from "@shared/atoms/icons/IssueTypes/TaskIcon";
 import { IssueType } from "@app/Issues/models/IssueType";
 import React, { FunctionComponent } from "react";
 

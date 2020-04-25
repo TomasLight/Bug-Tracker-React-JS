@@ -1,4 +1,3 @@
-import { IssueTypeIcon } from "@app/Issues/IssueTypeIcon/IssueTypeIcon";
 import { IAppTheme } from "mui-app-theme";
 import { Typography } from "mui-typography";
 import React, { FunctionComponent } from "react";
@@ -6,6 +5,8 @@ import React, { FunctionComponent } from "react";
 import { Card, CardActionArea, CardActions, CardContent, Grid, makeStyles } from "@material-ui/core";
 
 import { Issue } from "@app/Issues/models/Issue";
+import { IssuePriorityIcon } from "@app/Issues/IssuePriorityIcon/IssuePriorityIcon";
+import { IssueTypeIcon } from "@app/Issues/IssueTypeIcon/IssueTypeIcon";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     root: {
@@ -23,6 +24,9 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
     },
     cardFooter: {
         padding: "0px 8px 8px 12px",
+    },
+    iconMargin: {
+        marginLeft: 12,
     },
     issueId: {
         cursor: "pointer",
@@ -66,6 +70,7 @@ const IssueCard: FunctionComponent<Props> = (props) => {
                 <Grid item container justify={"space-between"} alignItems={"center"}>
                     <Grid item>
                         <IssueTypeIcon issueType={issue.type}/>
+                        <IssuePriorityIcon priority={issue.priority} className={classes.iconMargin}/>
                     </Grid>
 
                     <Grid item>
