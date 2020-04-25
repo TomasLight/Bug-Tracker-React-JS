@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
     navbar: {
         backgroundColor: theme.colors.secondary.main,
         padding: 24,
-        width: 96,
+        width: (width: number) => width,
     },
     logo: {
         cursor: "pointer",
@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
         width: 48,
     },
 }));
+
+export interface INavbarOwnProps {
+    width: number;
+}
 
 export interface INavbarProps {
     location: Location;
@@ -32,11 +36,11 @@ export interface INavbarCallProps {
     redirect: (url) => void;
 }
 
-type Props = INavbarProps & INavbarCallProps;
+type Props = INavbarOwnProps & INavbarProps & INavbarCallProps;
 
 const Navbar: FunctionComponent<Props> = (props) => {
-    const { location, redirect } = props;
-    const classes = useStyles();
+    const { location, redirect, width } = props;
+    const classes = useStyles(width);
 
     const redirectToRoot = () => {
         redirect(appUrls.rootPath);

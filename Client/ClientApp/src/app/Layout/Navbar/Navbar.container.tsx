@@ -7,7 +7,7 @@ import { Dispatch } from "redux";
 import {
     Navbar,
     INavbarProps,
-    INavbarCallProps
+    INavbarCallProps, INavbarOwnProps
 } from "./Navbar";
 
 const mapStateToProps = (state: State): INavbarProps => {
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch: Dispatch): INavbarCallProps => {
     };
 };
 
-const NavbarContainer: ComponentType = connect(
+const NavbarContainer: ComponentType<INavbarOwnProps> = connect(
     mapStateToProps,
     mapDispatchToProps
 )(Navbar);
