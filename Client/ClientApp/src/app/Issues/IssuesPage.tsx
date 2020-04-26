@@ -1,16 +1,22 @@
 import { IAppTheme } from "mui-app-theme";
+import { Typography } from "mui-typography";
 import React, { FunctionComponent, useEffect, useState } from "react";
 
 import { Fab, Grid, makeStyles } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
+import { Translate } from "@utils/translates/Translate";
 import { IssuePanel } from "./IssuePanel/IssuePanel";
 import { Issues } from "./Issues/Issues";
-import { IssuePageHeaderContainer } from "./IssuePageHeader/IssuesPageHeader.container";
+import { Filters } from "./Filters/Filters";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     page: {
         minHeight: "100%",
+    },
+    header: {
+        height: 96,
+        padding: "24px 24px 16px",
     },
     addButton: {
         position: "absolute",
@@ -20,9 +26,6 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
     },
 }));
 
-export interface IIssuesPageProps {
-}
-
 export interface IIssuesPageCallProps {
     loadIssues: () => void;
     openIssueToCreate: (openIssuePanel) => void;
@@ -30,7 +33,7 @@ export interface IIssuesPageCallProps {
     closeIssue: (closeIssuePanel: () => void) => void;
 }
 
-type Props = IIssuesPageProps & IIssuesPageCallProps;
+type Props = IIssuesPageCallProps;
 
 const IssuesPage: FunctionComponent<Props> = (props) => {
     const {
@@ -57,13 +60,21 @@ const IssuesPage: FunctionComponent<Props> = (props) => {
 
     return (
         <Grid container direction={"column"} className={classes.page}>
-            <IssuePageHeaderContainer/>
+
+            <Grid item container className={classes.header} justify={"space-between"} alignItems={"center"}>
+                <Typography size={700} color={"strong"} component={"p"}>
+                    {Translate.getString("Issues")}
+                </Typography>
+
+                <Filters/>
+            </Grid>
 
             <Issues openIssue={openIssue}/>
 
             <Fab color="primary" aria-label="add" onClick={createIssue} className={classes.addButton}>
                 <Add/>
             </Fab>
+
             <IssuePanel isOpen={isOpen} close={onCloseIssue}/>
         </Grid>
     );
