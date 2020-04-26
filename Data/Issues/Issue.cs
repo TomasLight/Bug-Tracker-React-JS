@@ -10,6 +10,8 @@ namespace Data.Issues
 
 		public int ReporterId { get; set; }
 
+		public int AssignedUserId { get; set; }
+
 		public string Title { get; set; }
 		
 		public string Description { get; set; }

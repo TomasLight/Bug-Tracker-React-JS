@@ -14,13 +14,13 @@ namespace Domain.Issues
 
 		public User Reporter { get; set; }
 
+		public User Assigned { get; set; }
+
 		public string Title { get; set; }
 		
 		public string Description { get; set; }
 		
 		public Priority Priority { get; set; }
-		
-		public Difficulty Difficulty { get; set; }
 		
 		public Status Status { get; set; }
 		

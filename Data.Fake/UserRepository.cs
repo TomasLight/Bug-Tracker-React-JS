@@ -13,35 +13,51 @@ namespace Data.Fake
 		{
 			new User
 			{
-				Id = (int)FakeUserId.Admin,
-				Login = "admin",
+				Id = (int)FakeUserId.ChristopherEccleston,
+				Login = "user1",
 				Password = FakePassword,
-				FirstName = "Admin",
-				LastName = "Test",
+				FirstName = "Christopher",
+				LastName = "Eccleston",
 			},
 			new User
 			{
-				Id = (int)FakeUserId.Manager,
-				Login = "manager",
+				Id = (int)FakeUserId.ElisabethSonrel,
+				Login = "user2",
 				Password = FakePassword,
-				FirstName = "Manager",
-				LastName = "Test",
+				FirstName = "Elisabeth",
+				LastName = "Sonrel",
 			},
 			new User
 			{
-				Id = (int)FakeUserId.Developer,
-				Login = "developer",
+				Id = (int)FakeUserId.JeanneMoreau,
+				Login = "user3",
 				Password = FakePassword,
-				FirstName = "Developer",
-				LastName = "Test",
+				FirstName = "Jeanne",
+				LastName = "Moreau",
 			},
 			new User
 			{
-				Id = (int)FakeUserId.QA,
-				Login = "qa",
+				Id = (int)FakeUserId.MichaelCrawford,
+				Login = "user4",
 				Password = FakePassword,
-				FirstName = "QA",
-				LastName = "Test",
+				FirstName = "Michael",
+				LastName = "Crawford",
+			},
+			new User
+			{
+				Id = (int)FakeUserId.MorizHeider,
+				Login = "user5",
+				Password = FakePassword,
+				FirstName = "Moriz",
+				LastName = "Heider",
+			},
+			new User
+			{
+				Id = (int)FakeUserId.TomasLight,
+				Login = "user6",
+				Password = FakePassword,
+				FirstName = "Tomas",
+				LastName = "Light",
 			},
 		};
 		

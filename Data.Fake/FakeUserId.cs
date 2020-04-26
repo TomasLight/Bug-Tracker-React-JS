@@ -2,9 +2,12 @@ namespace Data.Fake
 {
 	public enum FakeUserId
 	{
-		Admin = 1,
-		Manager = 2,
-		Developer = 3,
-		QA = 4,
+		NA = 0,
+		ChristopherEccleston = 1,
+		MichaelCrawford = 2,
+		JeanneMoreau = 3,
+		MorizHeider = 4,
+		ElisabethSonrel = 5,
+		TomasLight = 6,
 	}
 }

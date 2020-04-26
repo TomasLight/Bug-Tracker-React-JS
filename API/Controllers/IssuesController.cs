@@ -69,7 +69,7 @@ namespace API.Controllers
 			// TODO: getting of current user
 			var updater = new User
 			{
-				Id = (int) FakeUserId.Admin,
+				Id = (int) FakeUserId.NA,
 			};
 
 			await _issueService.UpdateAsync(issue, updater);
@@ -86,7 +86,7 @@ namespace API.Controllers
 			// TODO: getting of current user
 			var updater = new User
 			{
-				Id = (int) FakeUserId.Admin,
+				Id = (int) FakeUserId.NA,
 			};
 
 			try

@@ -17,9 +17,9 @@ namespace API.Models.Issues.Requests
 		public Priority Priority { get; set; }
 		
 		[Required]
-		public Difficulty Difficulty { get; set; }
-		
-		[Required]
 		public Status Status { get; set; }
+
+		[Required]
+		public int AssignedUserId { get; set; }
 	}
 }
