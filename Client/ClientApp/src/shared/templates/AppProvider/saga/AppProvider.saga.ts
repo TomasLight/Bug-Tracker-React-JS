@@ -7,6 +7,8 @@ import { AppAction } from "@utils/redux/AppAction";
 import { AppProviderActions } from "../redux/AppProvider.actions";
 import { AppProviderStore } from "../redux/AppProvider.store";
 
+import { UsersActions } from "@app/Users/redux/Users.actions";
+
 export class AppProviderSaga extends SagaBase {
     private static* updateStore(store: Partial<AppProviderStore>) {
         yield put(AppProviderActions.updateStore(store));
@@ -15,8 +17,8 @@ export class AppProviderSaga extends SagaBase {
     public static* initializeApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
-            put(callbackAction())
-            // put(ThemeActions.loadTheme()(callbackAction)),
+            put(UsersActions.loadCurrentUser()(callbackAction)),
+            put(UsersActions.loadUsers()(callbackAction)),
         ];
 
         yield AppProviderSaga.updateStore({

@@ -11,8 +11,8 @@ export class AppProviderActions {
 
     public static readonly INITIALIZE_APP = AppProviderActions.PREFIX + "INITIALIZE_APP";
 
-    public static updateStore = (store: Partial<AppProviderStore>) =>
-        createAction(AppProviderActions.UPDATE_STORE, store);
+    public static updateStore = (partialStore: Partial<AppProviderStore>) =>
+        createAction(AppProviderActions.UPDATE_STORE, partialStore);
 
     public static incrementInitializedActions = () => createAction(AppProviderActions.INCREMENT_INITIALIZED_ACTIONS);
 

@@ -1,4 +1,4 @@
-import { IIssueDto } from "@api/models/issues/responses/IssueDto";
+import { IssueDto } from "@api/models/issues/responses/IssueDto";
 import { Issue } from "@app/Issues/models/Issue";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
@@ -9,14 +9,14 @@ export class IssueMappingProfile extends MappingProfileBase implements IMappingP
     public get(): IMapFunction[] {
         return [
             new MapFunction(
-                nameof<IIssueDto>(),
+                nameof<IssueDto>(),
                 nameof<Issue>(),
-                IssueMappingProfile.mapIIssueDtoToIssue
+                IssueMappingProfile.mapIssueDtoToIssue
             ),
         ];
     }
 
-    private static mapIIssueDtoToIssue(dto: IIssueDto): Issue {
+    private static mapIssueDtoToIssue(dto: IssueDto): Issue {
         const issue = MappingProfileBase.autoMap(dto, new Issue());
         return issue;
     }

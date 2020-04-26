@@ -71,5 +71,10 @@ namespace Data.Fake
 		{
 			return Task.FromResult(_users.AsEnumerable());
 		}
+		
+		public Task<User> GetByIdAsync(int userId)
+		{
+			return Task.FromResult(_users.FirstOrDefault(user => user.Id == userId));
+		}
 	}
 }

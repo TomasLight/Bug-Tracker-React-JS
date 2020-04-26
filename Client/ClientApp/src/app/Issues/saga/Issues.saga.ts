@@ -3,7 +3,7 @@ import { put } from "@redux-saga/core/effects";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { AppAction } from "@utils/redux/AppAction";
 import { IssuesApi } from "@api/IssuesApi";
-import { IIssueDto } from "@api/models/issues/responses/IssueDto";
+import { IssueDto } from "@api/models/issues/responses/IssueDto";
 import { NotifierActions } from "@app/Notifier/redux/Notifier.actions";
 import { Notification } from "@app/Notifier/Notification";
 import { Mapper } from "@utils/mapping/Mapper";
@@ -28,7 +28,7 @@ export class IssuesSaga extends SagaBase {
             issuesAreLoading: true,
         });
 
-        const response: ApiResponse<IIssueDto[]> = yield IssuesApi.getIssues();
+        const response: ApiResponse<IssueDto[]> = yield IssuesApi.getIssues();
         if (response.hasError()) {
             yield IssuesSaga.updateStore({
                 issuesAreLoading: false,
@@ -37,8 +37,8 @@ export class IssuesSaga extends SagaBase {
             return;
         }
 
-        const issues: Issue[] = response.data.map((dto: IIssueDto) => Mapper.map<Issue>(
-            nameof<IIssueDto>(),
+        const issues: Issue[] = response.data.map((dto: IssueDto) => Mapper.map<Issue>(
+            nameof<IssueDto>(),
             nameof<Issue>(),
             dto
         ));

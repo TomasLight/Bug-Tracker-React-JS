@@ -1,4 +1,4 @@
-export interface IIssueDto {
+export interface IssueDto {
     id: number;
     type: number;
     reporterId: number;

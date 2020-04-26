@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Users;
 using Data.Users;
+using Domain.Exceptions;
 using User = Domain.Users.User;
 
 namespace Domain.Services
@@ -23,6 +24,16 @@ namespace Domain.Services
 		{
 			var users = await GetUsersAsync();
 			return users.ToList();
+		}
+		
+		public async Task<User> GetByIdAsync(int userId)
+		{
+			var userEntity = await _userRepository.GetByIdAsync(userId);
+			if (userEntity == null)
+			{
+				throw new NotFoundException();
+			}
+			return _mapper.Map<User>(userEntity);
 		}
 
 		public async Task<User> GetByLoginAndPasswordAsync(string login, string password)

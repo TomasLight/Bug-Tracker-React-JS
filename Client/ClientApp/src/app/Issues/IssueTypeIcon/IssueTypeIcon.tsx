@@ -23,7 +23,6 @@ const IssueTypeIcon: FunctionComponent<Props> = (props) => {
         case IssueType.Investigation:
             return <InvestigationIcon {...rest}/>;
 
-        case IssueType.Defect:
         case IssueType.Bug:
             return <BugIcon {...rest}/>;
 

@@ -13,7 +13,11 @@ namespace API.Configuration.Mappings
 				.ForMember(
 					dto => dto.ReporterId,
 					opt => opt.MapFrom(issue => issue.Reporter.Id)
-					);
+				)
+				.ForMember(
+					dto => dto.AssignedUserId,
+					opt => opt.MapFrom(issue => issue.Assigned.Id)
+				);
 
 			CreateMap<NewIssueDto, Issue>();
 			CreateMap<UpdateIssueDto, Issue>();
