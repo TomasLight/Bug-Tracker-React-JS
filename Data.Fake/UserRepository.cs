@@ -18,6 +18,7 @@ namespace Data.Fake
 				Password = FakePassword,
 				FirstName = "Christopher",
 				LastName = "Eccleston",
+				Avatar = "Christopher Eccleston.png",
 			},
 			new User
 			{
@@ -26,6 +27,7 @@ namespace Data.Fake
 				Password = FakePassword,
 				FirstName = "Elisabeth",
 				LastName = "Sonrel",
+				Avatar = "Elisabeth Sonrel.png",
 			},
 			new User
 			{
@@ -34,6 +36,7 @@ namespace Data.Fake
 				Password = FakePassword,
 				FirstName = "Jeanne",
 				LastName = "Moreau",
+				Avatar = "Jeanne Moreau.png",
 			},
 			new User
 			{
@@ -42,6 +45,7 @@ namespace Data.Fake
 				Password = FakePassword,
 				FirstName = "Michael",
 				LastName = "Crawford",
+				Avatar = "Michael Crawford.png",
 			},
 			new User
 			{
@@ -50,6 +54,7 @@ namespace Data.Fake
 				Password = FakePassword,
 				FirstName = "Moriz",
 				LastName = "Heider",
+				Avatar = "Moriz Heider.png",
 			},
 			new User
 			{
@@ -58,6 +63,7 @@ namespace Data.Fake
 				Password = FakePassword,
 				FirstName = "Tomas",
 				LastName = "Light",
+				Avatar = "Tomas Light.png",
 			},
 		};
 		
