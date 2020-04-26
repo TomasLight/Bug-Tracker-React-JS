@@ -14,4 +14,8 @@ export class User {
         this.firstName = "";
         this.avatar = "";
     }
+
+    public name(): string {
+        return `${this.firstName} ${this.lastName}`;
+    }
 }

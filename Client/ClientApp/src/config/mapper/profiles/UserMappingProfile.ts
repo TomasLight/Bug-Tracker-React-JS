@@ -18,6 +18,11 @@ export class UserMappingProfile extends MappingProfileBase implements IMappingPr
 
     private static mapUserDtoToUser(dto: UserDto): User {
         const user = MappingProfileBase.autoMap(dto, new User());
+        user.avatar = UserMappingProfile.buildAvatarUrl(user.id, user.avatar);
         return user;
+    }
+
+    private static buildAvatarUrl(userId: number, avatarName: string): string {
+        return `/images/${avatarName}`;
     }
 }

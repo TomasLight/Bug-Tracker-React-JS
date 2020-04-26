@@ -11,6 +11,7 @@ import { IIssueColumnProps, IIssueColumnCallProps, IssueColumn, IIssueColumnOwnP
 const mapStateToProps = (state: State): IIssueColumnProps => {
     return {
         issues: state.issuesStore.issues,
+        users: state.usersStore.users,
     };
 };
 

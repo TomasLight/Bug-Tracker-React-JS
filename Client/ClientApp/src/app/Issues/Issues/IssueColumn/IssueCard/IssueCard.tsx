@@ -2,11 +2,12 @@ import { IAppTheme } from "mui-app-theme";
 import { Typography } from "mui-typography";
 import React, { FunctionComponent } from "react";
 
-import { Card, CardActionArea, CardActions, CardContent, Grid, makeStyles } from "@material-ui/core";
+import { Avatar, Card, CardActionArea, CardActions, CardContent, Grid, makeStyles } from "@material-ui/core";
 
 import { Issue } from "@app/Issues/models/Issue";
 import { IssuePriorityIcon } from "@app/Issues/IssuePriorityIcon/IssuePriorityIcon";
 import { IssueTypeIcon } from "@app/Issues/IssueTypeIcon/IssueTypeIcon";
+import { User } from "@app/Users/models/User";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     card: {
@@ -30,11 +31,20 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
     },
     issueId: {
         cursor: "pointer",
+        marginRight: 12,
+    },
+    avatar: {
+        height: 24,
+        width: 24,
+    },
+    rightFooterContainer: {
+        width: "auto",
     },
 }));
 
 export interface IIssueCardProps {
     issue: Issue;
+    assignedUser: User;
 }
 
 export interface IIssueCardCallProps {
@@ -47,6 +57,7 @@ type Props = IIssueCardProps & IIssueCardCallProps;
 const IssueCard: FunctionComponent<Props> = (props) => {
     const {
         issue,
+        assignedUser,
         openIssue,
         openIssueByLink,
 
@@ -73,10 +84,12 @@ const IssueCard: FunctionComponent<Props> = (props) => {
                         <IssuePriorityIcon priority={issue.priority} className={classes.iconMargin}/>
                     </Grid>
 
-                    <Grid item>
+                    <Grid item container className={classes.rightFooterContainer} alignItems={"center"}>
                         <Typography onClick={handleOpenIssueByLink} className={classes.issueId}>
                             {`Id-${issue.id}`}
                         </Typography>
+
+                        <Avatar alt={assignedUser.name()} src={assignedUser.avatar} className={classes.avatar}/>
                     </Grid>
                 </Grid>
             </CardActions>
