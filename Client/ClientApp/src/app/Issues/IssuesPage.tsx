@@ -8,7 +8,7 @@ import { Add } from "@material-ui/icons";
 import { Translate } from "@utils/translates/Translate";
 import { IssuePanel } from "./IssuePanel/IssuePanel";
 import { Issues } from "./Issues/Issues";
-import { Filters } from "./Filters/Filters";
+import { FiltersContainer } from "@app/Issues/Filters/Filters.container";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     page: {
@@ -66,7 +66,7 @@ const IssuesPage: FunctionComponent<Props> = (props) => {
                     {Translate.getString("Issues")}
                 </Typography>
 
-                <Filters/>
+                <FiltersContainer/>
             </Grid>
 
             <Issues openIssue={openIssue}/>

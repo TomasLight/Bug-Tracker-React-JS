@@ -23,5 +23,9 @@ export class IssuesWatcher extends WatcherBase {
             IssuesActions.CLOSE_ISSUE,
             IssuesSaga.closeIssue
         );
+        this.watchLatest(
+            IssuesActions.CHANGE_ISSUE_FILTER,
+            IssuesSaga.changeIssueFilter
+        );
     }
 }

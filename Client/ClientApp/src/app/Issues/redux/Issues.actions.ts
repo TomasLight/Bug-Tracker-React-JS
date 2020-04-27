@@ -1,5 +1,5 @@
 import {
-    ICloseIssueData,
+    ICloseIssueData, IFilterChangeData,
     IOpenIssueToEditCreateData,
     IOpenIssueToEditData
 } from "@app/Issues/redux/Issues.actions.dataTypes";
@@ -15,6 +15,8 @@ export class IssuesActions {
     public static readonly OPEN_ISSUE_TO_EDIT = IssuesActions.PREFIX + "OPEN_ISSUE_TO_EDIT";
     public static readonly CLOSE_ISSUE = IssuesActions.PREFIX + "CLOSE_ISSUE";
 
+    public static readonly CHANGE_ISSUE_FILTER = IssuesActions.PREFIX + "CHANGE_ISSUE_FILTER";
+
     public static updateStore = (partialStore: Partial<IssuesStore>) =>
         createAction(IssuesActions.UPDATE_STORE, partialStore);
 
@@ -28,4 +30,7 @@ export class IssuesActions {
 
     public static closeIssue = (data: ICloseIssueData) =>
         createAction(IssuesActions.CLOSE_ISSUE, data);
+
+    public static changeIssueFilter = (data: IFilterChangeData) =>
+        createAction(IssuesActions.CHANGE_ISSUE_FILTER, data);
 }

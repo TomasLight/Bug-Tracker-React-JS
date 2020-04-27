@@ -4,14 +4,14 @@ import { ApiResponse } from "@utils/api/ApiResponse";
 import { AppAction } from "@utils/redux/AppAction";
 import { IssuesApi } from "@api/IssuesApi";
 import { IssueDto } from "@api/models/issues/responses/IssueDto";
-import { NotifierActions } from "@app/Notifier/redux/Notifier.actions";
-import { Notification } from "@app/Notifier/Notification";
+import { IssuesStoreSelectors } from "@app/selectors/Issues.store.selectors";
 import { Mapper } from "@utils/mapping/Mapper";
 import { SagaBase } from "@utils/saga/SagaBase";
 
+import { IssueFilter } from "../models/IssueFilter";
 import { Issue } from "../models/Issue";
 import {
-    ICloseIssueData,
+    ICloseIssueData, IFilterChangeData,
     IOpenIssueToEditCreateData,
     IOpenIssueToEditData
 } from "../redux/Issues.actions.dataTypes";
@@ -59,5 +59,15 @@ export class IssuesSaga extends SagaBase {
 
     public static* closeIssue(action: AppAction<ICloseIssueData>) {
         action.payload.closeIssuePanel();
+    }
+
+    public static* changeIssueFilter(action: AppAction<IFilterChangeData>) {
+        let filter: IssueFilter = yield IssuesStoreSelectors.filter();
+        filter = filter.reassignReference();
+        filter.toggleItemActivation(action.payload.filterItem);
+
+        yield IssuesSaga.updateStore({
+            filter,
+        });
     }
 }

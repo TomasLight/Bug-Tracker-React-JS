@@ -7,7 +7,7 @@ import { NotifierReducer } from "@app/Notifier/redux/Notifier.reducer";
 import { HistoryReducer } from "@utils/redux/history/History.reducer";
 import { AppProviderReducer } from "@shared/templates/AppProvider/redux/AppProvider.reducer";
 
-import { IssuesReducer } from "@app/Issues/redux/Issues.reduer";
+import { IssuesReducer } from "@app/Issues/redux/Issues.reducer";
 import { UsersReducer } from "@app/Users/redux/Users.reducer";
 
 export function getReducers(history: History): ReducersMapObject<State, any> {

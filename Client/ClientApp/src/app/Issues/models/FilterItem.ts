@@ -10,4 +10,8 @@ export class FilterItem {
         this.value = value;
         this.isActive = false;
     }
+
+    public toString(): string {
+        return `issue-filter-${this.type}-${this.value}`;
+    }
 }
