@@ -1,8 +1,9 @@
+import { User } from "@app/Users/models/User";
 import { Location } from "history";
 import { IAppTheme } from "mui-app-theme";
 import React, { FunctionComponent } from "react";
 
-import { Grid } from "@material-ui/core";
+import { Avatar, Grid } from "@material-ui/core";
 import { BugReport, People, ExitToApp } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
@@ -22,6 +23,11 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
         height: 48,
         width: 48,
     },
+    avatar: {
+        height: 48,
+        width: 48,
+        cursor: "pointer",
+    },
 }));
 
 export interface INavbarOwnProps {
@@ -29,6 +35,7 @@ export interface INavbarOwnProps {
 }
 
 export interface INavbarProps {
+    currentUser: User;
     location: Location;
 }
 
@@ -39,7 +46,12 @@ export interface INavbarCallProps {
 type Props = INavbarOwnProps & INavbarProps & INavbarCallProps;
 
 const Navbar: FunctionComponent<Props> = (props) => {
-    const { location, redirect, width } = props;
+    const {
+        currentUser,
+        location,
+        redirect,
+        width,
+    } = props;
     const classes = useStyles(width);
 
     const redirectToRoot = () => {
@@ -72,6 +84,8 @@ const Navbar: FunctionComponent<Props> = (props) => {
             </Grid>
 
             <Grid item container direction={"column"} justify={"flex-end"}>
+                <Avatar alt={currentUser.name()} src={currentUser.avatar} className={classes.avatar}/>
+
                 <NavbarIconButton isActive={false}>
                     <ExitToApp/>
                 </NavbarIconButton>

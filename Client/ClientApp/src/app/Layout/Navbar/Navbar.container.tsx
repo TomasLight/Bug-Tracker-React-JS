@@ -12,6 +12,7 @@ import {
 
 const mapStateToProps = (state: State): INavbarProps => {
     return {
+        currentUser: state.usersStore.currentUser,
         location: state.router.location,
     };
 };

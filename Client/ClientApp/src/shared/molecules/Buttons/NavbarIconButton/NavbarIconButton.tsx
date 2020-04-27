@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
         borderRadius: "50%",
         borderWidth: 2,
         borderStyle: "solid",
+        padding: 10,
 
         "&:not(first-of-type)": {
             marginTop: 20,
