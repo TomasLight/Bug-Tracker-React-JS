@@ -1,2 +1,2 @@
-Issue page implementation on screen below:
-![Issue page screenshot](./_README images/Issue page.png)
+Issue page implementation on screenshot below:
+![Issue page screenshot](./_README_images/Issue page.png)
