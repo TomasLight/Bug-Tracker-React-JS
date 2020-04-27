@@ -1,3 +1,3 @@
 Issue page implementation on screenshot below:
 
-![Issue page screenshot](./README/Issue page.png)
+![Issue page screenshot](./README/IssuePage.png)
