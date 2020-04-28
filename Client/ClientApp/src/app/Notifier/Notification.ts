@@ -2,7 +2,13 @@ import { ApiResponse } from "@utils/api/ApiResponse";
 import { OptionsObject, VariantType } from "notistack";
 import { ReactNode } from "react";
 
-export class Notification {
+export interface INotification {
+    message: string | ReactNode;
+    options?: OptionsObject;
+    key?: string;
+}
+
+export class Notification implements INotification {
     public message: string | ReactNode;
     public options?: OptionsObject;
     public key?: string;
