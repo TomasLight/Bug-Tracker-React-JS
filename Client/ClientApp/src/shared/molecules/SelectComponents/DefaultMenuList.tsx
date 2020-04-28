@@ -42,7 +42,7 @@ const DefaultMenuList: FunctionComponent<Props> = (props: Props) => {
     const [ rowCount, setRowCount ] = useState<number>(0);
 
     useEffect(() => {
-        const node: HTMLElement = findNode(listId, 3);
+        const node: HTMLElement = findNode(listId, 1);
         if (node && node.offsetWidth !== width) {
             setWidth(node.offsetWidth);
         }
@@ -91,9 +91,7 @@ const DefaultMenuList: FunctionComponent<Props> = (props: Props) => {
             rowCount={rowCount}
             rowRenderer={rowRenderer}
             noRowsRenderer={emptyRowRenderer}
-            containerProps={{
-                id: listId,
-            }}
+            id={listId}
         />
     );
 };

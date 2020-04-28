@@ -1,4 +1,6 @@
+import { User } from "@app/Users/models/User";
 import { put } from "@redux-saga/core/effects";
+import { UserSelectFieldOption } from "@shared/organisms/Fields/Select/FieldOptions/UserSelectFieldOption";
 
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { AppAction } from "@utils/redux/AppAction";
@@ -11,7 +13,7 @@ import { Issue } from "../models/Issue";
 import {
     ICloseIssueData, IFilterChangeData,
     IOpenIssueToEditCreateData,
-    IOpenIssueToEditData, ISaveIssueData
+    IOpenIssueToEditData, ISaveIssueData, IUserListChangeData
 } from "../redux/Issues.actions.dataTypes";
 import { IssuesActions } from "../redux/Issues.actions";
 import { IssuesStore } from "../redux/Issues.store";
@@ -139,6 +141,17 @@ export class IssuesSaga extends SagaBase {
 
         yield IssuesSaga.updateStore({
             filter,
+        });
+    }
+
+    public static* changeUserList(action: AppAction<IUserListChangeData>) {
+        const { users } = action.payload;
+
+        const userOptions = users.map((user: User) => new UserSelectFieldOption(user));
+
+        yield IssuesSaga.updateStore({
+            assignOptions: userOptions,
+            reporterOptions: userOptions,
         });
     }
 }

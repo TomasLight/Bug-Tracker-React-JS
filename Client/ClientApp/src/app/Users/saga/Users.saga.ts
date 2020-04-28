@@ -1,3 +1,4 @@
+import { IssuesActions } from "@app/Issues/redux/Issues.actions";
 import { put } from "@redux-saga/core/effects";
 
 import { UsersApi } from "@api/UsersApi";
@@ -32,6 +33,10 @@ export class UsersSaga extends SagaBase {
             users: response.data,
             usersAreLoading: false,
         });
+
+        yield put(IssuesActions.changeUserList({
+            users: response.data,
+        }));
     }
 
     public static* loadUser(action: AppAction<ILoadUserData>) {

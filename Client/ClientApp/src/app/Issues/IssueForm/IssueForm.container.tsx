@@ -1,3 +1,5 @@
+import { SelectFieldOption } from "@shared/organisms/Fields/Select/FieldOptions/SelectFieldOption";
+import { IFieldOption } from "@shared/organisms/Fields/Select/Options/IFieldOption";
 import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -14,17 +16,32 @@ interface IOwnProps extends IIssueFormOwnProps {
 }
 
 const mapStateToProps = (state: State): IIssueFormProps => {
-    const issue = state.issuesStore.openedIssue;
-    if (issue.isNew()) {
+    const {
+        openedIssue,
+        issueTypeOptions,
+        priorityOptions,
+        assignOptions,
+        reporterOptions,
+    } = state.issuesStore;
+
+    if (openedIssue.isNew()) {
         return {
-            issue,
+            issue: openedIssue,
+            issueTypeOptions,
+            priorityOptions,
+            assignOptions,
+            reporterOptions,
             buttonText: Translate.getString("Create"),
             isReporterDisplayed: false,
         };
     }
 
     return {
-        issue,
+        issue: openedIssue,
+        issueTypeOptions,
+        priorityOptions,
+        assignOptions,
+        reporterOptions,
         buttonText: Translate.getString("Save"),
         isReporterDisplayed: true,
     };

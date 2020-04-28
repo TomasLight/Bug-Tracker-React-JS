@@ -32,5 +32,9 @@ export class IssuesWatcher extends WatcherBase {
             IssuesActions.CHANGE_ISSUE_FILTER,
             IssuesSaga.changeIssueFilter
         );
+        this.watchLatest(
+            IssuesActions.CHANGE_USERS_LIST,
+            IssuesSaga.changeUserList
+        );
     }
 }
