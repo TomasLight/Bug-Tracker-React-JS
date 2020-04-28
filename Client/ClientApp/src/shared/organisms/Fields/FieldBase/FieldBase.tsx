@@ -16,12 +16,12 @@ import { FieldLabel } from "./FieldLabel";
 import { getHelperTextId } from "./getHelperTextId";
 import { getLabelTextId } from "./getLabelTextId";
 
-export interface IBaseFieldProps extends FieldProps {
+export interface IFieldBaseProps extends FieldProps {
     inputId?: string;
 }
 
-type Props = IBaseFieldProps & {
-    className?: any;
+type Props = IFieldBaseProps & {
+    className?: string;
     FormControlProps?: Partial<MuiFormControlProps>;
     FormHelperTextProps?: Partial<IFieldErrorProps>;
     InputLabelProps?: InputLabelProps;

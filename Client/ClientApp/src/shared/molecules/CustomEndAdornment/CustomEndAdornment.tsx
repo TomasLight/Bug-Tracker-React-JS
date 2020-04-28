@@ -22,7 +22,7 @@ const CustomEndAdornment: FunctionComponent<Props> = (props: Props) => {
         children,
     } = props;
 
-    const classes = useStyles({});
+    const classes = useStyles();
 
     return (
         <div className={classes.customAdornment}>

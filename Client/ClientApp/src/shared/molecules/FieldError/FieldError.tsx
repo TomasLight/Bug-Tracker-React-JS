@@ -44,7 +44,7 @@ const FieldError: FunctionComponent<Props> = (props: Props) => {
         ...rest
     } = props;
 
-    const classes = useStyles({});
+    const classes = useStyles();
 
     return (
         <Typography
