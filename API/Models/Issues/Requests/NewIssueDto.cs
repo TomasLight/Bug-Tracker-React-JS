@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using API.Validation;
 using Domain.Enums;
 
 namespace API.Models.Issues.Requests
@@ -6,6 +7,7 @@ namespace API.Models.Issues.Requests
 	public class NewIssueDto
 	{
 		[Required]
+		[CorrectEnumValue]
 		public IssueType Type { get; set; }
 
 		[Required]
@@ -14,9 +16,11 @@ namespace API.Models.Issues.Requests
 		public string Description { get; set; }
 		
 		[Required]
+		[CorrectEnumValue]
 		public Priority Priority { get; set; }
 		
 		[Required]
+		[CorrectEnumValue]
 		public Status Status { get; set; }
 
 		[Required]
