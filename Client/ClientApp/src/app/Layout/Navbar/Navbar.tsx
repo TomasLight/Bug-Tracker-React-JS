@@ -84,7 +84,7 @@ const Navbar: FunctionComponent<Props> = (props) => {
             </Grid>
 
             <Grid item container direction={"column"} justify={"flex-end"}>
-                <Avatar alt={currentUser.name()} src={currentUser.avatar} className={classes.avatar}/>
+                <Avatar alt={currentUser.name()} src={currentUser.avatarUrl()} className={classes.avatar}/>
 
                 <NavbarIconButton isActive={false}>
                     <ExitToApp/>

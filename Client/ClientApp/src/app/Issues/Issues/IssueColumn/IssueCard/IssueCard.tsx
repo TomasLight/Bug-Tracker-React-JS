@@ -60,12 +60,12 @@ const IssueCard: FunctionComponent<Props> = (props) => {
         assignedUser,
         openIssue,
         openIssueByLink,
-
     } = props;
 
     const classes = useStyles();
     const handleOpenIssue = () => openIssue(issue.id);
     const handleOpenIssueByLink = () => openIssueByLink(issue.id);
+    const user = assignedUser || User.Undefined();
 
     return (
         <Card classes={{ root: classes.card }}>
@@ -89,7 +89,7 @@ const IssueCard: FunctionComponent<Props> = (props) => {
                             {`Id-${issue.id}`}
                         </Typography>
 
-                        <Avatar alt={assignedUser.name()} src={assignedUser.avatar} className={classes.avatar}/>
+                        <Avatar alt={user.name()} src={user.avatarUrl()} className={classes.avatar}/>
                     </Grid>
                 </Grid>
             </CardActions>
