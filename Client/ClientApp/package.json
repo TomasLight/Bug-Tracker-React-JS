@@ -2,7 +2,6 @@
   "name": "bugs-pet-application",
   "version": "2.0.0",
   "description": "",
-  "private": true,
   "scripts": {
     "start": "set NODE_ENV=development && set NODE_OPTIONS=--max_old_space_size=2560 && webpack --inspect -d --config webpack/webpack.dev.babel.js --color --progress --watch",
     "start2": "set NODE_ENV=development && webpack -d --config webpack/webpack.dev.babel.js --color --progress --watch"
@@ -10,7 +9,7 @@
   "author": "TomasLight",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "4.9.1",
+    "@material-ui/core": "4.9.12",
     "@material-ui/icons": "4.9.1",
     "@tomas_light/dictionary": "1.0.1",
     "babel-plugin-syntax-dynamic-import": "6.18.0",
@@ -19,6 +18,7 @@
     "clsx": "1.1.0",
     "connected-react-router": "6.6.1",
     "final-form": "4.18.7",
+    "model-state-validation": "0.8.0",
     "mui-app-theme": "1.2.6",
     "mui-typography": "1.1.1",
     "notistack": "0.9.7",

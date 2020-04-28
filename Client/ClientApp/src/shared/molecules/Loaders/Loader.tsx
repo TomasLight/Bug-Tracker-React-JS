@@ -34,4 +34,4 @@ const Loader: FunctionComponent<Props> = (props: Props) => {
     );
 };
 
-export { Loader };
+export { Loader, Props as LoaderProps };
