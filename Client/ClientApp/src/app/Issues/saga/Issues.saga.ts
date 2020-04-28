@@ -11,7 +11,7 @@ import { Issue } from "../models/Issue";
 import {
     ICloseIssueData, IFilterChangeData,
     IOpenIssueToEditCreateData,
-    IOpenIssueToEditData
+    IOpenIssueToEditData, ISaveIssueData
 } from "../redux/Issues.actions.dataTypes";
 import { IssuesActions } from "../redux/Issues.actions";
 import { IssuesStore } from "../redux/Issues.store";
@@ -42,11 +42,90 @@ export class IssuesSaga extends SagaBase {
     }
 
     public static* openIssueToCreate(action: AppAction<IOpenIssueToEditCreateData>) {
+        yield IssuesSaga.updateStore({
+            openedIssue: new Issue(),
+        });
         action.payload.openIssuePanel();
     }
 
     public static* openIssueToEdit(action: AppAction<IOpenIssueToEditData>) {
-        action.payload.openIssuePanel();
+        const { issueId, openIssuePanel } = action.payload;
+        yield IssuesSaga.updateStore({
+            openedIssueIsLoading: true,
+        });
+
+        yield IssuesSaga.preloadIssue(issueId);
+
+        const response: ApiResponse<Issue> = yield IssuesApi.getIssue(issueId);
+        if (response.hasError()) {
+            yield IssuesSaga.updateStore({
+                openedIssueIsLoading: false,
+            });
+            yield SagaBase.displayClientError(response);
+            return;
+        }
+
+        yield IssuesSaga.updateStore({
+            openedIssue: response.data,
+            openedIssueIsLoading: false,
+        });
+
+        openIssuePanel();
+
+        yield IssuesSaga.updateIssueInStore(response.data);
+    }
+
+    private static* preloadIssue(issueId: number) {
+        const issue: Issue = yield IssuesStoreSelectors.getIssueById(issueId);
+        if (issue) {
+            yield IssuesSaga.updateStore({
+                openedIssue: issue,
+            });
+        }
+    }
+
+    private static* updateIssueInStore(changedIssue: Issue) {
+        let storedIssues: Issue[] = yield IssuesStoreSelectors.issues();
+        storedIssues = storedIssues.filter((issue: Issue) => issue.id !== changedIssue.id);
+        storedIssues.push(changedIssue);
+
+        yield IssuesSaga.updateStore({
+            issues: storedIssues,
+        });
+    }
+
+    public static* saveIssue(action: AppAction<ISaveIssueData>) {
+        const { formValues, closeIssuePanel } = action.payload;
+
+        const issue = new Issue(formValues);
+        if (issue.isNew()) {
+            yield IssuesSaga.createIssue(issue);
+        }
+        else {
+            yield IssuesSaga.updateIssue(issue);
+        }
+
+        closeIssuePanel();
+    }
+
+    private static* createIssue(issue: Issue) {
+        const response: ApiResponse<Issue> = yield IssuesApi.createIssue(issue);
+        if (response.hasError()) {
+            yield SagaBase.displayClientError(response);
+            return;
+        }
+
+        yield IssuesSaga.updateIssueInStore(response.data);
+    }
+
+    private static* updateIssue(issue: Issue) {
+        const response: ApiResponse<Issue> = yield IssuesApi.updateIssue(issue);
+        if (response.hasError()) {
+            yield SagaBase.displayClientError(response);
+            return;
+        }
+
+        yield IssuesSaga.updateIssueInStore(response.data);
     }
 
     public static* closeIssue(action: AppAction<ICloseIssueData>) {

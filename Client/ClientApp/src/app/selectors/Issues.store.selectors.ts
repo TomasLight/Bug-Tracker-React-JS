@@ -9,6 +9,16 @@ export class IssuesStoreSelectors extends StoreSelectorBase {
         return state.issuesStore;
     }
 
+    public static* issues() {
+        const store: IssuesStore = yield IssuesStoreSelectors.getStore();
+        return store.issues;
+    }
+
+    public static* getIssueById(issueId: number) {
+        const store: IssuesStore = yield IssuesStoreSelectors.getStore();
+        return store.issues.find((issue: Issue) => issue.id === issueId);
+    }
+
     public static* filter() {
         const store: IssuesStore = yield IssuesStoreSelectors.getStore();
         return store.filter;

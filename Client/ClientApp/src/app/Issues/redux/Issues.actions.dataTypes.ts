@@ -1,4 +1,5 @@
 import { FilterItem } from "@app/Issues/models/FilterItem";
+import { IIssue } from "@app/Issues/models/Issue";
 
 export interface IFilterChangeData {
     filterItem: FilterItem;
@@ -14,5 +15,10 @@ export interface IOpenIssueToEditData {
 }
 
 export interface ICloseIssueData {
+    closeIssuePanel: () => void;
+}
+
+export interface ISaveIssueData {
+    formValues: IIssue;
     closeIssuePanel: () => void;
 }

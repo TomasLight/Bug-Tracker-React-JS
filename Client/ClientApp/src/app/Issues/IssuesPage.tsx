@@ -6,7 +6,9 @@ import { Fab, Grid, makeStyles } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
 import { Translate } from "@utils/translates/Translate";
-import { IssuePanel } from "./IssuePanel/IssuePanel";
+import { IssuesFormContainer } from "@app/Issues/IssueForm/IssueForm.container";
+import { IssuesPanelContainer } from "@app/Issues/IssuePanel/IssuesPanel.container";
+import { PanelHeaderHeight } from "@shared/organisms/Panel/Panel";
 import { Issues } from "./Issues/Issues";
 import { FiltersContainer } from "@app/Issues/Filters/Filters.container";
 
@@ -23,6 +25,9 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
         bottom: 20,
         right: 24,
         zIndex: 1,
+    },
+    form: {
+        height: `calc(100% - ${PanelHeaderHeight}px)`,
     },
 }));
 
@@ -60,8 +65,13 @@ const IssuesPage: FunctionComponent<Props> = (props) => {
 
     return (
         <Grid container direction={"column"} className={classes.page}>
-
-            <Grid item container className={classes.header} justify={"space-between"} alignItems={"center"}>
+            <Grid
+                item
+                container
+                justify={"space-between"}
+                alignItems={"center"}
+                className={classes.header}
+            >
                 <Typography size={700} color={"strong"} component={"p"}>
                     {Translate.getString("Issues")}
                 </Typography>
@@ -71,11 +81,18 @@ const IssuesPage: FunctionComponent<Props> = (props) => {
 
             <Issues openIssue={openIssue}/>
 
-            <Fab color="primary" aria-label="add" onClick={createIssue} className={classes.addButton}>
+            <Fab
+                color="primary"
+                aria-label="add"
+                onClick={createIssue}
+                className={classes.addButton}
+            >
                 <Add/>
             </Fab>
 
-            <IssuePanel isOpen={isOpen} close={onCloseIssue}/>
+            <IssuesPanelContainer isOpen={isOpen} close={onCloseIssue}>
+                <IssuesFormContainer closePanel={close} className={classes.form}/>
+            </IssuesPanelContainer>
         </Grid>
     );
 };

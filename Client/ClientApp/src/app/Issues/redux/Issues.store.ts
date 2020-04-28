@@ -6,6 +6,7 @@ export class IssuesStore {
     public issuesAreLoading: boolean;
 
     public openedIssue: Issue;
+    public openedIssueIsLoading: boolean;
     public openedIssueIsSaving: boolean;
 
     public filter: IssueFilter;
@@ -14,7 +15,8 @@ export class IssuesStore {
         this.issues = [];
         this.issuesAreLoading = false;
 
-        this.openedIssue = null;
+        this.openedIssue = new Issue();
+        this.openedIssueIsLoading = false;
         this.openedIssueIsSaving = false;
 
         this.filter = new IssueFilter();
