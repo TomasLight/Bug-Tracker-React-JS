@@ -1,16 +1,24 @@
 import { IAppTheme } from "mui-app-theme";
+import { Typography } from "mui-typography";
 import React, { FunctionComponent, useEffect, useState } from "react";
 
 import { Fab, Grid, makeStyles } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
-import { IssuePanel } from "./IssuePanel/IssuePanel";
+import { Translate } from "@utils/translates/Translate";
+import { IssuesFormContainer } from "@app/Issues/IssueForm/IssueForm.container";
+import { IssuesPanelContainer } from "@app/Issues/IssuePanel/IssuesPanel.container";
+import { PanelHeaderHeight } from "@shared/organisms/Panel/Panel";
 import { Issues } from "./Issues/Issues";
-import { IssuePageHeaderContainer } from "./IssuePageHeader/IssuesPageHeader.container";
+import { FiltersContainer } from "@app/Issues/Filters/Filters.container";
 
 const useStyles = makeStyles((theme: IAppTheme) => ({
     page: {
         minHeight: "100%",
+    },
+    header: {
+        height: 96,
+        padding: "24px 24px 16px",
     },
     addButton: {
         position: "absolute",
@@ -18,10 +26,10 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
         right: 24,
         zIndex: 1,
     },
+    form: {
+        height: `calc(100% - ${PanelHeaderHeight}px)`,
+    },
 }));
-
-export interface IIssuesPageProps {
-}
 
 export interface IIssuesPageCallProps {
     loadIssues: () => void;
@@ -30,7 +38,7 @@ export interface IIssuesPageCallProps {
     closeIssue: (closeIssuePanel: () => void) => void;
 }
 
-type Props = IIssuesPageProps & IIssuesPageCallProps;
+type Props = IIssuesPageCallProps;
 
 const IssuesPage: FunctionComponent<Props> = (props) => {
     const {
@@ -57,14 +65,34 @@ const IssuesPage: FunctionComponent<Props> = (props) => {
 
     return (
         <Grid container direction={"column"} className={classes.page}>
-            <IssuePageHeaderContainer/>
+            <Grid
+                item
+                container
+                justify={"space-between"}
+                alignItems={"center"}
+                className={classes.header}
+            >
+                <Typography size={700} color={"strong"} component={"p"}>
+                    {Translate.getString("Issues")}
+                </Typography>
+
+                <FiltersContainer/>
+            </Grid>
 
             <Issues openIssue={openIssue}/>
 
-            <Fab color="primary" aria-label="add" onClick={createIssue} className={classes.addButton}>
+            <Fab
+                color="primary"
+                aria-label="add"
+                onClick={createIssue}
+                className={classes.addButton}
+            >
                 <Add/>
             </Fab>
-            <IssuePanel isOpen={isOpen} close={onCloseIssue}/>
+
+            <IssuesPanelContainer isOpen={isOpen} close={onCloseIssue}>
+                <IssuesFormContainer closePanel={onCloseIssue} className={classes.form}/>
+            </IssuesPanelContainer>
         </Grid>
     );
 };

@@ -8,7 +8,7 @@
         InPerReview = 3,
         ReadyForQA = 4,
         QA = 5,
-        Closed = 6,
+        Done = 6,
         Reopened = 7,
         Removed = 8,
     }

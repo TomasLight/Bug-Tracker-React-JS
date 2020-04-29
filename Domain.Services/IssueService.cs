@@ -25,7 +25,7 @@ namespace Domain.Services
 			IMapper mapper,
 			IIssueRepository issueRepository,
 			IHistoryRepository historyRepository
-			)
+		)
 		{
 			_mapper = mapper;
 			_issueRepository = issueRepository;
@@ -104,22 +104,22 @@ namespace Domain.Services
 			return _mapper.Map(updatedIssueEntity, issue);
 		}
 
-		public async Task DeleteAsync(Issue issue, User updater)
+		public Task DeleteAsync(Issue issue, User updater)
 		{
 			issue.Status = Status.Removed;
-			await UpdateAsync(issue, updater);
+			return UpdateAsync(issue, updater);
 		}
 
 		private IList<HistoryChange> GetIssueChanges(Issue pristineIssue, Issue updatedIssue)
 		{
 			var builder = new HistoryChangesBuilder(pristineIssue, updatedIssue);
 			
-			builder.AppendDiff(nameof(pristineIssue.Title));
-			builder.AppendDiff(nameof(pristineIssue.Description));
-			builder.AppendDiff(nameof(pristineIssue.Priority));
-			builder.AppendDiff(nameof(pristineIssue.Difficulty));
-			builder.AppendDiff(nameof(pristineIssue.Status));
-			builder.AppendDiff(nameof(pristineIssue.Type));
+			builder.AppendDiff(nameof(Issue.Title), issue => issue.Title);
+			builder.AppendDiff(nameof(Issue.Description), issue => issue.Description);
+			builder.AppendDiff(nameof(Issue.Priority), issue => issue.Priority);
+			builder.AppendDiff(nameof(Issue.Status), issue => issue.Status);
+			builder.AppendDiff(nameof(Issue.Type), issue => issue.Type);
+			builder.AppendDiff(nameof(Issue.Assigned), issue => issue.Assigned.Id);
 
 			var changes = builder.Build();
 			return changes;

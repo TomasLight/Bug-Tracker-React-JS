@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using API.Validation;
+using Domain.Enums;
 
 namespace API.Models.Issues.Requests
 {
@@ -6,5 +8,9 @@ namespace API.Models.Issues.Requests
 	{
 		[Required]
 		public int Id { get; set; }
+		
+		[Required]
+		[CorrectEnumValue]
+		public Status Status { get; set; }
 	}
 }

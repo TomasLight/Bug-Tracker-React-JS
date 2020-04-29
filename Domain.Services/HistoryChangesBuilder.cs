@@ -18,16 +18,10 @@ namespace Domain.Services
 			_changes = new List<HistoryChange>();
 		}
 
-		public void AppendDiff(string propertyName)
+		public void AppendDiff(string propertyName, Func<Issue, object> getValueExpression)
 		{
-			var propertyInfo = _issue1.GetType().GetProperty(propertyName);
-			if (propertyInfo == null)
-			{
-				throw new ArgumentException($"Invalid property name: {propertyName}");
-			}
-			
-			var value1 = propertyInfo.GetValue(_issue1).ToString();
-			var value2 = propertyInfo.GetValue(_issue2).ToString();
+			var value1 = getValueExpression(_issue1).ToString();
+			var value2 = getValueExpression(_issue2).ToString();
 
 			if (value1 == value2)
 			{

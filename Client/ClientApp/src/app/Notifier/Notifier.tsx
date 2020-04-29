@@ -1,10 +1,10 @@
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import React, { FunctionComponent, useEffect, useState } from "react";
 
-import { Notification } from "./Notification";
+import { INotification } from "./Notification";
 
 export interface INotifierProps {
-    notifications: Notification[];
+    notifications: INotification[];
 }
 
 export interface INotifierCallProps extends WithSnackbarProps {
@@ -20,9 +20,9 @@ const Notifier: FunctionComponent<Props> = (props: Props) => {
         removeSnackbar,
     } = props;
 
-    const [displayedNotifications, setDisplayedNotifications] = useState<Notification[]>([]);
+    const [displayedNotifications, setDisplayedNotifications] = useState<INotification[]>([]);
 
-    const showNotification = (notification: Notification) => {
+    const showNotification = (notification: INotification) => {
         enqueueSnackbar(notification.message, notification.options);
     };
 
@@ -31,7 +31,7 @@ const Notifier: FunctionComponent<Props> = (props: Props) => {
     };
 
     useEffect(() => {
-        const storedNotifications: Notification[] = notifications;
+        const storedNotifications: INotification[] = notifications;
 
         notifications.forEach((notification) => {
             const notificationAlreadyDisplayed = displayedNotifications.some((displayedNotification) =>

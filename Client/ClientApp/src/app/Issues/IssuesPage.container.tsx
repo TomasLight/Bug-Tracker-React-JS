@@ -2,15 +2,8 @@ import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { State } from "@State";
-
 import { IssuesActions } from "./redux/Issues.actions";
-import { IIssuesPageProps, IIssuesPageCallProps, IssuesPage } from "./IssuesPage";
-
-const mapStateToProps = (state: State): IIssuesPageProps => {
-    return {
-    };
-};
+import { IIssuesPageCallProps, IssuesPage } from "./IssuesPage";
 
 const mapDispatchToProps = (dispatch: Dispatch): IIssuesPageCallProps => {
     return {
@@ -29,7 +22,7 @@ const mapDispatchToProps = (dispatch: Dispatch): IIssuesPageCallProps => {
 };
 
 const IssuesPageContainer: ComponentType = connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(IssuesPage);
 

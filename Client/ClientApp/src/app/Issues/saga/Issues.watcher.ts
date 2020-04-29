@@ -20,8 +20,21 @@ export class IssuesWatcher extends WatcherBase {
             IssuesSaga.openIssueToEdit
         );
         this.watchLatest(
+            IssuesActions.SAVE_ISSUE,
+            IssuesSaga.saveIssue
+        );
+        this.watchLatest(
             IssuesActions.CLOSE_ISSUE,
             IssuesSaga.closeIssue
+        );
+
+        this.watchLatest(
+            IssuesActions.CHANGE_ISSUE_FILTER,
+            IssuesSaga.changeIssueFilter
+        );
+        this.watchLatest(
+            IssuesActions.CHANGE_USERS_LIST,
+            IssuesSaga.changeUserList
         );
     }
 }

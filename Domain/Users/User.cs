@@ -14,6 +14,8 @@ namespace Domain.Users
 		public string LastName { get; set; }
 		
 		public string FirstName { get; set; }
+		
+		public string Avatar { get; set; }
 
 		public virtual ICollection<History> Histories { get; set; }
 	}
