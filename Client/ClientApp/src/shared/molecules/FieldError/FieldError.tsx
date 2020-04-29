@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { IAppTheme } from "mui-app-theme";
 import { Typography } from "mui-typography";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -45,6 +45,16 @@ const FieldError: FunctionComponent<Props> = (props: Props) => {
     } = props;
 
     const classes = useStyles();
+    const ref = useRef<HTMLDivElement>(null);
+    const [ height, setHeight ] = useState<number>(0);
+
+    useEffect(() => {
+        if (!ref || !ref.current) {
+            return;
+        }
+        const typographyHeight = ref.current.offsetHeight;
+        setHeight(typographyHeight);
+    }, [ show, error, text ]);
 
     return (
         <Typography
@@ -54,7 +64,11 @@ const FieldError: FunctionComponent<Props> = (props: Props) => {
                 error ? classes.errorText : classes.helpText,
                 show ? "" : classes.hidden
             )}
+            forwardedRef={ref}
             {...rest}
+            style={{
+                transform: `translate(0px, ${height}px)`,
+            }}
         >
             {text}
         </Typography>
