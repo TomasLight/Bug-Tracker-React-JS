@@ -4,10 +4,11 @@ import { OptionValueType } from "./OptionValueType";
 export interface IFieldOption<TOptionValue = OptionValueType, TInnerValue = OptionValueType>
     extends IOption<TOptionValue> {
 
-    emptySingleValue: () => TOptionValue;
-    emptyMultiValue: () => TOptionValue[];
+    emptySingleValue(): TOptionValue;
+    emptyMultiValue(): TOptionValue[];
 
-    emptyOption: () => IFieldOption<TOptionValue, TInnerValue>;
+    emptyOption(): IFieldOption<TOptionValue, TInnerValue>;
+    isEmptyOption(): boolean;
 
     isNullOrEmptySingle(): boolean;
     isNullOrEmptySingleValue(value: any): boolean;

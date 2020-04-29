@@ -4,9 +4,6 @@ import { OptionValueType } from "../Options/OptionValueType";
 export class SelectFieldOption<TOptionValue = OptionValueType>
     implements IFieldOption<TOptionValue, TOptionValue> {
 
-    public readonly emptySingleValue = (): any => "";
-    public readonly emptyMultiValue = (): TOptionValue[] => [];
-
     public id: TOptionValue;
     public title: string;
 
@@ -21,12 +18,24 @@ export class SelectFieldOption<TOptionValue = OptionValueType>
         }
     }
 
-    public emptyOption = (): IFieldOption<TOptionValue, TOptionValue> => {
+    public emptySingleValue(): any {
+        return "";
+    }
+
+    public emptyMultiValue(): TOptionValue[] {
+        return [];
+    }
+
+    public emptyOption(): SelectFieldOption<TOptionValue> {
         return new SelectFieldOption({
             id: this.emptySingleValue(),
             title: "",
         });
-    };
+    }
+
+    public isEmptyOption(): boolean {
+        return this.id === this.emptySingleValue();
+    }
 
     public isEquals(value: TOptionValue): boolean {
         return this.id === value;

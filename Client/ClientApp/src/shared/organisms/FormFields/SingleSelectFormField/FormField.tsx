@@ -104,7 +104,7 @@ const FormField: FunctionComponent<Props> = (props: Props) => {
 
             options={options}
             getOptionLabel={(option: IFieldOption) => option.title}
-            getOptionValue={(option: IFieldOption) => option.id.toString()}
+            getOptionValue={(option: IFieldOption<any>) => option.id}
 
             value={displayedValue}
             onChange={handleOnChange}

@@ -28,13 +28,13 @@ export class Issue implements IIssue {
     constructor(issue?: IIssue) {
         if (!issue) {
             this.id = null;
-            this.type = IssueType.Task;
+            this.type = IssueType.NA;
             this.reporterId = null;
             this.assignedUserId = null;
             this.title = "";
             this.description = "";
-            this.priority = Priority.Medium;
-            this.status = Status.New;
+            this.priority = Priority.NA;
+            this.status = Status.NA;
             this.date = new Date();
         }
         else {

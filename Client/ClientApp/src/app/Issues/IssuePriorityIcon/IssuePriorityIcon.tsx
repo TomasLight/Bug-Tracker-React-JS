@@ -40,6 +40,9 @@ const IssuePriorityIcon: FunctionComponent<Props> = (props) => {
         case Priority.OnHold:
             return <OnHoldPriorityIcon {...rest}/>;
 
+        case Priority.NA:
+            return null;
+
         default:
             throw Error(`Unsupported issue priority (${priority}) for IssuePriorityIcon`);
     }

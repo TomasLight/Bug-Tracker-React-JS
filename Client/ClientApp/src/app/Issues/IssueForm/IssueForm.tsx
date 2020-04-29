@@ -5,7 +5,7 @@ import { Avatar, Button, Grid, makeStyles } from "@material-ui/core";
 
 import { IIssue, Issue } from "@app/Issues/models/Issue";
 import { IssueValidator } from "@app/Issues/validation/IssueValidator";
-import { IFieldOption } from "@shared/organisms/Fields/Select/Options/IFieldOption";
+import { IconSelectFieldOption } from "@shared/organisms/Fields/Select/FieldOptions/IconSelectFieldOption";
 import { Form } from "@shared/organisms/Form/Form";
 import { TextFormField } from "@shared/organisms/FormFields/TextFormField/TextFormField";
 import { IssuePriorityIcon } from "@app/Issues/IssuePriorityIcon/IssuePriorityIcon";
@@ -59,8 +59,8 @@ export interface IIssueFormProps {
     buttonText: string;
     isReporterDisplayed: boolean;
 
-    issueTypeOptions: IFieldOption[];
-    priorityOptions: IFieldOption[];
+    issueTypeOptions: IconSelectFieldOption[];
+    priorityOptions: IconSelectFieldOption[];
     assignOptions: UserSelectFieldOption[];
     reporterOptions: UserSelectFieldOption[];
 }
@@ -103,19 +103,25 @@ const IssueForm: FunctionComponent<Props> = (props) => {
         const validator = new IssueValidator();
         const modelState = validator.validate(formValues);
         if (modelState.isInvalid()) {
-            return modelState.getErrors();
+            const errors = modelState.getErrors();
+            return errors;
         }
     };
 
-    const renderUserAvatar = (option: UserSelectFieldOption) => (
-        <Avatar alt={option.title} src={option.avatarUrl()} className={classes.avatar}/>
-    );
+    const renderUserAvatar = (option: UserSelectFieldOption) => {
+        if (option.isEmptyOption()) {
+            return null;
+        }
+        return (
+            <Avatar alt={option.title} src={option.avatarUrl()} className={classes.avatar}/>
+        );
+    };
 
-    const renderIssueTypeIcon = (option: IFieldOption<number>) => (
+    const renderIssueTypeIcon = (option: IconSelectFieldOption) => (
         <IssueTypeIcon issueType={option.id} className={classes.icon}/>
     );
 
-    const renderPriorityIcon = (option: IFieldOption<number>) => (
+    const renderPriorityIcon = (option: IconSelectFieldOption) => (
         <IssuePriorityIcon priority={option.id} className={classes.icon}/>
     );
 
@@ -143,6 +149,7 @@ const IssueForm: FunctionComponent<Props> = (props) => {
                         label={Translate.getString("Type")}
                         options={issueTypeOptions}
                         renderIcon={renderIssueTypeIcon}
+                        newOption={() => new IconSelectFieldOption()}
                         className={clsx(classes.select, classes.marginRight)}
                     />
 
@@ -151,6 +158,7 @@ const IssueForm: FunctionComponent<Props> = (props) => {
                         label={Translate.getString("Priority")}
                         options={priorityOptions}
                         renderIcon={renderPriorityIcon}
+                        newOption={() => new IconSelectFieldOption()}
                         className={classes.select}
                     />
                 </Grid>

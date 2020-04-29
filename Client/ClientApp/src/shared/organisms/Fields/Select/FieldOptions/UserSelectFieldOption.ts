@@ -13,4 +13,12 @@ export class UserSelectFieldOption extends SelectFieldOption<number> {
     }
 
     public avatarUrl = () => this.user.avatarUrl();
+
+    public emptySingleValue(): any {
+        return new User().id;
+    }
+
+    public emptyOption(): UserSelectFieldOption {
+        return new UserSelectFieldOption();
+    }
 }
