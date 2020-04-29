@@ -4,6 +4,7 @@ using API.Models.Issues.Requests;
 using API.Models.Issues.Responses;
 using AutoMapper;
 using Data.Fake;
+using Domain.Enums;
 using Domain.Exceptions;
 using Domain.Issues;
 using Domain.Users;
@@ -17,11 +18,13 @@ namespace API.Controllers
 	{
 		private readonly IMapper _mapper;
 		private readonly IIssueService _issueService;
+		private readonly IUserService _userService;
 
-		public IssuesController(IMapper mapper, IIssueService issueService)
+		public IssuesController(IMapper mapper, IIssueService issueService, IUserService userService)
 		{
 			_mapper = mapper;
 			_issueService = issueService;
+			_userService = userService;
 		}
 
 		[HttpGet]
@@ -48,7 +51,21 @@ namespace API.Controllers
 		[Route("issue")]
 		public async Task<IActionResult> CreateIssue(NewIssueDto newIssueDto)
 		{
+			var user = await _userService.GetByIdAsync(newIssueDto.AssignedUserId);
+			if (user == null)
+			{
+				return BadRequest("Assigned user not found");
+			}
+
 			var issue = _mapper.Map<Issue>(newIssueDto);
+			issue.Status = Status.New;
+			issue.Assigned = user;
+			// TODO: getting of current user
+			issue.Reporter = new User
+			{
+				Id = (int) FakeUserId.TomasLight,
+			};
+			
 			await _issueService.AddAsync(issue);
 
 			var dto = _mapper.Map<IssueDto>(issue);
@@ -64,12 +81,20 @@ namespace API.Controllers
 			{
 				return NotFound("Issue not found");
 			}
+			
+			var user = await _userService.GetByIdAsync(updateIssueDto.AssignedUserId);
+			if (user == null)
+			{
+				return BadRequest("Assigned user not found");
+			}
 
 			_mapper.Map(updateIssueDto, issue);
+			issue.Assigned = user; 
+
 			// TODO: getting of current user
 			var updater = new User
 			{
-				Id = (int) FakeUserId.NA,
+				Id = (int) FakeUserId.TomasLight,
 			};
 
 			await _issueService.UpdateAsync(issue, updater);

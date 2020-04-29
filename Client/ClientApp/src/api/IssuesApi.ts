@@ -37,7 +37,7 @@ export class IssuesApi extends ApiBase {
             nameof<NewIssueDto>(),
             issue
         );
-        dto.priority = 0;
+
         const response = await this.post<IssueDto>("/api/issue/", dto);
         if (response.data) {
             response.data = Mapper.map<Issue>(

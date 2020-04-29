@@ -18,10 +18,6 @@ namespace API.Models.Issues.Requests
 		[Required]
 		[CorrectEnumValue]
 		public Priority Priority { get; set; }
-		
-		[Required]
-		[CorrectEnumValue]
-		public Status Status { get; set; }
 
 		[Required]
 		public int AssignedUserId { get; set; }

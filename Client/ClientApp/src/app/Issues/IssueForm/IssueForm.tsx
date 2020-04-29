@@ -100,15 +100,6 @@ const IssueForm: FunctionComponent<Props> = (props) => {
         setRightPadding(padding);
     }, [ ref, ref.current ]);
 
-    const validate = (formValues: IIssue) => {
-        const validator = new IssueValidator();
-        const modelState = validator.validate(formValues);
-        if (modelState.isInvalid()) {
-            const errors = modelState.getErrors();
-            return errors;
-        }
-    };
-
     const renderUserAvatar = (option: UserSelectFieldOption) => {
         if (option.isEmptyOption()) {
             return null;
@@ -130,7 +121,7 @@ const IssueForm: FunctionComponent<Props> = (props) => {
         <Form
             initialValues={issue}
             submit={submit}
-            validate={validate}
+            validator={new IssueValidator()}
             className={clsx(classes.form, className)}
         >
             <Grid
@@ -151,6 +142,7 @@ const IssueForm: FunctionComponent<Props> = (props) => {
                         options={issueTypeOptions}
                         renderIcon={renderIssueTypeIcon}
                         newOption={() => new IconSelectFieldOption()}
+                        required
                         className={clsx(classes.select, classes.marginRight)}
                     />
 
@@ -160,6 +152,7 @@ const IssueForm: FunctionComponent<Props> = (props) => {
                         options={priorityOptions}
                         renderIcon={renderPriorityIcon}
                         newOption={() => new IconSelectFieldOption()}
+                        required
                         className={classes.select}
                     />
                 </Grid>
@@ -167,6 +160,7 @@ const IssueForm: FunctionComponent<Props> = (props) => {
                 <TextFormField
                     name={nameof<Issue>((o) => o.title)}
                     label={Translate.getString("Title")}
+                    required
                     className={classes.marginTop}
                 />
 
@@ -186,6 +180,7 @@ const IssueForm: FunctionComponent<Props> = (props) => {
                         options={assignOptions}
                         renderIcon={renderUserAvatar}
                         newOption={() => new UserSelectFieldOption()}
+                        required
                         className={clsx(classes.select, classes.marginRight)}
                     />
 
@@ -196,6 +191,7 @@ const IssueForm: FunctionComponent<Props> = (props) => {
                             options={reporterOptions}
                             renderIcon={renderUserAvatar}
                             newOption={() => new UserSelectFieldOption()}
+                            required
                             readOnly
                             className={classes.select}
                         />

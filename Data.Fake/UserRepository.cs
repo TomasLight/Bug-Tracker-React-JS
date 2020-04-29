@@ -65,6 +65,14 @@ namespace Data.Fake
 				LastName = "Light",
 				Avatar = "Tomas Light.png",
 			},
+			new User
+			{
+				Id = (int)FakeUserId.NewUser,
+				Login = "user7",
+				Password = FakePassword,
+				FirstName = "New",
+				LastName = "User",
+			},
 		};
 		
 		public Task<IEnumerable<User>> GetAsync()

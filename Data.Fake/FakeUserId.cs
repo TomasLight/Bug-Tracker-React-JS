@@ -9,5 +9,6 @@ namespace Data.Fake
 		MorizHeider = 4,
 		ElisabethSonrel = 5,
 		TomasLight = 6,
+		NewUser = 7,
 	}
 }

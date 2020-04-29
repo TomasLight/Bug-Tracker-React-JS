@@ -91,7 +91,7 @@ const IssuesPage: FunctionComponent<Props> = (props) => {
             </Fab>
 
             <IssuesPanelContainer isOpen={isOpen} close={onCloseIssue}>
-                <IssuesFormContainer closePanel={close} className={classes.form}/>
+                <IssuesFormContainer closePanel={onCloseIssue} className={classes.form}/>
             </IssuesPanelContainer>
         </Grid>
     );

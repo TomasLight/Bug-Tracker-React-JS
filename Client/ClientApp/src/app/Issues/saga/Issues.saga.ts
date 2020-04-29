@@ -1,21 +1,25 @@
+import { IssuesApi } from "@api/IssuesApi";
+import { Status } from "@app/Issues/models/Status";
+import { IssuesStoreSelectors } from "@app/selectors/Issues.store.selectors";
 import { User } from "@app/Users/models/User";
 import { put } from "@redux-saga/core/effects";
 import { UserSelectFieldOption } from "@shared/organisms/Fields/Select/FieldOptions/UserSelectFieldOption";
 
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { AppAction } from "@utils/redux/AppAction";
-import { IssuesApi } from "@api/IssuesApi";
-import { IssuesStoreSelectors } from "@app/selectors/Issues.store.selectors";
 import { SagaBase } from "@utils/saga/SagaBase";
+import { Issue } from "../models/Issue";
 
 import { IssueFilter } from "../models/IssueFilter";
-import { Issue } from "../models/Issue";
-import {
-    ICloseIssueData, IFilterChangeData,
-    IOpenIssueToEditCreateData,
-    IOpenIssueToEditData, ISaveIssueData, IUserListChangeData
-} from "../redux/Issues.actions.dataTypes";
 import { IssuesActions } from "../redux/Issues.actions";
+import {
+    ICloseIssueData,
+    IFilterChangeData,
+    IOpenIssueToEditCreateData,
+    IOpenIssueToEditData,
+    ISaveIssueData,
+    IUserListChangeData
+} from "../redux/Issues.actions.dataTypes";
 import { IssuesStore } from "../redux/Issues.store";
 
 export class IssuesSaga extends SagaBase {
