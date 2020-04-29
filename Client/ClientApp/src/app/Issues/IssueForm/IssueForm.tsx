@@ -191,7 +191,6 @@ const IssueForm: FunctionComponent<Props> = (props) => {
                             options={reporterOptions}
                             renderIcon={renderUserAvatar}
                             newOption={() => new UserSelectFieldOption()}
-                            required
                             readOnly
                             className={classes.select}
                         />

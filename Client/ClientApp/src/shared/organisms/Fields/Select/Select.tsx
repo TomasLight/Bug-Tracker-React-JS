@@ -87,7 +87,7 @@ const Select: FunctionComponent<Props> = (props: Props) => {
     return (
         <ReactSelect
             hideSelectedOptions={false}
-            isSearchable
+            isSearchable={!readOnly && !disabled}
             isClearable={false}
             inputId={id}
 
@@ -101,7 +101,8 @@ const Select: FunctionComponent<Props> = (props: Props) => {
             placeholder={""}
             isDisabled={disabled}
             readOnly={readOnly}
-            isFocused={active}
+            openMenuOnClick={!readOnly && !disabled}
+            isFocused={active && !readOnly && !disabled}
         />
     );
 };
