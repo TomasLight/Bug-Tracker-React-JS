@@ -43,17 +43,17 @@ export class AppThemeColors extends Colors {
         const blackText = "rgba(0, 0, 0, 0.87)";
 
         return {
-            main: `rgba(${main.join(",")})`,
-            hover: `rgba(${hover.join(",")})`,
+            main: `rgba(${main.join(", ")})`,
+            hover: `rgba(${hover.join(", ")})`,
             text: isBlackText ? blackText : whiteText,
 
             outline: {
                 main: "rgba(255, 255, 255)",
-                hover: `rgba(${main.join(",")}, 0.8)`,
+                hover: `rgba(${main.join(", ")}, 0.08)`,
             },
             disabled: {
-                main: `rgba(${main.join(",")}, 0.12)`,
-                text: `rgba(${main.join(",")}, 0.38)`,
+                main: `rgba(${main.join(", ")}, 0.12)`,
+                text: `rgba(${main.join(", ")}, 0.38)`,
             },
         };
     }

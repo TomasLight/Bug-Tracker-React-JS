@@ -7,6 +7,7 @@ import { Grid, makeStyles } from "@material-ui/core";
 import { Issue } from "@app/Issues/models/Issue";
 import { Status } from "@app/Issues/models/Status";
 import { Translate } from "@utils/translates/Translate";
+import { User } from "@app/Users/models/User";
 
 import { IssueCard } from "./IssueCard/IssueCard";
 
@@ -38,6 +39,7 @@ export interface IIssueColumnOwnProps {
 
 export interface IIssueColumnProps {
     issues: Issue[];
+    users: User[];
 }
 
 export interface IIssueColumnCallProps {
@@ -50,6 +52,7 @@ const IssueColumn: FunctionComponent<Props> = (props) => {
     const {
         status,
         issues,
+        users,
         openIssue,
         openIssueByLink,
     } = props;
@@ -66,6 +69,7 @@ const IssueColumn: FunctionComponent<Props> = (props) => {
                 <IssueCard
                     key={`issue-${issue.id}`}
                     issue={issue}
+                    assignedUser={users.find((user: User) => user.id === issue.assignedUserId)}
                     openIssue={openIssue}
                     openIssueByLink={openIssueByLink}
                 />

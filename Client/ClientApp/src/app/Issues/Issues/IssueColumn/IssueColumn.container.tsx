@@ -1,8 +1,10 @@
-import { appUrls } from "@app/routing/appUrls";
 import { push } from "connected-react-router";
 import { ComponentType } from "react";
 import { connect } from "react-redux";
 
+import { appUrls } from "@app/routing/appUrls";
+import { Issue } from "@app/Issues/models/Issue";
+import { IssuesStoreSelectors } from "@app/selectors/Issues.store.selectors";
 import { State } from "@State";
 import { Dispatch } from "redux";
 
@@ -10,7 +12,10 @@ import { IIssueColumnProps, IIssueColumnCallProps, IssueColumn, IIssueColumnOwnP
 
 const mapStateToProps = (state: State): IIssueColumnProps => {
     return {
-        issues: state.issuesStore.issues,
+        issues: IssuesStoreSelectors.filteredIssues(state).sort(
+            (left: Issue, right: Issue) => left.compare(right)
+        ),
+        users: state.usersStore.users,
     };
 };
 

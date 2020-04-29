@@ -7,6 +7,8 @@ namespace Domain.Users
 	{
 		Task<IList<User>> GetAsync();
 		
+		Task<User> GetByIdAsync(int userId);
+		
 		Task<User> GetByLoginAndPasswordAsync(string login, string password);
 	}
 }

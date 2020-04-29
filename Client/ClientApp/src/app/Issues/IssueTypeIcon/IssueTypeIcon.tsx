@@ -23,9 +23,11 @@ const IssueTypeIcon: FunctionComponent<Props> = (props) => {
         case IssueType.Investigation:
             return <InvestigationIcon {...rest}/>;
 
-        case IssueType.Defect:
         case IssueType.Bug:
             return <BugIcon {...rest}/>;
+
+        case IssueType.NA:
+            return null;
 
         default:
             throw Error(`Unsupported issue type (${issueType}) for IssueTypeIcon`);

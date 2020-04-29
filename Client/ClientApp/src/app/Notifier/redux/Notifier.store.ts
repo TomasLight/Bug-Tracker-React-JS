@@ -1,7 +1,7 @@
-import { Notification } from "../Notification";
+import { INotification } from "../Notification";
 
 export class NotifierStore {
-    public notifications: Notification[];
+    public notifications: INotification[];
 
     constructor() {
         this.notifications = [];

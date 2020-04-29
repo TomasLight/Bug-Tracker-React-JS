@@ -4,8 +4,12 @@ export class MappingProfileBase {
         destinationModel: TDestination
     ): TDestination {
 
-        const destinationPropertyNames = Object.keys(destinationModel);
-        destinationPropertyNames.forEach((propertyName: string) => {
+        let keys = Object.keys(destinationModel);
+        if (keys.length === 0) {
+            keys = Object.keys(sourceModel);
+        }
+
+        keys.forEach((propertyName: string) => {
             if (propertyName in sourceModel) {
                 destinationModel[propertyName] = sourceModel[propertyName];
             }

@@ -1,4 +1,6 @@
-import { IIssueDto } from "@api/models/issues/responses/IssueDto";
+import { NewIssueDto } from "@api/models/issues/requests/NewIssueDto";
+import { UpdateIssueDto } from "@api/models/issues/requests/UpdateIssueDto";
+import { IssueDto } from "@api/models/issues/responses/IssueDto";
 import { Issue } from "@app/Issues/models/Issue";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
@@ -9,15 +11,35 @@ export class IssueMappingProfile extends MappingProfileBase implements IMappingP
     public get(): IMapFunction[] {
         return [
             new MapFunction(
-                nameof<IIssueDto>(),
+                nameof<IssueDto>(),
                 nameof<Issue>(),
-                IssueMappingProfile.mapIIssueDtoToIssue
+                IssueMappingProfile.mapIssueDtoToIssue
+            ),
+            new MapFunction(
+                nameof<Issue>(),
+                nameof<NewIssueDto>(),
+                IssueMappingProfile.mapIssueToNewIssueDto
+            ),
+            new MapFunction(
+                nameof<Issue>(),
+                nameof<UpdateIssueDto>(),
+                IssueMappingProfile.mapIssueToUpdateIssueDto
             ),
         ];
     }
 
-    private static mapIIssueDtoToIssue(dto: IIssueDto): Issue {
+    private static mapIssueDtoToIssue(dto: IssueDto): Issue {
         const issue = MappingProfileBase.autoMap(dto, new Issue());
         return issue;
+    }
+
+    private static mapIssueToNewIssueDto(issue: Issue): NewIssueDto {
+        const dto = MappingProfileBase.autoMap<Issue, NewIssueDto>(issue, {} as any);
+        return dto;
+    }
+
+    private static mapIssueToUpdateIssueDto(issue: Issue): UpdateIssueDto {
+        const dto = MappingProfileBase.autoMap<Issue, UpdateIssueDto>(issue, {} as any);
+        return dto;
     }
 }

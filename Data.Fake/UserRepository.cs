@@ -13,41 +13,76 @@ namespace Data.Fake
 		{
 			new User
 			{
-				Id = (int)FakeUserId.Admin,
-				Login = "admin",
+				Id = (int)FakeUserId.ChristopherEccleston,
+				Login = "user1",
 				Password = FakePassword,
-				FirstName = "Admin",
-				LastName = "Test",
+				FirstName = "Christopher",
+				LastName = "Eccleston",
+				Avatar = "Christopher Eccleston.png",
 			},
 			new User
 			{
-				Id = (int)FakeUserId.Manager,
-				Login = "manager",
+				Id = (int)FakeUserId.ElisabethSonrel,
+				Login = "user2",
 				Password = FakePassword,
-				FirstName = "Manager",
-				LastName = "Test",
+				FirstName = "Elisabeth",
+				LastName = "Sonrel",
+				Avatar = "Elisabeth Sonrel.png",
 			},
 			new User
 			{
-				Id = (int)FakeUserId.Developer,
-				Login = "developer",
+				Id = (int)FakeUserId.JeanneMoreau,
+				Login = "user3",
 				Password = FakePassword,
-				FirstName = "Developer",
-				LastName = "Test",
+				FirstName = "Jeanne",
+				LastName = "Moreau",
+				Avatar = "Jeanne Moreau.png",
 			},
 			new User
 			{
-				Id = (int)FakeUserId.QA,
-				Login = "qa",
+				Id = (int)FakeUserId.MichaelCrawford,
+				Login = "user4",
 				Password = FakePassword,
-				FirstName = "QA",
-				LastName = "Test",
+				FirstName = "Michael",
+				LastName = "Crawford",
+				Avatar = "Michael Crawford.png",
+			},
+			new User
+			{
+				Id = (int)FakeUserId.MorizHeider,
+				Login = "user5",
+				Password = FakePassword,
+				FirstName = "Moriz",
+				LastName = "Heider",
+				Avatar = "Moriz Heider.png",
+			},
+			new User
+			{
+				Id = (int)FakeUserId.TomasLight,
+				Login = "user6",
+				Password = FakePassword,
+				FirstName = "Tomas",
+				LastName = "Light",
+				Avatar = "Tomas Light.png",
+			},
+			new User
+			{
+				Id = (int)FakeUserId.NewUser,
+				Login = "user7",
+				Password = FakePassword,
+				FirstName = "New",
+				LastName = "User",
 			},
 		};
 		
 		public Task<IEnumerable<User>> GetAsync()
 		{
 			return Task.FromResult(_users.AsEnumerable());
+		}
+		
+		public Task<User> GetByIdAsync(int userId)
+		{
+			return Task.FromResult(_users.FirstOrDefault(user => user.Id == userId));
 		}
 	}
 }
