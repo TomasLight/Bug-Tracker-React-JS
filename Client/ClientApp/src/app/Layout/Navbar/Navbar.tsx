@@ -1,12 +1,12 @@
-import { User } from "@app/Users/models/User";
 import { Location } from "history";
 import { IAppTheme } from "mui-app-theme";
 import React, { FunctionComponent } from "react";
 
-import { Avatar, Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import { BugReport, People, ExitToApp } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/styles";
 
+import { User } from "@app/Users/models/User";
+import { UserAvatar } from "@shared/molecules/Avatars/UserAvatar";
 import { NavbarButton, NavbarButtonProps } from "@app/Layout/Navbar/NavbarButton/NavbarButton";
 import { appUrls } from "@app/routing/appUrls";
 import { Logo } from "@shared/atoms/icons/Logo";
@@ -84,7 +84,7 @@ const Navbar: FunctionComponent<Props> = (props) => {
             </Grid>
 
             <Grid item container direction={"column"} justify={"flex-end"}>
-                <Avatar alt={currentUser.name()} src={currentUser.avatarUrl()} className={classes.avatar}/>
+                <UserAvatar user={currentUser} className={classes.avatar}/>
 
                 <NavbarIconButton isActive={false}>
                     <ExitToApp/>

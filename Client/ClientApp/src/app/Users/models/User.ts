@@ -1,6 +1,4 @@
 export class User {
-    private static readonly UNDEFINED_AVATAR = "Undefined.png";
-
     public id: number;
     public login: string;
     public password: string;
@@ -39,9 +37,7 @@ export class User {
         this.avatar = user.avatar;
     }
 
-    public static Undefined(): User {
-        const user = new User();
-        user.avatar = User.UNDEFINED_AVATAR;
-        return user;
+    public static undefinedAvatarUrl(): string {
+        return `/images/Undefined.png`;
     }
 }

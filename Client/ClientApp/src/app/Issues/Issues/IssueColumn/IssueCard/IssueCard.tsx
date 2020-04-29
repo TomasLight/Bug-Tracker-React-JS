@@ -1,3 +1,4 @@
+import { UserAvatar } from "@shared/molecules/Avatars/UserAvatar";
 import { IAppTheme } from "mui-app-theme";
 import { Typography } from "mui-typography";
 import React, { FunctionComponent } from "react";
@@ -65,7 +66,7 @@ const IssueCard: FunctionComponent<Props> = (props) => {
     const classes = useStyles();
     const handleOpenIssue = () => openIssue(issue.id);
     const handleOpenIssueByLink = () => openIssueByLink(issue.id);
-    const user = assignedUser || User.Undefined();
+    const user = assignedUser || new User();
 
     return (
         <Card classes={{ root: classes.card }}>
@@ -89,7 +90,7 @@ const IssueCard: FunctionComponent<Props> = (props) => {
                             {`Id-${issue.id}`}
                         </Typography>
 
-                        <Avatar alt={user.name()} src={user.avatarUrl()} className={classes.avatar}/>
+                        <UserAvatar user={user} className={classes.avatar}/>
                     </Grid>
                 </Grid>
             </CardActions>

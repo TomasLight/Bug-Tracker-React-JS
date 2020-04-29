@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { IAppTheme } from "mui-app-theme";
 import React, { FunctionComponent, useEffect, useRef, useState } from "react";
-import { Avatar, Button, Grid, makeStyles } from "@material-ui/core";
+import { Button, Grid, makeStyles } from "@material-ui/core";
 
 import { IIssue, Issue } from "@app/Issues/models/Issue";
 import { IssueValidator } from "@app/Issues/validation/IssueValidator";
@@ -10,6 +10,7 @@ import { Form } from "@shared/organisms/Form/Form";
 import { TextFormField } from "@shared/organisms/FormFields/TextFormField/TextFormField";
 import { IssuePriorityIcon } from "@app/Issues/IssuePriorityIcon/IssuePriorityIcon";
 import { IssueTypeIcon } from "@app/Issues/IssueTypeIcon/IssueTypeIcon";
+import { UserAvatar } from "@shared/molecules/Avatars/UserAvatar";
 import { UserSelectFieldOption } from "@shared/organisms/Fields/Select/FieldOptions/UserSelectFieldOption";
 import { SingleSelectFormFieldWithIcons } from "@shared/organisms/FormFields/SingleSelectFormField/SingleSelectFormFieldWithIcons";
 import { Translate } from "@utils/translates/Translate";
@@ -35,9 +36,9 @@ const useStyles = makeStyles((theme: IAppTheme) => ({
         width: 200,
     },
     avatar: {
-        padding: "9px 8px 9px 0",
         height: 36,
         width: 36,
+        marginRight: 8,
     },
     icon: {
         height: 24,
@@ -113,7 +114,7 @@ const IssueForm: FunctionComponent<Props> = (props) => {
             return null;
         }
         return (
-            <Avatar alt={option.title} src={option.avatarUrl()} className={classes.avatar}/>
+            <UserAvatar user={option.user} className={classes.avatar}/>
         );
     };
 

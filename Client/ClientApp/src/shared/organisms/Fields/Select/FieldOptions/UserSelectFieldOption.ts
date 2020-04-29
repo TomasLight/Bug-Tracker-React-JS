@@ -2,17 +2,15 @@ import { User } from "@app/Users/models/User";
 import { SelectFieldOption } from "@shared/organisms/Fields/Select/FieldOptions/SelectFieldOption";
 
 export class UserSelectFieldOption extends SelectFieldOption<number> {
-    private readonly user: User;
+    public readonly user: User;
 
-    constructor(user: User = User.Undefined()) {
+    constructor(user: User = new User()) {
         super({
             id: user.id,
             title: user.name(),
         });
         this.user = user;
     }
-
-    public avatarUrl = () => this.user.avatarUrl();
 
     public emptySingleValue(): any {
         return new User().id;
