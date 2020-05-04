@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { IAppTheme } from "mui-app-theme";
-import React, { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { Button, Grid, makeStyles } from "@material-ui/core";
 
 import { IIssue, Issue } from "@app/Issues/models/Issue";
@@ -88,17 +88,15 @@ const IssueForm: FunctionComponent<Props> = (props) => {
     } = props;
     const classes = useStyles();
 
-    const ref = useRef<HTMLDivElement>(null);
     const [ rightPadding, setRightPadding ] = useState<number>(16);
-
-    useEffect(() => {
-        if (!ref || !ref.current) {
+    const ref = (node: HTMLDivElement) => {
+        if (!node) {
             return;
         }
-        const scrollbarWidth = ref.current.offsetWidth - ref.current.clientWidth;
+        const scrollbarWidth = node.offsetWidth - node.clientWidth;
         const padding = Math.max(0, 16 - scrollbarWidth);
         setRightPadding(padding);
-    }, [ ref, ref.current ]);
+    };
 
     const renderUserAvatar = (option: UserSelectFieldOption) => {
         if (option.isEmptyOption()) {
