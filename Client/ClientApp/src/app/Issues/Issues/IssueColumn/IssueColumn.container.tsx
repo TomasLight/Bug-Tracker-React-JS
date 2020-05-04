@@ -12,9 +12,7 @@ import { IIssueColumnProps, IIssueColumnCallProps, IssueColumn, IIssueColumnOwnP
 
 const mapStateToProps = (state: State): IIssueColumnProps => {
     return {
-        issues: IssuesStoreSelectors.filteredIssues(state).sort(
-            (left: Issue, right: Issue) => left.compare(right)
-        ),
+        issues: IssuesStoreSelectors.filteredIssues(state).sort(Issue.compare),
         users: state.usersStore.users,
     };
 };
