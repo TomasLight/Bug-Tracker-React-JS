@@ -1,16 +1,16 @@
 import { SagaMiddleware } from "redux-saga";
 
-import { WatchFunction } from "@utils/saga/WatchFunction";
-import { WatcherBase } from "@utils/saga/WatcherBase";
+import { WatchFunction } from "./WatchFunction";
+import { IWatcher } from "./IWatcher";
 
-export class RootSagaBase {
+export abstract class RootSagaBase {
     protected watchFunctions: WatchFunction[];
 
-    protected addWatchers(baseWatchers: WatcherBase[]) {
+    protected addWatchers(baseWatchers: IWatcher[]) {
         baseWatchers.forEach((watcher) => this.addWatcher(watcher));
     }
 
-    protected addWatcher(baseWatcher: WatcherBase) {
+    protected addWatcher(baseWatcher: IWatcher) {
         this.watchFunctions.push(...baseWatcher.watchFunctions);
     }
 
@@ -19,8 +19,6 @@ export class RootSagaBase {
     }
 
     public run(sagaMiddleware: SagaMiddleware) {
-        this.watchFunctions.forEach(
-            sagaMiddleware.run
-        );
+        this.watchFunctions.forEach(saga => sagaMiddleware.run(saga));
     }
 }

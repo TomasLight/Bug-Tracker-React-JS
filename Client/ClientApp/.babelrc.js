@@ -2,6 +2,9 @@ const presets = [
     [
         "@babel/preset-env",
         {
+            targets: {
+                node: "current",
+            },
             "useBuiltIns": "usage",
             "corejs": "3.6.4"
         }
@@ -31,8 +34,10 @@ const plugins = [
             alias,
         },
     ],
+    // "babel-jest"
 ];
 
+/** @type {import("@babel/core").TransformOptions} */
 const babelConfig = {
     presets,
     plugins,

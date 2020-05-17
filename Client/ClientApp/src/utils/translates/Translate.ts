@@ -1,18 +1,17 @@
 import { Status } from "@app/Issues/models/Status";
-import { Dictionary } from "@tomas_light/dictionary";
 
 export class Translate {
     public static getString(key: string, options?: any) {
         // todo: add localization library usage of
         // for example: i18next
-        if (Translate.tempDictionary.containsKey(key)) {
+        if (Translate.tempDictionary.has(key)) {
             return Translate.tempDictionary.get(key)(options);
         }
 
         return key;
     }
 
-    private static tempDictionary = Dictionary.fromArray<string, (options: any) => string>([
+    private static tempDictionary = new Map<string, (options: any) => string>([
         [ "issue-status", Translate.getIssueStatusText ],
     ]);
 
@@ -38,7 +37,7 @@ export class Translate {
                 return "Done";
 
             default:
-                throw Error(`Translate.getString - Invalid key for Issue status: ${options.status}`);
+                throw new Error(`Translate.getString - Invalid key for Issue status: ${options.status}`);
         }
     }
 }

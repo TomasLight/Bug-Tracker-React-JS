@@ -1,8 +1,9 @@
 import { put, takeEvery, takeLatest, throttle } from "@redux-saga/core/effects";
 import { AppAction } from "@utils/redux/AppAction";
+import { IWatcher } from "./IWatcher";
 import { WatchFunction } from "./WatchFunction";
 
-export abstract class WatcherBase {
+export abstract class WatcherBase implements IWatcher {
     public watchFunctions: WatchFunction[];
 
     protected constructor() {
