@@ -1,3 +1,4 @@
+import { createReducers } from "app-redux-utils";
 import { ConnectedRouter } from "connected-react-router";
 import { History } from "history";
 import React, { FunctionComponent } from "react";
@@ -9,12 +10,11 @@ import { configureApp } from "@config/configureApp";
 import { getReducers } from "@config/redux/getReducers";
 import { RootSaga } from "@config/saga/RootSaga";
 import { State } from "@State";
-import { createReducers } from "@utils/redux/createReducers";
 import { AppProviderContainer } from "./AppProvider.container";
 import { PageComponentRouter } from "./routing/PageComponentRouter";
 
 export const { store, history } = configureApp(
-    (history: History) => createReducers<State>(history, getReducers),
+    (history: History) => createReducers<State>(getReducers, history),
     new RootSaga()
 );
 

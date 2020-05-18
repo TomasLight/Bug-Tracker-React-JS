@@ -1,6 +1,6 @@
 import { ILoadUserData } from "@app/Users/redux/Users.actions.dataTypes";
 import { UsersStore } from "@app/Users/redux/Users.store";
-import { createAction, createActionWithCallback } from "@utils/redux/createAction";
+import { createAction, createActionWithCallback } from "app-redux-utils";
 
 export class UsersActions {
     public static readonly PREFIX = "USERS_";

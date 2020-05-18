@@ -1,3 +1,4 @@
+import { AppAction } from "app-redux-utils";
 import { IssuesActions } from "@app/Issues/redux/Issues.actions";
 import { put } from "@redux-saga/core/effects";
 
@@ -7,7 +8,6 @@ import { UsersActions } from "@app/Users/redux/Users.actions";
 import { ILoadUserData } from "@app/Users/redux/Users.actions.dataTypes";
 import { UsersStore } from "@app/Users/redux/Users.store";
 import { ApiResponse } from "@utils/api/ApiResponse";
-import { AppAction } from "@utils/redux/AppAction";
 import { SagaBase } from "@utils/saga/SagaBase";
 
 export class UsersSaga extends SagaBase {

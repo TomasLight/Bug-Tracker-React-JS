@@ -1,4 +1,4 @@
-import { Reducer } from "@utils/redux/Reducer";
+import { Reducer } from "app-redux-utils";
 
 import { AppProviderActions } from "./AppProvider.actions";
 import { AppProviderStore } from "./AppProvider.store";

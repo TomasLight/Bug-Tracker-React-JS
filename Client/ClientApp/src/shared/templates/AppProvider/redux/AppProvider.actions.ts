@@ -1,4 +1,4 @@
-import { createAction } from "@utils/redux/createAction";
+import { createAction } from "app-redux-utils";
 
 import { AppProviderStore } from "./AppProvider.store";
 

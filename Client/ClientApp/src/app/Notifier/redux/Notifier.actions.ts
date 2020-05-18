@@ -1,4 +1,5 @@
-import { createAction } from "@utils/redux/createAction";
+import { createAction } from "app-redux-utils";
+
 import { Guid } from "@utils/Guid";
 import { INotification } from "../Notification";
 

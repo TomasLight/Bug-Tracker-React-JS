@@ -1,12 +1,11 @@
+import { AppAction } from "app-redux-utils";
 import { IssuesApi } from "@api/IssuesApi";
-import { Status } from "@app/Issues/models/Status";
 import { IssuesStoreSelectors } from "@app/selectors/Issues.store.selectors";
 import { User } from "@app/Users/models/User";
 import { put } from "@redux-saga/core/effects";
 import { UserSelectFieldOption } from "@shared/organisms/Fields/Select/FieldOptions/UserSelectFieldOption";
 
 import { ApiResponse } from "@utils/api/ApiResponse";
-import { AppAction } from "@utils/redux/AppAction";
 import { SagaBase } from "@utils/saga/SagaBase";
 import { Issue } from "../models/Issue";
 

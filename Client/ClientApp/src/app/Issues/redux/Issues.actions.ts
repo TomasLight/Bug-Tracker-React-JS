@@ -1,10 +1,11 @@
+import { createAction } from "app-redux-utils";
+
 import {
     ICloseIssueData, IFilterChangeData,
     IOpenIssueToEditCreateData,
     IOpenIssueToEditData, ISaveIssueData, IUserListChangeData
 } from "@app/Issues/redux/Issues.actions.dataTypes";
 import { IssuesStore } from "@app/Issues/redux/Issues.store";
-import { createAction } from "@utils/redux/createAction";
 
 export class IssuesActions {
     public static readonly PREFIX = "ISSUES_";
