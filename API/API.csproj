@@ -20,8 +20,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\Auth\Responses" />
+      <Content Update="web.config">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
-
-
+    
+    <PropertyGroup>
+        <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+    </PropertyGroup>
 </Project>

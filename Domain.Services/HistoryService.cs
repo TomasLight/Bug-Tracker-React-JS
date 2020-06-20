@@ -21,25 +21,24 @@ namespace Domain.Services
 
 		public async Task<IList<History>> GetByIssueIdAsync(int issueId)
 		{
-			var histories = await GetHistoriesAsync();
-			var issueHistories = histories.Where(history => history.IssueId == issueId).ToList();
+			var historyEntities = await _historyRepository.GetAsync();
+			var issueHistories = historyEntities
+				.Where(history => history.IssueId == issueId)
+				.Select(_mapper.Map<History>)
+				.ToList();
 
 			return issueHistories;
 		}
 
 		public async Task<IList<History>> GetByUserIdAsync(int updaterId)
 		{
-			var histories = await GetHistoriesAsync();
-			var issueHistories = histories.Where(history => history.UpdaterId == updaterId).ToList();
+			var historyEntities = await _historyRepository.GetAsync();
+			var issueHistories = historyEntities
+				 .Where(history => history.UpdaterId == updaterId)
+				 .Select(_mapper.Map<History>)
+				 .ToList();
 
 			return issueHistories;
-		}
-
-		private async Task<IEnumerable<History>> GetHistoriesAsync()
-		{
-			var userEntities = await _historyRepository.GetAsync();
-
-			return userEntities.Select(_mapper.Map<History>);
 		}
 	}
 }

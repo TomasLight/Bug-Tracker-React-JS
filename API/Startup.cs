@@ -26,6 +26,11 @@ namespace API
 			services.AddControllers();
 			
 			services.AddHttpContextAccessor();
+
+			services.Configure<IISServerOptions>(options => 
+			{
+				options.AutomaticAuthentication = false;
+			});
 		}
 
 		public void ConfigureContainer(ContainerBuilder builder)
