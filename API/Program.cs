@@ -1,6 +1,6 @@
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 
 namespace API
 {
@@ -8,15 +8,14 @@ namespace API
 	{
 		public static void Main(string[] args)
 		{
-			Host.CreateDefaultBuilder(args)
-				.UseServiceProviderFactory(new AutofacServiceProviderFactory())
-				.ConfigureWebHostDefaults(webBuilder =>
-				{
-					webBuilder
-						.UseStartup<Startup>();
-				})
-				.Build()
-				.Run();
+			CreateWebHostBuilder(args).Build().Run();
 		}
+
+		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+			WebHost.CreateDefaultBuilder(args)
+			       .UseKestrel()
+			       .ConfigureServices(services => services.AddAutofac())
+			       .UseIISIntegration()
+			       .UseStartup<Startup>();
 	}
 }

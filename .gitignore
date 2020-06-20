@@ -261,3 +261,4 @@ __pycache__/
 
 node_modules/
 Bugs/wwwroot/js/
+/API/public/
